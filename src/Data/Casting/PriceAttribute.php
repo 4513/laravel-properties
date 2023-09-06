@@ -1,0 +1,263 @@
+<?php
+
+declare(strict_types=1);
+
+namespace MiBo\Prices\Data\Casting;
+
+use Carbon\Carbon;
+use Closure;
+use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
+use Illuminate\Database\Eloquent\Model;
+use MiBo\Prices\Data\Factories\PriceFactory;
+use MiBo\Prices\Price;
+use MiBo\Prices\Units\Price\Currency;
+
+/**
+ * TODO - score unit has invalid data in class
+ * TODO - Rod vs Point - invalid symbol for point
+ * TODO - Twip - invalid symbol
+ * TODO - Quarter - qr instead of gr
+ * TODO - short ton - name fix - add short
+ * TODO - fix hundredweight (US) - add US prefix with space
+ * TODO - fix all units of volume - US prefix with space (US units), capital
+ * Class PriceAttribute
+ *
+ * *This Attribute casts price and its properties from and to database.*
+ *
+ * Synopsys:
+ * * \MiBo\Prices\Data\Casting\PriceAttribute::class
+ * * \MiBo\Prices\Data\Casting\PriceAttribute::class . [':attr-value' . [',:attr-value' ...]]
+ *
+ * Example:
+ * * \MiBo\Prices\Data\Casting\PriceAttribute::class . ':currency-EUR,date-created_at,inMinor-false'
+ *
+ * **Currency** - Currency code (ISO 4217)
+ * <ul><li>Priorities
+ *    <ol><li> Currency code passed to constructor <i>(specified by cast)</i></li>
+ *    <li> Currency code passed as an attribute of the Model <i>($key . '_currency')</i></li>
+ *    <li> Currency code from configuration file <i>('mibo-properties.prices.defaults.currency')</i></li></ol></li>
+ * <li>Setting
+ *    <ul><li>Specified currency: <i>EUR or USD...</i></li>
+ *    <li>Specified column suffix: <i>_currency or _my_currency...</li>
+ *    <li>Specified column: <i>currency or clmn_currency...</li></ul></li></ul>
+ * </ul>
+ * **Positives** - Non negative price only
+ * <ul><li>Setting
+ *    <ul><li>Any value (default): false</li>
+ *    <li>Only positive and 0: true</li></ul></li></ul>
+ * **Category** - Category of the price
+ * <ul><li>Priorities
+ *    <ol><li> Category callback <i>closure(Model, array $attributes, string $key): string</i></li>
+ *    <li> Category passed to constructor <i>(specified by cast)</i></li>
+ *    <li> null</li></ol></li>
+ * <li>Setting
+ *    <ul><li>Specified column prefix: <i>_category or _my_category...</i></li>
+ *    <li>Specified column: <i>category or clmn_category...</i></li></ul></li></ul>
+ * **Country** - Country for VAT (ISO 3166-1 alpha-2)
+ * <ul><li>Priorities
+ *   <ol><li> Country passed to constructor <i>(specified by cast)</i></li>
+ *   <li> Country passed as an attribute of the Model <i>($key . '_country')</i></li>
+ *   <li> Country from configuration file <i>('mibo-properties.prices.defaults.country')</i></li></ol></li>
+ * <li>Setting
+ *   <ul><li>Specified country: <i>CZ or SK...</i></li>
+ *   <li>Specified column suffix: <i>_country or _my_country...</li>
+ *   <li>Specified column: <i>country or clmn_country...</li></ul></li></ul>
+ * **Date** - Date for VAT
+ * <ul><li>Priorities
+ *   <ol><li> Date passed to constructor <i>(specified by cast)</i></li>
+ *   <li> Date passed as an attribute of the Model <i>($key . '_date')</i></li>
+ *   <li> Current date</li></ol></li>
+ * <li>Setting
+ *   <ul><li>Specified column: <i>created_at</i></li>
+ *   <li>Specified column suffix: <i>_date or _my_date...</li></ul></li></ul>
+ * **Any** - Any VAT rate setting
+ * <ul><li>Setting
+ *   <ul><li>Any value (default): false</li>
+ *   <li>Any VAT rate: true</li></ul></li></ul>
+ * **VAT** - Price stored with VAT
+ * <ul><li>Setting
+ *   <ul><li>Price stored with VAT: true</li>
+ *   <li>Price stored without VAT (default): false</li></ul></li></ul>
+ * **InMinor** - Price stored in minor units
+ * <ul><li>Setting
+ *   <ul><li>Price stored in minor units (default): true</li>
+ *   <li>Price stored in major units: false</li></ul></li></ul>
+ *
+ *
+ * @package MiBo\Prices\Data\Casting
+ *
+ * @author Michal Boris <michal.boris27@gmail.com>
+ *
+ * @since 0.1
+ *
+ * @no-named-arguments Parameter names are not covered by the backward compatibility promise.
+ */
+class PriceAttribute implements CastsAttributes
+{
+    private const DEFAULTS = [
+        'currency' => '_currency',
+        'positive' => false,
+        'category' => '_category',
+        'country'  => '_country',
+        'date'     => '_date',
+        'any'      => false,
+        'vat'      => false,
+        'inMinor'  => true,
+    ];
+
+    private static ?Closure $categoryCallback = null;
+
+    /**
+     * @var array{
+     *     currency: non-empty-string|null,
+     *     positive: bool,
+     *     category: non-empty-string,
+     *     country: non-empty-string,
+     *     date: non-empty-string,
+     *     any: bool,
+     *     vat: bool,
+     *     inMinor: bool
+     * }
+     */
+    private array $config;
+
+    public function __construct(string ...$segments)
+    {
+        foreach ($segments as $key => $segment) {
+            $arguments               = explode('-', $segment, 2);
+            $segments[$arguments[0]] = $arguments[1];
+            unset($segments[$key]);
+        }
+
+        $this->config = array_merge(self::DEFAULTS, $segments);
+    }
+
+    /**
+     * Sets the attribute Price on the Model.
+     *
+     * @param \Illuminate\Database\Eloquent\Model $model The model containing the price attribute.
+     * @param string $key Key of the price.
+     * @param float|\MiBo\Prices\Price $value Value of the price.
+     * @param array<string, mixed> $attributes All attributes of the Model.
+     *
+     * @return \MiBo\Prices\Price
+     */
+    public function get(Model $model, string $key, mixed $value, array $attributes): Price
+    {
+        if ($value instanceof Price) {
+            return $value;
+        }
+
+        $factory = PriceFactory::get();
+
+        if ($this->config["positive"]) {
+            $factory->strictlyPositive();
+        }
+
+        if ($this->config["any"]) {
+            $factory->setAnyVAT();
+        }
+
+        $category = str_starts_with($this->config["category"], "_") &&
+        key_exists($this->config["category"], $attributes) ?
+            $attributes[$key . $this->config["category"]] :
+            ($attributes[$this->config["category"]] ?? null);
+
+        if (self::$categoryCallback !== null) {
+            $category = (self::$categoryCallback)(true, $model, $attributes, $key);
+        }
+
+        $country  = str_starts_with($this->config["country"], "_") ?
+            $attributes[$key . $this->config["country"]] :
+            $this->config["country"];
+        $country  = key_exists($country, $attributes) ?
+            $attributes[$country] :
+            $country;
+        $country  = empty($country) ? config('mibo-properties.prices.defaults.country') : $country;
+        $currency = str_starts_with($this->config["currency"], "_") ?
+            $attributes[$key . $this->config["currency"]] :
+            $this->config["currency"];
+        $currency = key_exists($currency, $attributes) ?
+            $attributes[$currency] :
+            $currency;
+        $currency = empty($currency) ? config('mibo-properties.prices.defaults.currency') : $currency;
+        $date     = str_starts_with($this->config["date"], "_") ?
+            $attributes[$key . $this->config["date"]] :
+            $this->config["date"];
+        $date     = key_exists($date, $attributes) ?
+            $attributes[$date] :
+            Carbon::now();
+
+        return $factory->setCurrency($currency)
+            ->setCategory($category)
+            ->setCountry($country)
+            ->setDate($date)
+            ->setValue(
+                $this->config["inMinor"] ?
+                    $value / (10 ** (Currency::get($currency)->getMinorUnitRate() ?? 0)) :
+                    $value
+            )
+            ->setIsVATIncluded($this->config["vat"])
+            ->create();
+    }
+
+    /**
+     * Sets the Price attribute to be stored within a database.
+     *
+     * @param \Illuminate\Database\Eloquent\Model $model The model containing the price attribute.
+     * @param string $key Key of the price.
+     * @param float|\MiBo\Prices\Price $value Value of the price.
+     * @param array<string, mixed> $attributes All attributes of the Model.
+     *
+     * @return float|int
+     */
+    public function set(Model $model, string $key, mixed $value, array $attributes): float|int
+    {
+        if (!$value instanceof Price) {
+            return $value;
+        }
+
+        if (str_starts_with($this->config["currency"], "_")
+            && key_exists($key . $this->config["currency"], $attributes)
+        ) {
+            $model->setAttribute($key . $this->config["currency"], $value->getUnit()->getAlphabeticalCode());
+        } else if (key_exists($this->config["currency"], $attributes)) {
+            $model->setAttribute($this->config["currency"], $value->getUnit()->getAlphabeticalCode());
+        } else if (!str_starts_with($this->config["currency"], "_") && !empty($this->config["currency"])
+            && $value->getUnit()->getAlphabeticalCode() !== $this->config["currency"]
+        ) {
+            $value->convertToUnit(Currency::get($this->config["currency"]));
+        } else if (config('mibo-properties.prices.defaults.currency') != $value->getUnit()->getAlphabeticalCode()) {
+            $value->convertToUnit(Currency::get(config('mibo-properties.prices.defaults.currency')));
+        }
+
+        if ($this->config["vat"]) {
+            if (str_starts_with($this->config["country"], "_")
+                && key_exists($key . $this->config["country"], $attributes)
+            ) {
+                $value->forCountry($attributes[$key . $this->config["country"]]);
+            } else if (key_exists($this->config["country"], $attributes)) {
+                $value->forCountry($attributes[$this->config["country"]]);
+            } else if (!str_starts_with($this->config["country"], "_") && !empty($this->config["country"])) {
+                $value->forCountry($this->config["country"]);
+            } else if (config('mibo-properties.prices.defaults.country') != $value->getVAT()->getCountryCode()) {
+                $value->forCountry(config('mibo-properties.prices.defaults.country'));
+            }
+        }
+
+        if ($this->config["vat"]) {
+            return $this->config["inMinor"] ?
+                $value->getValueWithVAT() * (10 ** ($value->getUnit()->getMinorUnitRate() ?? 0)) :
+                $value->getValueWithVAT();
+        }
+
+        return $this->config["inMinor"] ?
+            $value->getValue() * (10 ** ($value->getUnit()->getMinorUnitRate() ?? 0)) :
+            $value->getValue();
+    }
+
+    public static function setCategoryCallback(Closure $closure): void
+    {
+        self::$categoryCallback = $closure;
+    }
+}

@@ -1,0 +1,14 @@
+vendor/
+storage/
+
+.phpunit.result.cache
+composer.lock
+phpcs.xml
+phpstan.neon
+phpunit.xml
+.phpunit.cache
+.phpunit.cache/
+
+.DS_Store
+
+tests/Benchmarks/reports/*
