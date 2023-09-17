@@ -60,6 +60,11 @@ return [
             'name-float' => 'megacandelas',
             'symbol'     => 'Mcd',
         ],
+        'microcandela' => [
+            'name'       => 'microcandela|microcandelas',
+            'name-float' => 'microcandelas',
+            'symbol'     => 'μcd',
+        ],
         'millicandela' => [
             'name'       => 'millicandela|millicandelas',
             'name-float' => 'millicandelas',
@@ -107,7 +112,7 @@ return [
         ],
     ],
     'format' => [
-        'short' => ':count :unit',
-        'long'  => ':count :unit',
+        'short' => ':symbol:count :unit',
+        'long'  => ':symbol:count :unit',
     ],
 ];

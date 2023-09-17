@@ -60,6 +60,11 @@ return [
             'name-float' => 'megaampéru',
             'symbol'     => 'MA',
         ],
+        'microampere' => [
+            'name'       => '{1} mikroampér|[2,4] mikroampéry|[5,*] mikroampérov',
+            'name-float' => 'mikroampéru',
+            'symbol'     => 'mA',
+        ],
         'milliampere' => [
             'name'       => '{1} miliampér|[2,4] miliampéry|[5,*] miliampérov',
             'name-float' => 'miliampéru',
@@ -107,7 +112,7 @@ return [
         ],
     ],
     'format' => [
-        'short' => ':count :unit',
-        'long'  => ':count :unit',
+        'short' => ':symbol:count :unit',
+        'long'  => ':symbol:count :unit',
     ],
 ];

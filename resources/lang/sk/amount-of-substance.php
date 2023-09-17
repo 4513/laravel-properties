@@ -60,6 +60,11 @@ return [
             'name-float' => 'megamolu',
             'symbol'     => 'Mmol',
         ],
+        'micromole' => [
+            'name'       => '{1} mikromol|[2,4] mikromoly|[5,*] mikromolov',
+            'name-float' => 'mikromolu',
+            'symbol'     => 'mmol',
+        ],
         'millimole' => [
             'name'       => '{1} milimol|[2,4] milimoly|[5,*] milimolov',
             'name-float' => 'milimolu',
@@ -107,7 +112,7 @@ return [
         ],
     ],
     'format' => [
-        'short' => ':count :unit',
-        'long'  => ':count :unit',
+        'short' => ':symbol:count :unit',
+        'long'  => ':symbol:count :unit',
     ],
 ];

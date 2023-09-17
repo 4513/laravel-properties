@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'name'   => 'Amount Of Substance',
+    'name'   => 'Time',
     'units'  => [
         'second'      => [
             'name'       => 'second|seconds',
@@ -59,6 +59,11 @@ return [
             'name'       => 'megasecond|megaseconds',
             'name-float' => 'megaseconds',
             'symbol'     => 'Ms',
+        ],
+        'microsecond' => [
+            'name'       => 'microsecond|microseconds',
+            'name-float' => 'microseconds',
+            'symbol'     => 'μs',
         ],
         'millisecond' => [
             'name'       => 'millisecond|milliseconds',
@@ -122,7 +127,7 @@ return [
         ],
     ],
     'format' => [
-        'short' => ':count :unit',
-        'long'  => ':count :unit',
+        'short' => ':symbol:count :unit',
+        'long'  => ':symbol:count :unit',
     ],
 ];

@@ -902,13 +902,9 @@ return [
         ],
     ],
     'format' => [
-        'short'     => ':unit :count',
-        'long'      => ':unit :count',
-        'negatives' => [
-            'short' => ':symbol:unit :count',
-            'long'  => ':symbol:unit :count',
-        ],
-        'vat'       => [
+        'short' => ':symbol:unit:count',
+        'long'  => ':symbol:unit:count',
+        'vat'   => [
             'label'   => [
                 'short' => 'VAT',
                 'long'  => 'Value Added Tax',

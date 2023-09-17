@@ -12,7 +12,7 @@ return [
         ],
     ],
     'format' => [
-        'short' => ':count',
-        'long'  => ':count',
+        'short' => ':symbol:count',
+        'long'  => ':symbol:count',
     ],
 ];

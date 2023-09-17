@@ -5,127 +5,132 @@ declare(strict_types=1);
 return [
     'name'   => 'Thermodynamic Temperature',
     'units'  => [
-        'kelvin'      => [
+        'kelvin'            => [
             'name'       => 'kelvin|kelvins',
             'name-float' => 'kelvins',
             'symbol'     => 'K',
         ],
-        'attokelvin'  => [
+        'attokelvin'        => [
             'name'       => 'attokelvin|attokelvins',
             'name-float' => 'attokelvins',
             'symbol'     => 'aK',
         ],
-        'centikelvin' => [
+        'centikelvin'       => [
             'name'       => 'centikelvin|centikelvins',
             'name-float' => 'centikelvins',
             'symbol'     => 'cK',
         ],
-        'decakelvin'  => [
+        'decakelvin'        => [
             'name'       => 'decakelvin|decakelvins',
             'name-float' => 'decakelvins',
             'symbol'     => 'daK',
         ],
-        'decikelvin'  => [
+        'decikelvin'        => [
             'name'       => 'decikelvin|decikelvins',
             'name-float' => 'decikelvins',
             'symbol'     => 'dK',
         ],
-        'exakelvin'   => [
+        'exakelvin'         => [
             'name'       => 'exakelvin|exakelvins',
             'name-float' => 'exakelvins',
             'symbol'     => 'EK',
         ],
-        'femtokelvin' => [
+        'femtokelvin'       => [
             'name'       => 'femtokelvin|femtokelvins',
             'name-float' => 'femtokelvins',
             'symbol'     => 'fK',
         ],
-        'gigakelvin'  => [
+        'gigakelvin'        => [
             'name'       => 'gigakelvin|gigakelvins',
             'name-float' => 'gigakelvins',
             'symbol'     => 'GK',
         ],
-        'hectokelvin' => [
+        'hectokelvin'       => [
             'name'       => 'hectokelvin|hectokelvins',
             'name-float' => 'hectokelvins',
             'symbol'     => 'hK',
         ],
-        'kilokelvin'  => [
+        'kilokelvin'        => [
             'name'       => 'kilokelvin|kilokelvins',
             'name-float' => 'kilokelvins',
             'symbol'     => 'kK',
         ],
-        'megakelvin'  => [
+        'megakelvin'        => [
             'name'       => 'megakelvin|megakelvins',
             'name-float' => 'megakelvins',
             'symbol'     => 'MK',
         ],
-        'millikelvin' => [
+        'microkelvin'       => [
+            'name'       => 'microkelvin|microkelvins',
+            'name-float' => 'microkelvins',
+            'symbol'     => 'μK',
+        ],
+        'millikelvin'       => [
             'name'       => 'millikelvin|millikelvins',
             'name-float' => 'millikelvins',
             'symbol'     => 'mK',
         ],
-        'nanokelvin'  => [
+        'nanokelvin'        => [
             'name'       => 'nanokelvin|nanokelvins',
             'name-float' => 'nanokelvins',
             'symbol'     => 'nK',
         ],
-        'petakelvin'  => [
+        'petakelvin'        => [
             'name'       => 'petakelvin|petakelvins',
             'name-float' => 'petakelvins',
             'symbol'     => 'PK',
         ],
-        'picokelvin'  => [
+        'picokelvin'        => [
             'name'       => 'picokelvin|picokelvins',
             'name-float' => 'picokelvins',
             'symbol'     => 'pK',
         ],
-        'terakelvin'  => [
+        'terakelvin'        => [
             'name'       => 'terakelvin|terakelvins',
             'name-float' => 'terakelvins',
             'symbol'     => 'TK',
         ],
-        'yoctokelvin' => [
+        'yoctokelvin'       => [
             'name'       => 'yoctokelvin|yoctokelvins',
             'name-float' => 'yoctokelvins',
             'symbol'     => 'yK',
         ],
-        'yottakelvin' => [
+        'yottakelvin'       => [
             'name'       => 'yottakelvin|yottakelvins',
             'name-float' => 'yottakelvins',
             'symbol'     => 'YK',
         ],
-        'zeptokelvin' => [
+        'zeptokelvin'       => [
             'name'       => 'zeptokelvin|zeptokelvins',
             'name-float' => 'zeptokelvins',
             'symbol'     => 'zK',
         ],
-        'zettakelvin' => [
+        'zettakelvin'       => [
             'name'       => 'zettakelvin|zettakelvins',
             'name-float' => 'zettakelvins',
             'symbol'     => 'ZK',
         ],
-        'degree Celsius'      => [
+        'degree Celsius'    => [
             'name'       => 'degree Celsius|degree Celsiuses',
             'name-float' => 'degree Celsiuses',
             'symbol'     => '°C',
         ],
-        'degree Fahrenheit'      => [
+        'degree Fahrenheit' => [
             'name'       => 'degree Fahrenheit|degree Fahrenheits',
             'name-float' => 'degree Fahrenheits',
             'symbol'     => '°F',
         ],
-        'degree Newton'      => [
+        'degree Newton'     => [
             'name'       => 'degree Newton|degree Newtons',
             'name-float' => 'degree Newtons',
             'symbol'     => '°N',
         ],
-        'degree Rankine'      => [
+        'degree Rankine'    => [
             'name'       => 'degree Rankine|degree Rankines',
             'name-float' => 'degree Rankines',
             'symbol'     => '°R',
         ],
-        'degree Reaumur'      => [
+        'degree Reaumur'    => [
             'name'       => 'degree Reaumur|degree Reaumurs',
             'name-float' => 'degree Reaumurs',
             'symbol'     => '°Re',
@@ -137,7 +142,7 @@ return [
         ],
     ],
     'format' => [
-        'short' => ':count :unit',
-        'long'  => ':count :unit',
+        'short' => ':symbol:count :unit',
+        'long'  => ':symbol:count :unit',
     ],
 ];

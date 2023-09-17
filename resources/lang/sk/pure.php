@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'name'   => 'Pure',
+    'name'   => 'Jednotky',
     'units'  => [
         '' => [
             'name'       => '',
@@ -12,7 +12,7 @@ return [
         ],
     ],
     'format' => [
-        'short' => ':count',
-        'long'  => ':count',
+        'short' => ':symbol:count',
+        'long'  => ':symbol:count',
     ],
 ];

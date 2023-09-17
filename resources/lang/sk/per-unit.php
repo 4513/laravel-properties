@@ -3,10 +3,10 @@
 declare(strict_types=1);
 
 return [
-    'name'   => 'Per Unit',
+    'name'   => 'Jednotka',
     'units'  => [],
     'format' => [
-        'short' => ':count :unit/:count2:delimiter2:unit2',
-        'long'  => ':count :unit per :count2 :unit2',
+        'short' => ':symbol:count :unit/:count2:delimiter2:unit2',
+        'long'  => ':symbol:count :unit per :count2 :unit2',
     ],
 ];

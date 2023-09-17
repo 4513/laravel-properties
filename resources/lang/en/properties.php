@@ -3,90 +3,23 @@
 declare(strict_types=1);
 
 return [
-    'unit' => [
-        'AmountOfSubstance' => [
-            'name'  => 'Amount Of Substance',
-            'units' => [
-                'mol'   => [
-                    'name'   => 'Mole',
-                    'symbol' => 'mol',
-                ],
-                'amol'  => [
-                    'name'   => 'Atto Mole',
-                    'symbol' => 'amol',
-                ],
-                'cmol'  => [
-                    'name'   => 'Centi Mole',
-                    'symbol' => 'cmol',
-                ],
-                'damol' => [
-                    'name'   => 'Deca Mole',
-                    'symbol' => 'damol',
-                ],
-                'dmol'  => [
-                    'name'   => 'Deci Mole',
-                    'symbol' => 'dmol',
-                ],
-                'Emol'  => [
-                    'name'   => 'Exa Mole',
-                    'symbol' => 'Emol',
-                ],
-                'fmol'  => [
-                    'name'   => 'Femto Mole',
-                    'symbol' => 'fmol',
-                ],
-                'Gmol'  => [
-                    'name'   => 'Giga Mole',
-                    'symbol' => 'Gmol',
-                ],
-                'hmol'  => [
-                    'name'   => 'Hecto Mole',
-                    'symbol' => 'hmol',
-                ],
-                'kmol'  => [
-                    'name'   => 'Kilo Mole',
-                    'symbol' => 'kmol',
-                ],
-                'Mmol'  => [
-                    'name'   => 'Mega Mole',
-                    'symbol' => 'Mmol',
-                ],
-                'mmol'  => [
-                    'name'   => 'Milli Mole',
-                    'symbol' => 'mmol',
-                ],
-                'nmol'  => [
-                    'name'   => 'Nano Mole',
-                    'symbol' => 'nmol',
-                ],
-                'Pmol'  => [
-                    'name'   => 'Peta Mole',
-                    'symbol' => 'Pmol',
-                ],
-                'pmol'  => [
-                    'name'   => 'Pico Mole',
-                    'symbol' => 'pmol',
-                ],
-                'Tmol'  => [
-                    'name'   => 'Tera Mole',
-                    'symbol' => 'Tmol',
-                ],
-                'ymol'  => [
-                    'name'   => 'Yocto Mole',
-                    'symbol' => 'ymol',
-                ],
-                'Ymol'  => [
-                    'name'   => 'Yotta Mole',
-                    'symbol' => 'Ymol',
-                ],
-                'zmol'  => [
-                    'name'   => 'Zepto Mole',
-                    'symbol' => 'zmol',
-                ],
-                'Zmol'  => [
-                    'name'   => 'Zetta Mole',
-                    'symbol' => 'Zmol',
-                ],
+    'number' => [
+        'format' => [
+            // Decimal point character (e.g. '.' in 1,234,456.78).
+            'decimal pt'   => '.',
+            // Thousands separator (e.g. ',' in 1,234,456.78).
+            'thousand sep' => ',',
+            // Positive sign character (e.g. '+' in +1,234,456.78).
+            'pos sign'     => '',
+            // Negative sign character (e.g. '-' in -1,234,456.78).
+            'neg sign'     => '-',
+            //  Grouping of the numbers. The value is an array. First value is the number of digits in the
+            // groups of the integer part of the number. Second value is the number of digits in the groups
+            // in the decimal part of the number. If the grouping is [3, 2], then the number 123456.7809 is
+            // shown as 123,456.78,89.
+            'grouping'     => [
+                'int' => '3',
+                'dec' => '3',
             ],
         ],
     ],

@@ -60,6 +60,11 @@ return [
             'name-float' => 'megagrams',
             'symbol'     => 'Mg',
         ],
+        'microgram'        => [
+            'name'       => 'microgram|micrograms',
+            'name-float' => 'micrograms',
+            'symbol'     => 'μg',
+        ],
         'milligram'        => [
             'name'       => 'milligram|milligrams',
             'name-float' => 'milligrams',
@@ -177,7 +182,7 @@ return [
         ],
     ],
     'format' => [
-        'short' => ':count :unit',
-        'long'  => ':count :unit',
+        'short' => ':symbol:count :unit',
+        'long'  => ':symbol:count :unit',
     ],
 ];

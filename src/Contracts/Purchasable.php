@@ -9,8 +9,6 @@ namespace MiBo\Prices\Contracts;
  *
  * @package MiBo\Prices\Contracts
  *
- * @author Michal Boris <michal.boris27@gmail.com>
- * @author 9I214
  * @author 6I012
  *
  * @since 0.1

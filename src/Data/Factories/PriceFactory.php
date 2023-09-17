@@ -208,12 +208,13 @@ class PriceFactory
 
     protected function clear(): void
     {
-        $this->date          = Carbon::now();
-        $this->value         = 0.0;
-        $this->currency      = config('mibo-prices.prices.defaults.currency');
-        $this->category      = "";
-        $this->country       = config('mibo-prices.prices.defaults.country');
-        $this->isVATIncluded = false;
-        $this->isAnyVAT      = false;
+        $this->date           = Carbon::now();
+        $this->value          = 0.0;
+        $this->currency       = config('prices.defaults.currency');
+        $this->category       = "";
+        $this->country        = config('prices.defaults.country');
+        $this->strictPositive = false;
+        $this->isVATIncluded  = false;
+        $this->isAnyVAT       = false;
     }
 }

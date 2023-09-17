@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'name'   => 'Amount Of Substance',
+    'name'   => 'Length',
     'units'  => [
         'meter'             => [
             'name'       => 'meter|meters',
@@ -59,6 +59,11 @@ return [
             'name'       => 'megameter|megameters',
             'name-float' => 'megameters',
             'symbol'     => 'Mm',
+        ],
+        'micrometer'        => [
+            'name'       => 'micrometer|micrometers',
+            'name-float' => 'micrometers',
+            'symbol'     => 'μm',
         ],
         'millimeter'        => [
             'name'       => 'millimeter|millimeters',
@@ -247,7 +252,7 @@ return [
         ],
     ],
     'format' => [
-        'short' => ':count :unit',
-        'long'  => ':count :unit',
+        'short' => ':symbol:count :unit',
+        'long'  => ':symbol:count :unit',
     ],
 ];

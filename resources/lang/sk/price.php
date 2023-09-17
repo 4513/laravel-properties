@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'name'   => 'Price',
+    'name'   => 'Cena',
     'units'  => [
         'AED' => [
             'name'       => 'United Arab Emirates dirham|United Arab Emirates dirhams',
@@ -902,19 +902,15 @@ return [
         ],
     ],
     'format' => [
-        'short'     => ':unit :count',
-        'long'      => ':unit :count',
-        'negatives' => [
-            'short' => ':symbol:unit :count',
-            'long'  => ':symbol:unit :count',
-        ],
-        'vat'       => [
+        'short' => ':symbol:count :unit',
+        'long'  => ':symbol:count :unit',
+        'vat'   => [
             'label'   => [
-                'short' => 'VAT',
-                'long'  => 'Value Added Tax',
+                'short' => 'DPH',
+                'long'  => 'Daň z Pridanej Hodnoty',
             ],
-            'with'    => 'incl. VAT',
-            'without' => 'excl. VAT',
+            'with'    => 's DPH',
+            'without' => 'bez DPH',
             'rate'    => ':count %',
         ],
     ],
