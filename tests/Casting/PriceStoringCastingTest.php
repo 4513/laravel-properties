@@ -544,38 +544,41 @@ class PriceStoringCastingTest extends LaravelTestCase
         );
     }
 
-    //     * @small
-    //     *
-    //     * @covers ::__construct
-    //     * @covers ::set
-    //     *
-    //     * @param \Closure(): \MiBo\Prices\Price $createPrice
-    //     *
-    //     * @return void
-    //     *
-    //     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getApplicationData()
-    //     */
-    //    public function testDefaultCast(Closure $createPrice): void
-    //    {
-    //        $model        = $this->createModel(PriceAttribute::class);
-    //        $price        = $createPrice();
-    //        $model->price = $price;
-    //
-    //        $this->assertSame($price->getValue(), $model->price->getValue());
-    //        $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
-    //        $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
-    //        $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
-    //        $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
-    //        $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
-    //
-    //        $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
-    //        $this->assertSame(
-    //            $price->getVAT()->getCategory() ?: null,
-    //            $model->price_category ?: null
-    //        );
-    //        $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
-    //    }
+    /**
+     * @small
+     *
+     * @covers ::__construct
+     * @covers ::set
+     *
+     * @param \Closure(): \MiBo\Prices\Price $createPrice
+     *
+     * @return void
+     *
+     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getApplicationData()
+     */
+    public function testDateCast(Closure $createPrice): void
+    {
+        $model        = $this->createModel(PriceAttribute::class . ':date-2019-01-01');
+        $price        = $createPrice();
+        $model->price = $price;
 
+        $this->assertSame($price->getValue(), $model->price->getValue());
+        $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
+        $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
+        $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
+        $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+
+        $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
+        $this->assertSame(
+            $price->getVAT()->getCategory() ?: null,
+            $model->price_category ?: null
+        );
+        $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
+    }
+
+
+    // TODO: TEST foreign created at and continue...
+//    /**
     //     * @small
     //     *
     //     * @covers ::__construct

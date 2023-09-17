@@ -190,7 +190,9 @@ class PriceAttribute implements CastsAttributes
             $this->config["date"];
         $date     = (is_string($date) || is_int($date)) && key_exists($date, $attributes) ?
             $attributes[$date] : $date;
-        $date     = is_string($date) ? Carbon::createFromFormat('Y-m-d', $date) : $date;
+        $date     = is_string($date) && $model->isFillable($date)
+            ? ($attributes[$date] ?? Carbon::now())
+            : (is_string($date) ? Carbon::createFromFormat('Y-m-d', $date) : $date);
 
         $factory = $factory->setCurrency($currency)
             ->setCategory($category ?? '')

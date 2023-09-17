@@ -854,6 +854,53 @@ class PriceRetrieveCastingTest extends LaravelTestCase
      *
      * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
      */
+    public function testDateColumnForeignCaster(array $data): void
+    {
+        $data['created_at'] = $data['price_date'];
+
+        $caster = new PriceAttribute('date-created_at');
+        $price  = $caster->get(
+            new class extends Model {
+                protected $fillable = ['created_at'];
+            },
+            'price',
+            $data['price'],
+            $data
+        );
+
+        $this->assertSame((float) ($data['price'] * 10 ** -2), (float) $price->getValue());
+        $this->assertSame($data['price_currency'], $price->getUnit()->getAlphabeticalCode());
+        $this->assertSame($data['price_country'], $price->getVAT()->getCountryCode());
+        $this->assertSame($data['price_category'], $price->getVAT()->getCategory());
+        $this->assertSame(
+            is_string($data['price_date']) ? $data['price_date'] : $data['price_date']?->format('Y-m-d'),
+            $price->getDateTime()?->format('Y-m-d')
+        );
+    }
+
+    /**
+     * @small
+     *
+     * @covers ::__construct
+     * @covers ::get
+     *
+     * @param array{
+     *     id: positive-int,
+     *     price: int|float,
+     *     price_currency: string,
+     *     price_country: string,
+     *     price_date: \DateTimeInterface|string|null,
+     *     price_category: string,
+     *     currency: string,
+     *     country: string,
+     *     price_cntry: string,
+     *     price_cat: string,
+     * } $data
+     *
+     * @return void
+     *
+     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
+     */
     public function testDateNotProvidedCaster(array $data): void
     {
         unset($data['price_date']);
