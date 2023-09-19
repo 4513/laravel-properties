@@ -100,8 +100,6 @@ use function is_string;
  */
 class PriceAttribute implements CastsAttributes
 {
-    public bool $withoutObjectCaching = true;
-
     private const DEFAULTS = [
         'currency' => '_currency',
         'positive' => 'false',
