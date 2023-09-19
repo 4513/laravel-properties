@@ -71,7 +71,7 @@ class VATResolver implements Resolver, Convertor
                 '08' => VATRate::STANDARD,
                 '06' => VATRate::STANDARD,
                 '02' => VATRate::STANDARD,
-            ]
+            ],
         ];
     }
 
@@ -98,7 +98,7 @@ class VATResolver implements Resolver, Convertor
                 VATRate::REDUCED->name        => 0.20,
                 VATRate::NONE->name           => 0,
                 VATRate::SECOND_REDUCED->name => 0.20,
-            ]
+            ],
         ];
     }
 }

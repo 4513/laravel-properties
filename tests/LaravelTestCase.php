@@ -80,7 +80,7 @@ class LaravelTestCase extends TestCase
         UnitConvertor::$unitConvertors[\MiBo\Prices\Quantities\Price::class] = function(Price $price, Currency $unit) {
             if ($price->getUnit()->getName() === "Euro" && $unit->getName() === "Czech Koruna") {
                 return $price->getNumericalValue()->multiply(25);
-            } elseif ($price->getUnit()->is($unit)) {
+            } else if ($price->getUnit()->is($unit)) {
                 return $price->getNumericalValue();
             }
 
