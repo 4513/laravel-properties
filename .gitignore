@@ -12,3 +12,5 @@ phpunit.xml
 .DS_Store
 
 tests/Benchmarks/reports/*
+
+tests/TestingData/bootstrap/cache/

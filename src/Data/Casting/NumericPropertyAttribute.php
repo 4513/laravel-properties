@@ -8,7 +8,11 @@ use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
 use MiBo\Properties\Contracts\NumericalUnit;
 use MiBo\Properties\NumericalProperty;
-use ValueError;
+use MiBo\Properties\Pure;
+use MiBo\Properties\Units\Pure\NoUnit;
+use TypeError;
+use function array_keys;
+use function in_array;
 
 /**
  * Class NumericPropertyAttribute
@@ -41,6 +45,9 @@ use ValueError;
  * @since 0.1
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise.
+ *
+ * @phpcs:ignore Generic.Files.LineLength.TooLong
+ * @implements \Illuminate\Contracts\Database\Eloquent\CastsAttributes<\MiBo\Properties\Contracts\NumericalProperty, \MiBo\Properties\Contracts\NumericalProperty>
  */
 class NumericPropertyAttribute implements CastsAttributes
 {
@@ -49,10 +56,33 @@ class NumericPropertyAttribute implements CastsAttributes
         'property' => null,
     ];
 
+    private const IS_PREFIXES = [
+        "ATTO",
+        "CENTI",
+        "DECA",
+        "DECI",
+        "EXA",
+        "FEMTO",
+        "GIGA",
+        "HECTO",
+        "KILO",
+        "MEGA",
+        "MICRO",
+        "MILLI",
+        "NANO",
+        "PETA",
+        "PICO",
+        "TERA",
+        "YOCTO",
+        "YOTTA",
+        "ZEPTO",
+        "ZETTA",
+    ];
+
     /**
      * @var array{
-     *     unit: string|class-string<\MiBo\Properties\Contracts\NumericalUnit>|null,
-     *     property: class-string<\MiBo\Properties\Contracts\NumericalProperty>|null
+     *     unit: string|class-string<\MiBo\Properties\Contracts\NumericalUnit>,
+     *     property: class-string<\MiBo\Properties\Contracts\NumericalProperty>
      * }
      */
     private array $config;
@@ -70,6 +100,25 @@ class NumericPropertyAttribute implements CastsAttributes
         }
 
         $this->config = array_merge(self::DEFAULTS, $segments);
+
+        // @phpstan-ignore-next-line
+        if ($this->config['unit'] === $this->config['property'] && $this->config['unit'] === null) {
+            $this->config['property'] = Pure::class;
+            $this->config['unit']     = NoUnit::class;
+        }
+
+        // @phpstan-ignore-next-line
+        $this->config['unit'] = $this->config['unit'] === null ?
+            $this->config['property']::getQuantityClassName()::getDefaultUnit() :
+            (!in_array($this->config['unit'], self::IS_PREFIXES)
+                ? $this->config['unit']::get() : $this->config['unit']);
+
+        if (in_array($this->config['unit'], self::IS_PREFIXES) && $this->config['property'] === null) {
+            throw new TypeError('Property class must be specified to cast!');
+        }
+
+        // @phpstan-ignore-next-line
+        $this->config['property'] ??= $this->config['unit']::getQuantityClassName()::getDefaultProperty();
     }
 
     /**
@@ -86,44 +135,14 @@ class NumericPropertyAttribute implements CastsAttributes
             return $value;
         }
 
-        if (($this->config["unit"] === null || !class_exists($this->config["unit"]))
-            && $this->config["property"] === null
-        ) {
-            throw new ValueError("To cast a numeric property, either unit or property must be specified!");
-        }
-
-        $isoExt = false;
-
         /** @var class-string<\MiBo\Properties\NumericalProperty> $propertyClass */
-        $propertyClass = $this->config["property"] ??
-            $this->config["unit"]::getQuantityClassName()::getDefaultProperty();
-
-        $unit = $this->config["unit"] ?? $propertyClass::getQuantityClassName()::getDefaultUnit();
+        $propertyClass = $this->config["property"];
+        $unit          = $this->config["unit"];
+        $isoExt        = false;
 
         if (!$unit instanceof NumericalUnit) {
             $unit   = class_exists($unit) ? $unit::get() : $unit;
-            $isoExt = in_array($unit, [
-                "ATTO",
-                "CENTI",
-                "DECA",
-                "DECI",
-                "EXA",
-                "FEMTO",
-                "GIGA",
-                "HECTO",
-                "KILO",
-                "MEGA",
-                "MICRO",
-                "MILLI",
-                "NANO",
-                "PETA",
-                "PICO",
-                "TERA",
-                "YOCTO",
-                "YOTTA",
-                "ZEPTO",
-                "ZETTA",
-            ]) ? $unit : false;
+            $isoExt = in_array($unit, self::IS_PREFIXES) ? $unit : false;
             unset($unit);
         }
 
@@ -148,35 +167,8 @@ class NumericPropertyAttribute implements CastsAttributes
             return $value;
         }
 
-        if (($this->config["unit"] === null || !class_exists($this->config["unit"]))
-            && $this->config["property"] === null
-        ) {
-            throw new ValueError("To cast a numeric property, either unit or property must be specified!");
-        }
-
         $unit   = $this->config["unit"];
-        $isoExt = in_array($unit, [
-            "ATTO",
-            "CENTI",
-            "DECA",
-            "DECI",
-            "EXA",
-            "FEMTO",
-            "GIGA",
-            "HECTO",
-            "KILO",
-            "MEGA",
-            "MICRO",
-            "MILLI",
-            "NANO",
-            "PETA",
-            "PICO",
-            "TERA",
-            "YOCTO",
-            "YOTTA",
-            "ZEPTO",
-            "ZETTA",
-        ]) ? $unit : false;
+        $isoExt = in_array($unit, self::IS_PREFIXES) ? $unit : false;
         $unit   = $unit ?? $value->getUnit();
         $unit   = $isoExt === false ? $unit :
             $value::$unit(0)->getUnit();

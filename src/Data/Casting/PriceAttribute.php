@@ -223,9 +223,9 @@ class PriceAttribute implements CastsAttributes
      * @param float|\MiBo\Prices\Price $value Value of the price.
      * @param array<string, mixed> $attributes All attributes of the Model.
      *
-     * @return array<string, mixed>
+     * @return array<string, mixed>|float
      */
-    public function set(Model $model, string $key, mixed $value, array $attributes): array
+    public function set(Model $model, string $key, mixed $value, array $attributes): array|float
     {
         if (!$value instanceof Price) {
             return $value;
@@ -254,8 +254,7 @@ class PriceAttribute implements CastsAttributes
             $result[$key . $this->config['country']] = $value->getVAT()->getCountryCode();
         } else {
             $castingCountry = !empty($this->config['country'])
-                ? $this->config['country']
-                : config('prices.defaults.country');
+                ? $this->config['country'] : config('prices.defaults.country');
 
             !str_starts_with($castingCountry, '_') && $value->forCountry($castingCountry);
         }

@@ -29,6 +29,8 @@ class PriceRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
+     * @covers \MiBo\Prices\Data\Factories\PriceFactory::get
+     * @covers \MiBo\Prices\Data\Factories\PriceFactory::__construct
      * @covers ::__construct
      * @covers ::get
      *
