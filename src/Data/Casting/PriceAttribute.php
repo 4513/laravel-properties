@@ -100,6 +100,8 @@ use function is_string;
  */
 class PriceAttribute implements CastsAttributes
 {
+    public bool $withoutObjectCaching = true;
+
     private const DEFAULTS = [
         'currency' => '_currency',
         'positive' => 'false',
@@ -170,7 +172,7 @@ class PriceAttribute implements CastsAttributes
             );
 
         if (self::$categoryCallback !== null) {
-            $category = (self::$categoryCallback)(true, $model, $attributes, $key);
+            $category = (self::$categoryCallback)(true, $model, $attributes, $key, $value);
         }
 
         $country  = str_starts_with($this->config["country"], "_") ?
@@ -181,7 +183,7 @@ class PriceAttribute implements CastsAttributes
         $currency = str_starts_with($this->config["currency"], "_") ?
             ($attributes[$key . $this->config["currency"]] ?? '') :
             $this->config["currency"];
-        $currency = key_exists($currency, $attributes) ?
+        $currency = !empty($currency) && key_exists($currency, $attributes) ?
             $attributes[$currency] :
             $currency;
         $currency = empty($currency) ? config('prices.defaults.currency') : $currency;
@@ -192,7 +194,10 @@ class PriceAttribute implements CastsAttributes
             $attributes[$date] : $date;
         $date     = is_string($date) && $model->isFillable($date)
             ? ($attributes[$date] ?? Carbon::now())
-            : (is_string($date) ? Carbon::createFromFormat('Y-m-d', $date) : $date);
+            : (is_string($date)
+                ? Carbon::createFromFormat('Y-m-d', preg_replace('/\s[\d\:\.]+/', '', $date))
+                : $date
+            );
 
         $factory = $factory->setCurrency($currency)
             ->setCategory($category ?? '')
@@ -235,7 +240,7 @@ class PriceAttribute implements CastsAttributes
 
         if ($currencyIsFillable && empty($attributes[$key . $this->config['currency']])) {
             $result[$key . $this->config['currency']] = $value->getUnit()->getAlphabeticalCode();
-        } elseif (!$currencyIsFillable) {
+        } else if (!$currencyIsFillable) {
             $castingCurrency = !empty($this->config['currency'])
                 && !str_starts_with($this->config['currency'], '_')
                 ? $this->config['currency']
@@ -254,7 +259,7 @@ class PriceAttribute implements CastsAttributes
                 ? $this->config['country']
                 : config('prices.defaults.country');
 
-            $value->forCountry($castingCountry);
+            !str_starts_with($castingCountry, '_') && $value->forCountry($castingCountry);
         }
 
         $categoryFillable = str_starts_with($this->config['category'], '_')
@@ -265,7 +270,8 @@ class PriceAttribute implements CastsAttributes
         } else if (!$categoryFillable
             && $this->config['any'] !== 'true'
             && ($this->config['category'] !== $value->getVAT()->getCategory()
-            && (self::$categoryCallback === null || !(self::$categoryCallback)(false, $model, $key, $value)))
+            && (self::$categoryCallback === null
+            || !(self::$categoryCallback)(false, $model, $attributes, $key, $value)))
         ) {
             throw new ValueError(
                 strtr(
@@ -307,6 +313,11 @@ class PriceAttribute implements CastsAttributes
         return $result;
     }
 
+    /**
+     * @param (\Closure(bool, \Illuminate\Database\Eloquent\Model, array, string, mixed): mixed)|null $closure
+     *
+     * @return void
+     */
     public static function setCategoryCallback(?Closure $closure): void
     {
         self::$categoryCallback = $closure;

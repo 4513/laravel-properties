@@ -7,10 +7,15 @@ namespace MiBo\Prices\Tests\Casting;
 use Carbon\Carbon;
 use Closure;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Schema;
 use MiBo\Prices\Data\Casting\PriceAttribute;
 use MiBo\Prices\Exceptions\NegativePriceException;
 use MiBo\Prices\Tests\LaravelTestCase;
+use MiBo\Prices\Units\Price\Currency;
 use ValueError;
+use function _PHPStan_95cdbe577\React\Promise\all;
 use function is_string;
 
 /**
@@ -28,6 +33,8 @@ use function is_string;
  */
 class PriceStoringCastingTest extends LaravelTestCase
 {
+    use RefreshDatabase;
+
     /**
      * @small
      *
@@ -46,12 +53,18 @@ class PriceStoringCastingTest extends LaravelTestCase
         $price        = $createPrice();
         $model->price = $price;
 
-        $this->assertSame($price->getValue(), $model->price->getValue());
-        $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
+        $model->save();
+        $model->refresh();
+
+        if ($price->getVAT()->isNotAny()) {
+            $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
+            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+        }
+
+        $this->assertEquals($price->getValue(), $model->price->getValue());
         $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
         $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
-        $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
 
         $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
         $this->assertSame(
@@ -79,12 +92,18 @@ class PriceStoringCastingTest extends LaravelTestCase
         $price        = $createPrice();
         $model->price = $price;
 
-        $this->assertSame($price->getValue(), $model->price->getValue());
-        $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
+        $model->save();
+        $model->refresh();
+
+        if ($price->getVAT()->isNotAny()) {
+            $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
+            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+        }
+
+        $this->assertEquals($price->getValue(), $model->price->getValue());
         $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
         $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
-        $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
 
         $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
         $this->assertSame(
@@ -112,12 +131,18 @@ class PriceStoringCastingTest extends LaravelTestCase
         $price        = $createPrice();
         $model->price = $price;
 
-        $this->assertSame($price->getValue(), $model->price->getValue());
-        $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
+        $model->save();
+        $model->refresh();
+
+        if ($price->getVAT()->isNotAny()) {
+            $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
+            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+        }
+
+        $this->assertEquals($price->getValue(), $model->price->getValue());
         $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
         $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
-        $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
 
         $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
         $this->assertSame(
@@ -145,12 +170,19 @@ class PriceStoringCastingTest extends LaravelTestCase
         $price        = $createPrice();
         $model->price = $price;
 
-        $this->assertSame($price->getValue(), $model->price->getValue());
-        $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
+        $model->save();
+        $model->refresh();
+
+        if ($price->getVAT()->isNotAny()) {
+            $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
+            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+        }
+
+        $this->assertEquals($price->getValue(), $model->price->getValue());
         $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
-        $this->assertSame('CZK', $model->price->getUnit()->getAlphabeticalCode());
+        $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
-        $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+        $this->assertSame('CZK', $model->price->getUnit()->getAlphabeticalCode());
         $this->assertSame(
             $price->getVAT()->getCategory() ?: null,
             $model->price_category ?: null
@@ -173,7 +205,7 @@ class PriceStoringCastingTest extends LaravelTestCase
     public function testCurrencyNotProvidedCast(Closure $createPrice): void
     {
         $model        = $this->createModel(
-            PriceAttribute::class,
+            PriceAttribute::class . ':currency-',
             [
                 'price',
                 'price_category',
@@ -184,12 +216,20 @@ class PriceStoringCastingTest extends LaravelTestCase
         $price        = $createPrice();
         $model->price = $price;
 
-        $this->assertSame($price->getValue(), $model->price->getValue());
-        $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
+        $model->save();
+        $model->refresh();
+
+        if ($price->getVAT()->isNotAny()) {
+            $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
+            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+        }
+
+        $this->assertEquals($price->getValue(), $model->price->getValue());
         $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
-        $this->assertSame('USD', $price->getUnit()->getAlphabeticalCode());
+        $this->assertSame('USD', $model->price->getUnit()->getAlphabeticalCode());
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
-        $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+
+        $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
         $this->assertSame(
             $price->getVAT()->getCategory() ?: null,
             $model->price_category ?: null
@@ -224,14 +264,20 @@ class PriceStoringCastingTest extends LaravelTestCase
         $price        = $createPrice();
         $model->price = $price;
 
-        $this->assertSame($price->getValue(), $model->price->getValue());
-        $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
-        $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
-        $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
-        $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
-        $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+        $model->save();
+        $model->refresh();
 
+        if ($price->getVAT()->isNotAny()) {
+            $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
+            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+        }
+
+        $this->assertEquals($price->getValue(), $model->price->getValue());
+        $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
         $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_ccr);
+        $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
+
+        $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
         $this->assertSame(
             $price->getVAT()->getCategory() ?: null,
             $model->price_category ?: null
@@ -262,14 +308,20 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         $model->price = $price;
 
-        $this->assertSame($price->getValue(), $model->price->getValue());
-        $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
-        $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
-        $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
-        $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
-        $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+        $model->save();
+        $model->refresh();
 
-        $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
+        if ($price->getVAT()->isNotAny()) {
+            $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
+            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+        }
+
+        $this->assertEquals($price->getValue(), $model->price->getValue());
+        $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
+        $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price->getUnit()->getAlphabeticalCode());
+        $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
+
+        $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
         $this->assertSame(
             $price->getVAT()->getCategory() ?: null,
             $model->price_category ?: null
@@ -295,19 +347,25 @@ class PriceStoringCastingTest extends LaravelTestCase
         $price        = $createPrice();
         $model->price = $price;
 
-        $this->assertSame($price->getValue(), $model->price->getValue());
-        $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
-        $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
-        $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
-        $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
-        $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+            $model->save();
+            $model->refresh();
 
-        $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
-        $this->assertSame(
-            $price->getVAT()->getCategory() ?: null,
-            $model->price_category ?: null
-        );
-        $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
+            if ($price->getVAT()->isNotAny()) {
+                $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
+                $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+            }
+
+            $this->assertEquals($price->getValue(), $model->price->getValue());
+            $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
+            $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price->getUnit()->getAlphabeticalCode());
+            $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
+
+            $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
+            $this->assertSame(
+                $price->getVAT()->getCategory() ?: null,
+                $model->price_category ?: null
+            );
+            $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
     }
 
         /**
@@ -331,15 +389,22 @@ class PriceStoringCastingTest extends LaravelTestCase
             $this->expectException(ValueError::class);
         }
 
-        $model->price = $price;
+    $model->price = $price;
 
-        $this->assertSame($price->getValue(), $model->price->getValue());
-        $this->assertSame('07', $model->price->getVAT()->getCategory());
+        $model->save();
+        $model->refresh();
+
+        if ($price->getVAT()->isNotAny()) {
+            $this->assertSame('07', $model->price->getVAT()->getCategory());
+        }
+
+        $this->assertEquals($price->getValue(), $model->price->getValue());
         $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
-        $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
+        $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price->getUnit()->getAlphabeticalCode());
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
-        $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
-        $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
+
+        $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
+        $this->assertSame('07', $price->getVAT()->getCategory());
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
     }
 
@@ -370,18 +435,25 @@ class PriceStoringCastingTest extends LaravelTestCase
         $price        = $createPrice();
         $model->price = $price;
 
-        $this->assertSame($price->getValue(), $model->price->getValue());
-        $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
-        $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
-        $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
-        $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
-        $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
-        $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
-        $this->assertSame(
-            $price->getVAT()->getCategory() ?: null,
-            $model->price_cat ?: null
-        );
-        $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
+            $model->save();
+            $model->refresh();
+
+            if ($price->getVAT()->isNotAny()) {
+                $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
+                $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+            }
+
+            $this->assertEquals($price->getValue(), $model->price->getValue());
+            $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
+            $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price->getUnit()->getAlphabeticalCode());
+            $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
+
+            $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
+            $this->assertSame(
+                $price->getVAT()->getCategory() ?: null,
+                $model->price_cat ?: null
+            );
+            $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
     }
 
         /**
@@ -402,7 +474,7 @@ class PriceStoringCastingTest extends LaravelTestCase
         $price = $createPrice();
 
         PriceAttribute::setCategoryCallback(
-            function(bool $retrieve, Model $model, string $key, $value) {
+            function(bool $retrieve, Model $model, array $attributes, string $key, $value) {
                 static $data = [];
 
                 if ($retrieve === false) {
@@ -419,15 +491,21 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         $model->price = $price;
 
-        $this->assertSame($price->getValue(), $model->price->getValue());
-        $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
-        $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
-        $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
-        $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
-        $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+            $model->save();
+            $model->refresh();
 
-        $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
-        $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
+            if ($price->getVAT()->isNotAny()) {
+                $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
+                $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+            }
+
+            $this->assertEquals($price->getValue(), $model->price->getValue());
+            $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
+            $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price->getUnit()->getAlphabeticalCode());
+            $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
+
+            $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
+            $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
     }
 
     /**
@@ -448,12 +526,20 @@ class PriceStoringCastingTest extends LaravelTestCase
         $price        = $createPrice();
         $model->price = $price;
 
-        $this->assertSame($price->getValue(), $model->price->getValue());
-        $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
+        $model->save();
+        $model->refresh();
+
+        if ($price->getVAT()->isNotAny()) {
+            $this->assertSame(
+                $price->getVAT()->getCategory() ?: null,
+                $model->price->getVAT()->getCategory() ?: null
+            );
+        }
+
+        $this->assertEquals($price->getValue(), $model->price->getValue());
         $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
         $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
         $this->assertSame('SVK', $model->price->getVAT()->getCountryCode());
-        $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
 
         $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
         $this->assertSame(
@@ -489,12 +575,18 @@ class PriceStoringCastingTest extends LaravelTestCase
         $price        = $createPrice();
         $model->price = $price;
 
-        $this->assertSame($price->getValue(), $model->price->getValue());
-        $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
+        $model->save();
+        $model->refresh();
+
+        if ($price->getVAT()->isNotAny()) {
+            $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
+            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+        }
+
+        $this->assertEquals($price->getValue(), $model->price->getValue());
         $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
         $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
-        $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
 
         $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
         $this->assertSame(
@@ -530,12 +622,18 @@ class PriceStoringCastingTest extends LaravelTestCase
         $price        = $createPrice();
         $model->price = $price;
 
-        $this->assertSame($price->getValue(), $model->price->getValue());
-        $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
+        $model->save();
+        $model->refresh();
+
+        if ($price->getVAT()->isNotAny()) {
+            $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
+            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+        }
+
+        $this->assertEquals($price->getValue(), $model->price->getValue());
         $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
         $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
-        $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
-        $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+        $this->assertSame('US', $model->price->getVAT()->getCountryCode());
 
         $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
         $this->assertSame(
@@ -562,11 +660,18 @@ class PriceStoringCastingTest extends LaravelTestCase
         $price        = $createPrice();
         $model->price = $price;
 
-        $this->assertSame($price->getValue(), $model->price->getValue());
-        $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
+        $model->save();
+        $model->refresh();
+
+        if ($price->getVAT()->isNotAny()) {
+            $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
+            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+        }
+
+        $this->assertEquals($price->getValue(), $model->price->getValue());
+        $this->assertSame('2019-01-01', $model->price->getDateTime()->format('Y-m-d'));
         $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
-        $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
 
         $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
         $this->assertSame(
@@ -577,167 +682,294 @@ class PriceStoringCastingTest extends LaravelTestCase
     }
 
 
-    // TODO: TEST foreign created at and continue...
-//    /**
-    //     * @small
-    //     *
-    //     * @covers ::__construct
-    //     * @covers ::set
-    //     *
-    //     * @param \Closure(): \MiBo\Prices\Price $createPrice
-    //     *
-    //     * @return void
-    //     *
-    //     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getApplicationData()
-    //     */
-    //    public function testDefaultCast(Closure $createPrice): void
-    //    {
-    //        $model        = $this->createModel(PriceAttribute::class);
-    //        $price        = $createPrice();
-    //        $model->price = $price;
-    //
-    //        $this->assertSame($price->getValue(), $model->price->getValue());
-    //        $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
-    //        $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
-    //        $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
-    //        $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
-    //        $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
-    //
-    //        $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
-    //        $this->assertSame(
-    //            $price->getVAT()->getCategory() ?: null,
-    //            $model->price_category ?: null
-    //        );
-    //        $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
-    //    }
+    /**
+     * @small
+     *
+     * @covers ::__construct
+     * @covers ::set
+     *
+     * @param \Closure(): \MiBo\Prices\Price $createPrice
+     *
+     * @return void
+     *
+     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getApplicationData()
+     */
+    public function testDateForeignColumnCast(Closure $createPrice): void
+    {
+        $model        = $this->createModel(
+            PriceAttribute::class . ':date-foreign_column',
+            [
+                'price',
+                'price_currency',
+                'price_country',
+                'price_category',
+                'foreign_column',
+            ]
+        );
+        $price        = $createPrice();
+        $model->price = $price;
 
-    //     * @small
-    //     *
-    //     * @covers ::__construct
-    //     * @covers ::set
-    //     *
-    //     * @param \Closure(): \MiBo\Prices\Price $createPrice
-    //     *
-    //     * @return void
-    //     *
-    //     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getApplicationData()
-    //     */
-    //    public function testDefaultCast(Closure $createPrice): void
-    //    {
-    //        $model        = $this->createModel(PriceAttribute::class);
-    //        $price        = $createPrice();
-    //        $model->price = $price;
-    //
-    //        $this->assertSame($price->getValue(), $model->price->getValue());
-    //        $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
-    //        $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
-    //        $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
-    //        $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
-    //        $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
-    //
-    //        $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
-    //        $this->assertSame(
-    //            $price->getVAT()->getCategory() ?: null,
-    //            $model->price_category ?: null
-    //        );
-    //        $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
-    //    }
+        $model->save();
+        $model->refresh();
 
-    //     * @small
-    //     *
-    //     * @covers ::__construct
-    //     * @covers ::set
-    //     *
-    //     * @param \Closure(): \MiBo\Prices\Price $createPrice
-    //     *
-    //     * @return void
-    //     *
-    //     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getApplicationData()
-    //     */
-    //    public function testDefaultCast(Closure $createPrice): void
-    //    {
-    //        $model        = $this->createModel(PriceAttribute::class);
-    //        $price        = $createPrice();
-    //        $model->price = $price;
-    //
-    //        $this->assertSame($price->getValue(), $model->price->getValue());
-    //        $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
-    //        $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
-    //        $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
-    //        $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
-    //        $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
-    //
-    //        $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
-    //        $this->assertSame(
-    //            $price->getVAT()->getCategory() ?: null,
-    //            $model->price_category ?: null
-    //        );
-    //        $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
-    //    }
+        if ($price->getVAT()->isNotAny()) {
+            $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
+            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+        }
 
-    //     * @small
-    //     *
-    //     * @covers ::__construct
-    //     * @covers ::set
-    //     *
-    //     * @param \Closure(): \MiBo\Prices\Price $createPrice
-    //     *
-    //     * @return void
-    //     *
-    //     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getApplicationData()
-    //     */
-    //    public function testDefaultCast(Closure $createPrice): void
-    //    {
-    //        $model        = $this->createModel(PriceAttribute::class);
-    //        $price        = $createPrice();
-    //        $model->price = $price;
-    //
-    //        $this->assertSame($price->getValue(), $model->price->getValue());
-    //        $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
-    //        $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
-    //        $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
-    //        $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
-    //        $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
-    //
-    //        $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
-    //        $this->assertSame(
-    //            $price->getVAT()->getCategory() ?: null,
-    //            $model->price_category ?: null
-    //        );
-    //        $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
-    //    }
+        $this->assertEquals($price->getValue(), $model->price->getValue());
+        $this->assertSame(
+            preg_replace('/\s[\d\.\:\-]+/', '', $model->foreign_column),
+            $model->price->getDateTime()->format('Y-m-d')
+        );
+        $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
+        $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
 
-    //     * @small
-    //     *
-    //     * @covers ::__construct
-    //     * @covers ::set
-    //     *
-    //     * @param \Closure(): \MiBo\Prices\Price $createPrice
-    //     *
-    //     * @return void
-    //     *
-    //     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getApplicationData()
-    //     */
-    //    public function testDefaultCast(Closure $createPrice): void
-    //    {
-    //        $model        = $this->createModel(PriceAttribute::class);
-    //        $price        = $createPrice();
-    //        $model->price = $price;
-    //
-    //        $this->assertSame($price->getValue(), $model->price->getValue());
-    //        $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
-    //        $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
-    //        $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
-    //        $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
-    //        $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
-    //
-    //        $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
-    //        $this->assertSame(
-    //            $price->getVAT()->getCategory() ?: null,
-    //            $model->price_category ?: null
-    //        );
-    //        $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
-    //    }
+        $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
+        $this->assertSame(
+            $price->getVAT()->getCategory() ?: null,
+            $model->price_category ?: null
+        );
+        $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
+    }
+
+    /**
+     * @small
+     *
+     * @covers ::__construct
+     * @covers ::set
+     *
+     * @param \Closure(): \MiBo\Prices\Price $createPrice
+     *
+     * @return void
+     *
+     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getApplicationData()
+     */
+    public function testDateNotProvidedCast(Closure $createPrice): void
+    {
+        $model        = $this->createModel(
+            PriceAttribute::class,
+            [
+                'price',
+                'price_currency',
+                'price_country',
+                'price_category',
+            ]
+        );
+        $price        = $createPrice();
+        $model->price = $price;
+
+        $model->save();
+        $model->refresh();
+
+        if ($price->getVAT()->isNotAny()) {
+            $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
+            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+        }
+
+        $this->assertEquals($price->getValue(), $model->price->getValue());
+        $this->assertSame(Carbon::now()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
+        $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
+        $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
+
+        $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
+        $this->assertSame(
+            $price->getVAT()->getCategory() ?: null,
+            $model->price_category ?: null
+        );
+        $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
+    }
+
+    /**
+     * @small
+     *
+     * @covers ::__construct
+     * @covers ::set
+     *
+     * @param \Closure(): \MiBo\Prices\Price $createPrice
+     *
+     * @return void
+     *
+     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getApplicationData()
+     */
+    public function testAnyVATTrueCast(Closure $createPrice): void
+    {
+        $model        = $this->createModel(PriceAttribute::class . ':any-true');
+        $price        = $createPrice();
+        $model->price = $price;
+
+        $model->save();
+        $model->refresh();
+
+        $this->assertTrue($model->price->getVAT()->isAny());
+        $this->assertEquals($price->getValue(), $model->price->getValue());
+        $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
+        $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
+        $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
+
+        $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
+        $this->assertSame(
+            $price->getVAT()->getCategory() ?: null,
+            $model->price_category ?: null
+        );
+        $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
+    }
+
+    /**
+     * @small
+     *
+     * @covers ::__construct
+     * @covers ::set
+     *
+     * @param \Closure(): \MiBo\Prices\Price $createPrice
+     *
+     * @return void
+     *
+     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getApplicationData()
+     */
+    public function testAnyVATFalseCast(Closure $createPrice): void
+    {
+        $model        = $this->createModel(PriceAttribute::class . ':any-false');
+        $price        = $createPrice();
+        $model->price = $price;
+
+        $model->save();
+        $model->refresh();
+
+        if ($price->getVAT()->isNotAny()) {
+            $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
+            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+        }
+
+        $this->assertEquals($price->getValue(), $model->price->getValue());
+        $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
+        $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
+        $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
+
+        $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
+        $this->assertSame(
+            $price->getVAT()->getCategory() ?: null,
+            $model->price_category ?: null
+        );
+        $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
+    }
+
+    /**
+     * @small
+     *
+     * @covers ::__construct
+     * @covers ::set
+     *
+     * @param \Closure(): \MiBo\Prices\Price $createPrice
+     *
+     * @return void
+     *
+     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getApplicationData()
+     */
+    public function testWithVATTrueCast(Closure $createPrice): void
+    {
+        $model        = $this->createModel(PriceAttribute::class . ':vat-true');
+        $price        = $createPrice();
+        $model->price = $price;
+
+        $model->save();
+        $model->refresh();
+
+        if ($price->getVAT()->isNotAny()) {
+            $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
+            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+        }
+
+        $this->assertEquals($price->getValueWithVAT(), $model->price->getValueWithVAT());
+        $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
+        $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
+        $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
+
+        $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
+        $this->assertSame(
+            $price->getVAT()->getCategory() ?: null,
+            $model->price_category ?: null
+        );
+        $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
+    }
+
+    /**
+     * @small
+     *
+     * @covers ::__construct
+     * @covers ::set
+     *
+     * @param \Closure(): \MiBo\Prices\Price $createPrice
+     *
+     * @return void
+     *
+     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getApplicationData()
+     */
+    public function testWithVATFalseCast(Closure $createPrice): void
+    {
+        $model        = $this->createModel(PriceAttribute::class . ':vat-false');
+        $price        = $createPrice();
+        $model->price = $price;
+
+        $model->save();
+        $model->refresh();
+
+        if ($price->getVAT()->isNotAny()) {
+            $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
+            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+        }
+
+        $this->assertEquals($price->getValue(), $model->price->getValue());
+        $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
+        $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
+        $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
+
+        $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
+        $this->assertSame(
+            $price->getVAT()->getCategory() ?: null,
+            $model->price_category ?: null
+        );
+        $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
+    }
+
+    /**
+     * @small
+     *
+     * @covers ::__construct
+     * @covers ::set
+     *
+     * @param \Closure(): \MiBo\Prices\Price $createPrice
+     *
+     * @return void
+     *
+     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getApplicationData()
+     */
+    public function testCombinationCast(Closure $createPrice): void
+    {
+        $model        = $this->createModel(PriceAttribute::class . ':currency-EUR,country-CZE');
+        $price        = $createPrice();
+        $model->price = $price;
+
+        $model->save();
+        $model->refresh();
+
+        $price->forCountry('CZE');
+
+        if ($price->getVAT()->isNotAny()) {
+            $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
+            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+        }
+
+        $this->assertEquals($price->getValue(), $model->price->getValue());
+        $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
+        $this->assertSame('EUR', $model->price->getUnit()->getAlphabeticalCode());
+        $this->assertSame('CZE', $model->price->getVAT()->getCountryCode());
+
+        $this->assertSame(
+            $price->getVAT()->getCategory() ?: null,
+            $model->price_category ?: null
+        );
+    }
 
     private function createModel(
         string $cast,
@@ -755,6 +987,8 @@ class PriceStoringCastingTest extends LaravelTestCase
         {
             protected $guarded = [];
 
+            protected $table = 'test_table';
+
             public function __construct(array $attributes = [], $fillable = [], $cast = '', $defaultProp = '')
             {
                 $this->fillable = $fillable;
@@ -762,8 +996,35 @@ class PriceStoringCastingTest extends LaravelTestCase
                 $this->visible  = $fillable;
 
                 parent::__construct($attributes);
+
+                $this->attributes['foreign_column'] = Carbon::now();
             }
         };
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function setUp(): void
+    {
+        $this->afterApplicationCreated(
+            function(): void {
+                Schema::create('test_table', static function(Blueprint $table): void {
+                    $table->id();
+                    $table->integer('price')->default(0);
+                    $table->string('price_currency', 3)->nullable();
+                    $table->string('price_country', 3)->nullable();
+                    $table->string('price_category')->nullable();
+                    $table->date('price_date')->nullable();
+                    $table->timestamps();
+                    $table->date('foreign_column')->nullable();
+                    $table->string('price_cntry', 3)->nullable();
+                    $table->string('price_cat')->nullable();
+                    $table->string('price_ccr', 3)->nullable();
+                });
+            }
+        );
+        parent::setUp();
     }
 
     /**
