@@ -6,6 +6,7 @@ namespace MiBo\Prices\Tests\Casting;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Schema;
 use MiBo\Prices\Data\Casting\NumericPropertyAttribute;
 use MiBo\Prices\Tests\LaravelTestCase;
@@ -36,6 +37,8 @@ use Throwable;
  */
 class NumericPropStoringCastingTest extends LaravelTestCase
 {
+    use RefreshDatabase;
+
     /**
      * @small
      *
