@@ -17,13 +17,6 @@ use function is_int;
 use function is_string;
 
 /**
- * TODO - score unit has invalid data in class
- * TODO - Rod vs Point - invalid symbol for point
- * TODO - Twip - invalid symbol
- * TODO - Quarter - qr instead of gr
- * TODO - short ton - name fix - add short
- * TODO - fix hundredweight (US) - add US prefix with space
- * TODO - fix all units of volume - US prefix with space (US units), capital
  * Class PriceAttribute
  *
  * *This Attribute casts price and its properties from and to database.*
@@ -231,6 +224,7 @@ class PriceAttribute implements CastsAttributes
             return $value;
         }
 
+        $value  = clone $value;
         $result = [];
 
         $currencyIsFillable = str_starts_with($this->config['currency'], '_')

@@ -129,6 +129,8 @@ class NumericPropStoringCastingTest extends LaravelTestCase
         $model->save();
         $model->refresh();
 
+        $value->convertToUnit(Meter::get());
+
         $this->assertEquals(
             $value->getValue(),
             $model->numprop->getValue(),
@@ -192,6 +194,8 @@ class NumericPropStoringCastingTest extends LaravelTestCase
 
         $model->save();
         $model->refresh();
+
+        $value->convertToUnit(MilliMeter::get());
 
         $this->assertEquals(
             round($value->getValue()),

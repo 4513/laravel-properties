@@ -12,6 +12,7 @@ use MiBo\Properties\Contracts\NumericalProperty;
 use MiBo\Properties\Contracts\PrinterInterface;
 use MiBo\Properties\Units\ThermodynamicTemperature\DegreeCelsius;
 use function is_float;
+use function strlen;
 
 /**
  * Class Printer

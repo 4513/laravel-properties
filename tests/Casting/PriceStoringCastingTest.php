@@ -175,6 +175,8 @@ class PriceStoringCastingTest extends LaravelTestCase
         $model->save();
         $model->refresh();
 
+        $price->convertToUnit(Currency::get('CZK'));
+
         if ($price->getVAT()->isNotAny()) {
             $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
             $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
@@ -220,6 +222,8 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         $model->save();
         $model->refresh();
+
+        $price->convertToUnit($model->price->getUnit());
 
         if ($price->getVAT()->isNotAny()) {
             $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
@@ -964,6 +968,7 @@ class PriceStoringCastingTest extends LaravelTestCase
         $model->refresh();
 
         $price->forCountry('CZE');
+        $price->convertToUnit(Currency::get('EUR'));
 
         if ($price->getVAT()->isNotAny()) {
             $this->assertTrue($price->getVAT()->is($model->price->getVAT()));

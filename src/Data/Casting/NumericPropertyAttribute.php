@@ -12,6 +12,7 @@ use MiBo\Properties\Pure;
 use MiBo\Properties\Units\Pure\NoUnit;
 use TypeError;
 use function array_keys;
+use function count;
 use function in_array;
 
 /**
@@ -167,9 +168,9 @@ class NumericPropertyAttribute implements CastsAttributes
             return $value;
         }
 
+        $value  = clone $value;
         $unit   = $this->config["unit"];
         $isoExt = in_array($unit, self::IS_PREFIXES) ? $unit : false;
-        $unit   = $unit ?? $value->getUnit();
         $unit   = $isoExt === false ? $unit :
             $value::$unit(0)->getUnit();
         $value->convertToUnit($unit);

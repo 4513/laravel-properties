@@ -78,13 +78,43 @@ class LaravelTestCase extends TestCase
 
         // Setting conversion rate between CZK and EUR => 1 EUR = 25 CZK
         UnitConvertor::$unitConvertors[\MiBo\Prices\Quantities\Price::class] = function(Price $price, Currency $unit) {
-            if ($price->getUnit()->getName() === "Euro" && $unit->getName() === "Czech Koruna") {
-                return $price->getNumericalValue()->multiply(25);
-            } else if ($price->getUnit()->is($unit)) {
-                return $price->getNumericalValue();
+            switch ($price->getUnit()->getAlphabeticalCode()) {
+                case 'EUR':
+                    $price->getNumericalValue()->multiply(25);
+                break;
+
+                case 'USD':
+                    $price->getNumericalValue()->multiply(20);
+                break;
+
+                case 'CZK':
+                    $price->getNumericalValue()->multiply(1);
+                break;
+
+                default:
+                    $price->getNumericalValue()->multiply(2);
+                break;
             }
 
-            return $price->getNumericalValue()->divide(25);
+            switch ($unit->getAlphabeticalCode()) {
+                case 'EUR':
+                    $price->getNumericalValue()->divide(25);
+                break;
+
+                case 'USD':
+                    $price->getNumericalValue()->divide(20);
+                break;
+
+                case 'CZK':
+                    $price->getNumericalValue()->divide(1);
+                break;
+
+                default:
+                    $price->getNumericalValue()->divide(2);
+                break;
+            }
+
+            return $price->getNumericalValue();
         };
     }
 
