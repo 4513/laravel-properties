@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace MiBo\Prices\Data\Factories;
 
 use Closure;
-use iterable;
 use MiBo\Prices\Contracts\Discountable;
 use MiBo\Prices\Contracts\PriceInterface;
 use MiBo\Prices\Exceptions\CouldNotApplyWholeAmountOfDiscountException;
@@ -21,6 +20,7 @@ use function is_array;
 use function is_bool;
 use function is_float;
 use function is_int;
+use function is_iterable;
 
 /**
  * Class DiscountFactory
@@ -254,7 +254,7 @@ class DiscountFactory
      * @return static
      *
      * @phpcs:ignore Generic.Files.LineLength.TooLong
-     * @phpstan-return ($name is self::OPT_VAT ? ($value is \MiBo\VAT\Enums\VATRate ? static : never) : ($name is self::OPT_VALUE|self::OPT_PERCENTAGE_VALUE ? ($value is float|int ? static : never) : ($name is self::OPT_TYPE ? ($value is self::TYPE_* ? static : never) : ($name is self::OPT_SUBJECT ? ($value is \iterable<\MiBo\Prices\Contracts\Discountable> ? static : never) : ($name is self::OPT_IS_VALUE_WITH_VAT|self::OPT_REQUIRES_WHOLE_SUM_TO_USE ? ($value is bool ? static : never) : ($name is self::OPT_FILTER ? ($value is (\Closure(\MiBo\Prices\Contracts\Discountable): bool) ? static : never) : ($name is self::OPT_COUNTRY ? ($value is string ? static : never) : never)))))))
+     * @phpstan-return ($name is self::OPT_VAT ? ($value is \MiBo\VAT\Enums\VATRate ? static : never) : ($name is self::OPT_VALUE|self::OPT_PERCENTAGE_VALUE ? ($value is float|int ? static : never) : ($name is self::OPT_TYPE ? ($value is self::TYPE_* ? static : never) : ($name is self::OPT_SUBJECT ? ($value is iterable<\MiBo\Prices\Contracts\Discountable> ? static : never) : ($name is self::OPT_IS_VALUE_WITH_VAT|self::OPT_REQUIRES_WHOLE_SUM_TO_USE ? ($value is bool ? static : never) : ($name is self::OPT_FILTER ? ($value is (\Closure(\MiBo\Prices\Contracts\Discountable): bool) ? static : never) : ($name is self::OPT_COUNTRY ? ($value is string ? static : never) : never)))))))
      */
     final public function setOption(string $name, mixed $value): static
     {
@@ -293,7 +293,7 @@ class DiscountFactory
             break;
 
             case self::OPT_SUBJECT:
-                if (!is_array($value) && !$value instanceof iterable) {
+                if (!is_array($value) && !is_iterable($value)) {
                     $message = sprintf(
                         "Option '%s' must be array or iterable, %s given.",
                         $name,

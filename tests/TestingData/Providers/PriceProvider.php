@@ -6,6 +6,10 @@ namespace MiBo\Prices\Tests\TestingData\Providers;
 
 use Carbon\Carbon;
 use Generator;
+use MiBo\Prices\Contracts\Discountable;
+use MiBo\Prices\Contracts\PriceInterface;
+use MiBo\Prices\Data\Factories\DiscountFactory;
+use MiBo\Prices\Data\Factories\PriceFactory;
 use MiBo\Prices\PositivePrice;
 use MiBo\Prices\PositivePriceWithVAT;
 use MiBo\Prices\Price;
@@ -198,5 +202,116 @@ class PriceProvider
                 'isAnyVat' => true,
             ],
         ];
+    }
+
+    public static function provideFailingOptionList(): Generator
+    {
+        $list = [
+            DiscountFactory::OPT_VALUE . ' not numeric'                       => [
+                DiscountFactory::OPT_VALUE,
+                'some random string',
+            ],
+            DiscountFactory::OPT_VALUE . ' boolean'                           => [
+                DiscountFactory::OPT_VALUE,
+                true,
+            ],
+            DiscountFactory::OPT_TYPE . ' not supported'                      => [
+                DiscountFactory::OPT_TYPE,
+                'forbidden',
+            ],
+            DiscountFactory::OPT_VAT . ' not a VAT'                           => [
+                DiscountFactory::OPT_VAT,
+                'not a VAT',
+            ],
+            DiscountFactory::OPT_VAT . ' combined - forbidden'                => [
+                DiscountFactory::OPT_VAT,
+                VATRate::COMBINED,
+            ],
+            DiscountFactory::OPT_FILTER . ' not a closure'                    => [
+                DiscountFactory::OPT_FILTER,
+                'not a closure',
+            ],
+            DiscountFactory::OPT_PERCENTAGE_VALUE . ' not numeric'            => [
+                DiscountFactory::OPT_PERCENTAGE_VALUE,
+                'not a number',
+            ],
+            DiscountFactory::OPT_IS_VALUE_WITH_VAT . ' not a boolean'         => [
+                DiscountFactory::OPT_IS_VALUE_WITH_VAT,
+                'not a boolean',
+            ],
+            DiscountFactory::OPT_SUBJECT . ' not iterable'                    => [
+                DiscountFactory::OPT_SUBJECT,
+                'not iterable',
+            ],
+            DiscountFactory::OPT_COUNTRY . ' not a string'                    => [
+                DiscountFactory::OPT_COUNTRY,
+                123,
+            ],
+            DiscountFactory::OPT_REQUIRES_WHOLE_SUM_TO_USE . ' not a boolean' => [
+                DiscountFactory::OPT_REQUIRES_WHOLE_SUM_TO_USE,
+                'not a boolean',
+            ],
+            'Invalid option'                                                  => [
+                'invalid option',
+                'some value',
+            ],
+        ];
+
+        foreach ($list as $name => $value) {
+            yield $name => $value;
+        }
+    }
+
+    public static function provideDiscountableList(): Generator
+    {
+        yield 'Empty list' => [static fn() => []];
+        yield 'List of 1 item' => [static fn() => self::getDiscountableList(25)];
+
+        for ($i = 0; $i < 1_000; $i++) {
+            $num = rand(0, 25 * 200);
+
+            yield '#' . $i => [
+                function() use ($num) {
+                    return self::getDiscountableList($num);
+                },
+            ];
+        }
+    }
+
+    protected static function getDiscountableList(int $sum): array
+    {
+        $sum  -= $sum % 25;
+        $count = $sum / 25;
+        $list  = [];
+
+        for ($i = $count; $i > 0; $i--) {
+            $list[] = self::createDiscountableObject(
+                PriceFactory::get()->setValue(25)->create()
+            );
+        }
+
+        return $list;
+    }
+
+    private static function createDiscountableObject(PriceInterface $price): Discountable
+    {
+        return new class ($price) implements Discountable {
+            private PriceInterface $price;
+
+            public function __construct(PriceInterface $price)
+            {
+                $this->price = $price;
+            }
+
+            public function registerDiscountPrice(PriceInterface $discount): void
+            {
+                $this->price->subtract($discount);
+            }
+
+            public function getPrice(): PriceInterface
+            {
+                return $this->price;
+            }
+        };
     }
 }
