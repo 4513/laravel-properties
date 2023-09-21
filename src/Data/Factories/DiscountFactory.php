@@ -252,6 +252,9 @@ class DiscountFactory
      * @param mixed $value
      *
      * @return static
+     *
+     * @phpcs:ignore Generic.Files.LineLength.TooLong
+     * @phpstan-return ($name is self::OPT_VAT ? ($value is \MiBo\VAT\Enums\VATRate ? static : never) : ($name is self::OPT_VALUE|self::OPT_PERCENTAGE_VALUE ? ($value is float|int ? static : never) : ($name is self::OPT_TYPE ? ($value is self::TYPE_* ? static : never) : ($name is self::OPT_SUBJECT ? ($value is \iterable<\MiBo\Prices\Contracts\Discountable> ? static : never) : ($name is self::OPT_IS_VALUE_WITH_VAT|self::OPT_REQUIRES_WHOLE_SUM_TO_USE ? ($value is bool ? static : never) : ($name is self::OPT_FILTER ? ($value is (\Closure(\MiBo\Prices\Contracts\Discountable): bool) ? static : never) : ($name is self::OPT_COUNTRY ? ($value is string ? static : never) : never)))))))
      */
     final public function setOption(string $name, mixed $value): static
     {
