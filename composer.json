@@ -86,5 +86,15 @@
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": false
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MiBo\\Prices\\Providers\\ConfigProvider",
+                "MiBo\\Prices\\Providers\\FacadeProvider",
+                "MiBo\\Prices\\Providers\\ServiceProvider",
+                "MiBo\\Prices\\Providers\\TranslationProvider"
+            ]
+        }
     }
 }
