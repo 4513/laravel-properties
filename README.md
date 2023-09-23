@@ -1,5 +1,7 @@
 # Laravel Properties
 
+[![codecov](https://codecov.io/gh/4513/laravel-properties/graph/badge.svg?token=p9C5HsHfsw)](https://codecov.io/gh/4513/laravel-properties)
+
 ## Schemas
 Product has a price.
 
