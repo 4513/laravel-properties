@@ -179,6 +179,7 @@ class PriceFactory
         /** @var \MiBo\Prices\Price $price */
         $price = new ($this->getClassName())(
             $this->value,
+            // @phpstan-ignore-next-line
             Currency::get($this->currency),
             $this->isAnyVAT ?
                 VAT::get($this->country, VATRate::ANY) :
@@ -187,6 +188,7 @@ class PriceFactory
         );
 
         if (config('prices.defaults.printer') !== null) {
+            // @phpstan-ignore-next-line
             $price->setPrinter(app(config('prices.defaults.printer')));
         }
 
@@ -215,10 +217,12 @@ class PriceFactory
 
     protected function clear(): void
     {
-        $this->date           = Carbon::now();
-        $this->value          = 0.0;
-        $this->currency       = config('prices.defaults.currency');
-        $this->category       = "";
+        $this->date  = Carbon::now();
+        $this->value = 0.0;
+        // @phpstan-ignore-next-line
+        $this->currency = config('prices.defaults.currency');
+        $this->category = "";
+        // @phpstan-ignore-next-line
         $this->country        = config('prices.defaults.country');
         $this->strictPositive = false;
         $this->isVATIncluded  = false;

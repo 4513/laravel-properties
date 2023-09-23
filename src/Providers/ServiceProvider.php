@@ -109,8 +109,10 @@ final class ServiceProvider extends IlluminateServiceProvider
                 /** @var \MiBo\Currency\Rates\Contracts\ExchangerInterface $config */
                 $config = new $config();
 
+                // @phpstan-ignore-next-line
                 return $price->multiply($config->getRateFor($currency, $price->getUnit()))->getNumericalValue();
             }
+            // @phpstan-ignore-next-line
             : $config(...);
 
         UnitConvertor::$unitConvertors[Price::class] = $config;

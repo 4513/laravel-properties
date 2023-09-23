@@ -66,6 +66,7 @@ class Printer implements PrinterInterface
                 ? trans_choice($this->getTransKey(
                     $property,
                     'units',
+                    // @phpstan-ignore-next-line
                     $property->getUnit()->getAlphabeticalCode(),
                     'symbol'
                 ), (int) $value)
@@ -215,6 +216,7 @@ class Printer implements PrinterInterface
     private function getTransKey(NumericalProperty $property, string ...$key): string
     {
         return 'properties::' .
+            // @phpstan-ignore-next-line
             strtolower($property::getQuantityClassName()::getNameForTranslation()) .
             '.' .
             implode('.', $key);

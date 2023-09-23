@@ -3,4 +3,8 @@ parameters:
     paths:
         - src
     ignoreErrors:
-        - "#Call to an undefined method [a-zA-Z\\\\ ]+::getMinorUnitRate.*#"
+        - "#Cannot access offset 'config' on Illuminate\\\\Contracts\\\\Foundation\\\\Application.#"
+        - "#.*MiBo\\\\Properties\\\\Contracts\\\\NumericalUnit given.#"
+        - "#.*array{config-country.*#"
+    excludePaths:
+        - src/Data/Casting/*

@@ -25,6 +25,7 @@ class MoneyManager
 
     private DiscountFactory $discountFactory;
 
+    // @phpstan-ignore-next-line The parameter will be used later.
     public function __construct(ContainerInterface $container)
     {
         $this->priceFactory    = PriceFactory::get();

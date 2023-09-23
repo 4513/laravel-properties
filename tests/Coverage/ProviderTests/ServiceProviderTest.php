@@ -66,7 +66,10 @@ class ServiceProviderTest extends LaravelTestCase
         $provider->register();
         $this->assertCount(1, PropertyCalc::$quantities);
 
-        $this->app['config']['prices.defaults.price_convertor'] = [self::class, 'whatDoIKnow'];
+        $this->app['config']['prices.defaults.price_convertor'] = [
+            self::class,
+            'whatDoIKnow',
+        ];
         $this->app['config']['properties.allowedQuantities']    = [];
 
         $provider = new ServiceProvider($this->app);

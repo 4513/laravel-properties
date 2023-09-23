@@ -343,6 +343,7 @@ class DiscountFactory
             break;
 
             case self::OPT_TYPE:
+                /** @phpstan-var string $value */
                 if (!in_array(
                     $value,
                     [
