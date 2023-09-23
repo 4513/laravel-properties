@@ -1,0 +1,10 @@
+parameters:
+    level: 9
+    paths:
+        - src
+    ignoreErrors:
+        - "#Cannot access offset 'config' on Illuminate\\\\Contracts\\\\Foundation\\\\Application.#"
+        - "#.*MiBo\\\\Properties\\\\Contracts\\\\NumericalUnit given.#"
+        - "#.*array{config-country.*#"
+    excludePaths:
+        - src/Data/Casting/*

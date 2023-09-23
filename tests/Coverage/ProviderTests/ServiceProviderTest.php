@@ -1,0 +1,88 @@
+<?php
+
+declare(strict_types=1);
+
+namespace MiBo\Prices\Tests\Coverage\ProviderTests;
+
+use MiBo\Prices\PriceWithVAT;
+use MiBo\Prices\Providers\ServiceProvider;
+use MiBo\Prices\Quantities\Price;
+use MiBo\Prices\Tests\LaravelTestCase;
+use MiBo\Properties\Calculators\PropertyCalc;
+use MiBo\Properties\Calculators\UnitConvertor;
+use MiBo\Properties\Quantities\Length;
+use MiBo\Properties\Units\Length\Foot;
+use stdClass;
+
+/**
+ * Class ServiceProviderTest
+ *
+ * @package MiBo\Prices\Tests\Coverage\ProviderTests
+ *
+ * @author Michal Boris <michal.boris27@gmail.com>
+ *
+ * @since 0.1
+ *
+ * @no-named-arguments Parameter names are not covered by the backward compatibility promise.
+ *
+ * @coversDefaultClass \MiBo\Prices\Providers\ServiceProvider
+ */
+class ServiceProviderTest extends LaravelTestCase
+{
+    /**
+     * @small
+     *
+     * @covers ::register
+     * @covers ::registerPriceConvertor
+     * @covers ::registerVATResolver
+     * @covers ::registerDefaultUnits
+     * @covers ::registerAllowedQuantities
+     *
+     * @return void
+     */
+    public function testDefaultRegister(): void
+    {
+        $provider = new ServiceProvider($this->app);
+        $provider->register();
+        $this->assertArrayHasKey(Price::class, UnitConvertor::$unitConvertors);
+    }
+
+    /**
+     * @small
+     *
+     * @covers ::registerPriceConvertor
+     * @covers ::registerDefaultUnits
+     * @covers ::registerAllowedQuantities
+     *
+     * @return void
+     */
+    public function testUpdatedRegister(): void
+    {
+        $this->app['config']['prices.defaults.price_convertor'] = stdClass::class;
+        $this->app['config']['properties.defaultUnits']         = [Length::class => Foot::class];
+        $this->app['config']['properties.allowedQuantities']    = [Price::class];
+
+        $provider = new ServiceProvider($this->app);
+        $provider->register();
+        $this->assertCount(1, PropertyCalc::$quantities);
+
+        $this->app['config']['prices.defaults.price_convertor'] = [
+            self::class,
+            'whatDoIKnow',
+        ];
+        $this->app['config']['properties.allowedQuantities']    = [];
+
+        $provider = new ServiceProvider($this->app);
+        $provider->register();
+        $this->assertCount(1, PropertyCalc::$quantities);
+    }
+
+    /**
+     * @internal
+     *
+     * @return void
+     */
+    public static function whatDoIKnow(): void
+    {
+    }
+}
