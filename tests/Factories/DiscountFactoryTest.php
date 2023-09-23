@@ -5,12 +5,16 @@ declare(strict_types=1);
 namespace MiBo\Prices\Tests\Factories;
 
 use Closure;
+use MiBo\Prices\Contracts\Discountable;
+use MiBo\Prices\Contracts\PriceInterface;
 use MiBo\Prices\Data\Factories\DiscountFactory;
+use MiBo\Prices\Data\Factories\PriceFactory;
 use MiBo\Prices\Exceptions\CouldNotApplyWholeAmountOfDiscountException;
 use MiBo\Prices\PositivePrice;
 use MiBo\Prices\PositivePriceWithVAT;
 use MiBo\Prices\Tests\LaravelTestCase;
 use MiBo\VAT\Enums\VATRate;
+use stdClass;
 use ValueError;
 
 /**
@@ -23,19 +27,13 @@ use ValueError;
  * @since 0.1
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise.
- *
- * @coversDefaultClass \MiBo\Prices\Data\Factories\DiscountFactory
  */
 class DiscountFactoryTest extends LaravelTestCase
 {
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
-     * @covers ::clear
-     * @covers ::apply
-     * @covers ::create
+     * @coversNothing
      *
      * @return void
      */
@@ -51,12 +49,7 @@ class DiscountFactoryTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::get
-     * @covers ::setOption
-     * @covers ::clear
-     * @covers ::apply
-     * @covers ::create
-     * @covers ::applyFixed
+     * @coversNothing
      *
      * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
      *
@@ -78,12 +71,7 @@ class DiscountFactoryTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::get
-     * @covers ::setOption
-     * @covers ::clear
-     * @covers ::apply
-     * @covers ::create
-     * @covers ::applyFixed
+     * @coversNothing
      *
      * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
      *
@@ -106,12 +94,7 @@ class DiscountFactoryTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::get
-     * @covers ::setOption
-     * @covers ::clear
-     * @covers ::apply
-     * @covers ::create
-     * @covers ::applyFixed
+     * @coversNothing
      *
      * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
      *
@@ -134,12 +117,7 @@ class DiscountFactoryTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::get
-     * @covers ::setOption
-     * @covers ::clear
-     * @covers ::apply
-     * @covers ::create
-     * @covers ::applyFixed
+     * @coversNothing
      *
      * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
      *
@@ -169,12 +147,7 @@ class DiscountFactoryTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::get
-     * @covers ::setOption
-     * @covers ::clear
-     * @covers ::apply
-     * @covers ::create
-     * @covers ::applyFixed
+     * @coversNothing
      *
      * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
      *
@@ -198,12 +171,7 @@ class DiscountFactoryTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::get
-     * @covers ::setOption
-     * @covers ::clear
-     * @covers ::apply
-     * @covers ::create
-     * @covers ::applyFixed
+     * @coversNothing
      *
      * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
      *
@@ -226,12 +194,7 @@ class DiscountFactoryTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::get
-     * @covers ::setOption
-     * @covers ::clear
-     * @covers ::apply
-     * @covers ::create
-     * @covers ::applyPercentage
+     * @coversNothing
      *
      * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
      *
@@ -255,12 +218,7 @@ class DiscountFactoryTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::get
-     * @covers ::setOption
-     * @covers ::clear
-     * @covers ::apply
-     * @covers ::create
-     * @covers ::applyPercentage
+     * @coversNothing
      *
      * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
      *
@@ -285,12 +243,7 @@ class DiscountFactoryTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::get
-     * @covers ::setOption
-     * @covers ::clear
-     * @covers ::apply
-     * @covers ::create
-     * @covers ::applyFixed
+     * @coversNothing
      *
      * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
      *
@@ -318,12 +271,155 @@ class DiscountFactoryTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::get
-     * @covers ::setOption
-     * @covers ::clear
-     * @covers ::apply
-     * @covers ::create
-     * @covers ::applyFixed
+     * @coversNothing
+     *
+     * @return void
+     */
+    public function testCombinedVATOutFiltered(): void
+    {
+        $price    = PriceFactory::get()
+            ->setValue(10)
+            ->setCategory('2201')
+            ->setCountry('CZE')
+            ->create()
+            ->add(
+                PriceFactory::get()
+                    ->setValue(10)
+                    ->setCategory('1')
+                    ->setCountry('CZE')
+                    ->create()
+            )
+            ->add(
+                PriceFactory::get()
+                    ->setValue(10)
+                    ->setCategory('2201')
+                    ->setCountry('CZE')
+                    ->create()
+            )
+            ->add(
+                PriceFactory::get()
+                    ->setValue(10)
+                    ->setCategory('06')
+                    ->setCountry('CZE')
+                    ->create()
+            );
+        $discount = DiscountFactory::get()
+            ->setOption(DiscountFactory::OPT_COUNTRY, 'CZE')
+            ->setOption(DiscountFactory::OPT_FILTER, static fn(): bool => false)
+            ->setOption(DiscountFactory::OPT_VAT, VATRate::NONE)
+            ->setOption(
+                DiscountFactory::OPT_SUBJECT,
+                [
+                    new class ($price) implements Discountable {
+                        private PriceInterface $price;
+
+                        public function __construct(PriceInterface $price)
+                        {
+                            $this->price = $price;
+                        }
+
+                        public function registerDiscountPrice(PriceInterface $discount): void
+                        {
+                        }
+
+                        public function getPrice(): PriceInterface
+                        {
+                            return $this->price;
+                        }
+                    },
+                ]
+            )
+            ->create();
+
+        $this->assertEquals(0, $discount->getValue());
+    }
+
+    /**
+     * @small
+     *
+     * @coversNothing
+     *
+     * @return void
+     */
+    public function testCombinedVATFiltered(): void
+    {
+        $price    = PriceFactory::get()
+            ->setValue(10)
+            ->setCategory('2201')
+            ->setCountry('CZE')
+            ->create()
+            ->add(
+                PriceFactory::get()
+                    ->setValue(10)
+                    ->setCategory('1')
+                    ->setCountry('CZE')
+                    ->create()
+            )
+            ->add(
+                PriceFactory::get()
+                    ->setValue(10)
+                    ->setCategory('2201')
+                    ->setCountry('CZE')
+                    ->create()
+            )
+            ->add(
+                PriceFactory::get()
+                    ->setValue(10)
+                    ->setCategory('06')
+                    ->setCountry('CZE')
+                    ->create()
+            );
+        $discount = DiscountFactory::get()
+            ->setOption(DiscountFactory::OPT_COUNTRY, 'CZE')
+            ->setOption(DiscountFactory::OPT_FILTER, static fn(): bool => true)
+            ->setOption(DiscountFactory::OPT_VAT, VATRate::NONE)
+            ->setOption(
+                DiscountFactory::OPT_SUBJECT,
+                [
+                    new class ($price) implements Discountable {
+                        private PriceInterface $price;
+
+                        public function __construct(PriceInterface $price)
+                        {
+                            $this->price = $price;
+                        }
+
+                        public function registerDiscountPrice(PriceInterface $discount): void
+                        {
+                        }
+
+                        public function getPrice(): PriceInterface
+                        {
+                            return $this->price;
+                        }
+                    },
+                ]
+            )
+            ->create();
+
+        $this->assertEquals(10, $discount->getValue());
+    }
+
+    /**
+     * @small
+     *
+     * @coversNothing
+     *
+     * @return void
+     */
+    public function testIncompatibleSubject(): void
+    {
+        $factory = DiscountFactory::get();
+
+        $factory->setOption(DiscountFactory::OPT_SUBJECT, [new stdClass()]);
+        $this->expectException(ValueError::class);
+        $factory->create();
+    }
+
+    /**
+     * @small
+     *
+     * @coversNothing
      *
      * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
      *
@@ -353,12 +449,7 @@ class DiscountFactoryTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::get
-     * @covers ::setOption
-     * @covers ::clear
-     * @covers ::apply
-     * @covers ::create
-     * @covers ::applyFixed
+     * @coversNothing
      *
      * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
      *
@@ -385,12 +476,7 @@ class DiscountFactoryTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::get
-     * @covers ::setOption
-     * @covers ::clear
-     * @covers ::apply
-     * @covers ::create
-     * @covers ::applyPercentage
+     * @coversNothing
      *
      * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
      *
@@ -419,7 +505,7 @@ class DiscountFactoryTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::setOption
+     * @coversNothing
      *
      * @param string $option
      * @param mixed $value
@@ -438,5 +524,33 @@ class DiscountFactoryTest extends LaravelTestCase
         $this->expectException(ValueError::class);
 
         $factory->setOption($option, $value);
+    }
+
+    /**
+     * @small
+     *
+     * @coversNothing
+     *
+     * @return void
+     */
+    public function testCustomType(): void
+    {
+        DiscountFactory::customType(
+            'test',
+            static function(
+                iterable $subject,
+                PositivePrice|PositivePriceWithVAT $discount
+            ): PositivePrice|PositivePriceWithVAT
+            {
+                return $discount;
+            }
+        );
+
+        $factory = DiscountFactory::get();
+
+        $factory->setOption(DiscountFactory::OPT_TYPE, 'test');
+        $factory->setOption(DiscountFactory::OPT_SUBJECT, []);
+
+        $this->assertEquals(0, $factory->create()->getValue());
     }
 }

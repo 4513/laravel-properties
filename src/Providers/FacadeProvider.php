@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace MiBo\Prices\Providers;
 
+use Illuminate\Contracts\Container\Container;
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
+use MiBo\Prices\Managers\MoneyManager;
 
 /**
  * Class FacadeProvider
@@ -17,8 +20,18 @@ use Illuminate\Support\ServiceProvider;
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise.
  */
-class FacadeProvider extends ServiceProvider
+class FacadeProvider extends ServiceProvider implements DeferrableProvider
 {
+    /**
+     * @inheritDoc
+     */
+    public function register()
+    {
+        $this->app->bind('MiBoMoney', static function (Container $container): MoneyManager {
+            return new MoneyManager($container);
+        });
+    }
+
     /**
      * @inheritDoc
      *
@@ -26,6 +39,6 @@ class FacadeProvider extends ServiceProvider
      */
     public function provides(): array
     {
-        return ["MiBoMoney"];
+        return ['MiBoMoney'];
     }
 }

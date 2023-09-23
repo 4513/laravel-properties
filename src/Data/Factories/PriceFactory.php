@@ -176,7 +176,8 @@ class PriceFactory
      */
     public function create(): Price
     {
-        return new ($this->getClassName())(
+        /** @var \MiBo\Prices\Price $price */
+        $price = new ($this->getClassName())(
             $this->value,
             Currency::get($this->currency),
             $this->isAnyVAT ?
@@ -184,6 +185,12 @@ class PriceFactory
                 ProxyResolver::retrieveByCategory($this->category, $this->country),
             $this->date
         );
+
+        if (config('prices.defaults.printer') !== null) {
+            $price->setPrinter(app(config('prices.defaults.printer')));
+        }
+
+        return $price;
     }
 
     /**

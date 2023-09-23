@@ -26,16 +26,13 @@ use Throwable;
  * @since 0.1
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise.
- *
- * @coversDefaultClass \MiBo\Prices\Data\Casting\NumericPropertyAttribute
  */
 class NumericPropRetrieveCastingTest extends LaravelTestCase
 {
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param int|float $value
      *
@@ -65,8 +62,7 @@ class NumericPropRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param int|float $value
      *
@@ -97,8 +93,7 @@ class NumericPropRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param int|float $value
      *
@@ -129,8 +124,7 @@ class NumericPropRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param int|float $value
      *
@@ -164,8 +158,7 @@ class NumericPropRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param int|float $value
      *
@@ -196,8 +189,7 @@ class NumericPropRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param int|float $value
      *
@@ -231,10 +223,7 @@ class NumericPropRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
-     *
-     * @param int|float $value
+     * @coversNothing
      *
      * @return void
      *
@@ -266,10 +255,7 @@ class NumericPropRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
-     *
-     * @param int|float $value
+     * @coversNothing
      *
      * @return void
      *

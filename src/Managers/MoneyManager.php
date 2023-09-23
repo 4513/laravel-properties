@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MiBo\Prices\Managers;
 
+use MiBo\Prices\Data\Factories\DiscountFactory;
 use MiBo\Prices\Data\Factories\PriceFactory;
 use Psr\Container\ContainerInterface;
 
@@ -20,28 +21,23 @@ use Psr\Container\ContainerInterface;
  */
 class MoneyManager
 {
-    private PriceFactory $factory;
+    private PriceFactory $priceFactory;
 
-    private array $config;
-
-    private ContainerInterface $container;
+    private DiscountFactory $discountFactory;
 
     public function __construct(ContainerInterface $container)
     {
-        $this->container = $container;
-        $this->factory   = $container->get(PriceFactory::class);
-        $this->config    = $container["config"]["mibo::prices"];
-
-        $this->resolveDefaultQuantities();
+        $this->priceFactory    = PriceFactory::get();
+        $this->discountFactory = DiscountFactory::get();
     }
 
-    final public function factory(): PriceFactory
+    final public function priceFactory(): PriceFactory
     {
-        return $this->factory;
+        return $this->priceFactory::get();
     }
 
-    final protected function getConfig(): array
+    final public function discountFactory(): DiscountFactory
     {
-        return $this->config;
+        return $this->discountFactory::get();
     }
 }

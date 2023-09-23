@@ -21,18 +21,13 @@ use function is_string;
  * @since 0.1
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise.
- *
- * @coversDefaultClass \MiBo\Prices\Data\Casting\PriceAttribute
  */
 class PriceRetrieveCastingTest extends LaravelTestCase
 {
     /**
      * @small
      *
-     * @covers \MiBo\Prices\Data\Factories\PriceFactory::get
-     * @covers \MiBo\Prices\Data\Factories\PriceFactory::__construct
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param array{
      *     id: positive-int,
@@ -75,8 +70,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param array{
      *     id: positive-int,
@@ -119,8 +113,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param array{
      *     id: positive-int,
@@ -163,8 +156,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param array{
      *     id: positive-int,
@@ -207,8 +199,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param array{
      *     id: positive-int,
@@ -253,8 +244,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param array{
      *     id: positive-int,
@@ -297,8 +287,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param array{
      *     id: positive-int,
@@ -341,8 +330,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param array{
      *     id: positive-int,
@@ -385,8 +373,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param array{
      *     id: positive-int,
@@ -433,8 +420,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param array{
      *     id: positive-int,
@@ -477,8 +463,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param array{
      *     id: positive-int,
@@ -521,8 +506,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param array{
      *     id: positive-int,
@@ -565,9 +549,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
-     * @covers ::setCategoryCallback
+     * @coversNothing
      *
      * @param array{
      *     id: positive-int,
@@ -617,8 +599,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param array{
      *     id: positive-int,
@@ -661,8 +642,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param array{
      *     id: positive-int,
@@ -705,8 +685,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param array{
      *     id: positive-int,
@@ -751,8 +730,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param array{
      *     id: positive-int,
@@ -792,8 +770,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param array{
      *     id: positive-int,
@@ -836,8 +813,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param array{
      *     id: positive-int,
@@ -883,8 +859,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param array{
      *     id: positive-int,
@@ -929,8 +904,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param array{
      *     id: positive-int,
@@ -973,8 +947,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param array{
      *     id: positive-int,
@@ -1017,8 +990,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param array{
      *     id: positive-int,
@@ -1061,8 +1033,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param array{
      *     id: positive-int,
@@ -1105,8 +1076,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param array{
      *     id: positive-int,
@@ -1152,8 +1122,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
+     * @coversNothing
      *
      * @param array{
      *     id: positive-int,

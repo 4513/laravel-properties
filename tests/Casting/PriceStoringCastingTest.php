@@ -29,8 +29,6 @@ use function is_string;
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise.
  *
- * @coversDefaultClass \MiBo\Prices\Data\Casting\PriceAttribute
- *
  * @phpcs:disable Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps
  */
 class PriceStoringCastingTest extends LaravelTestCase
@@ -40,8 +38,7 @@ class PriceStoringCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::set
+     * @coversNothing
      *
      * @param \Closure(): \MiBo\Prices\Price $createPrice
      *
@@ -79,8 +76,7 @@ class PriceStoringCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::set
+     * @coversNothing
      *
      * @param \Closure(): \MiBo\Prices\Price $createPrice
      *
@@ -118,8 +114,7 @@ class PriceStoringCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::set
+     * @coversNothing
      *
      * @param \Closure(): \MiBo\Prices\Price $createPrice
      *
@@ -157,8 +152,7 @@ class PriceStoringCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::set
+     * @coversNothing
      *
      * @param \Closure(): \MiBo\Prices\Price $createPrice
      *
@@ -197,8 +191,7 @@ class PriceStoringCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::set
+     * @coversNothing
      *
      * @param \Closure(): \MiBo\Prices\Price $createPrice
      *
@@ -246,8 +239,7 @@ class PriceStoringCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::set
+     * @coversNothing
      *
      * @param \Closure(): \MiBo\Prices\Price $createPrice
      *
@@ -294,8 +286,7 @@ class PriceStoringCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::set
+     * @coversNothing
      *
      * @param \Closure(): \MiBo\Prices\Price $createPrice
      *
@@ -335,62 +326,60 @@ class PriceStoringCastingTest extends LaravelTestCase
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
     }
 
-        /**
-         * @small
-         *
-         * @covers ::__construct
-         * @covers ::set
-         *
-         * @param \Closure(): \MiBo\Prices\Price $createPrice
-         *
-         * @return void
-         *
-         * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getApplicationData()
-         */
+    /**
+     * @small
+     *
+     * @coversNothing
+     *
+     * @param \Closure(): \MiBo\Prices\Price $createPrice
+     *
+     * @return void
+     *
+     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getApplicationData()
+     */
     public function testNegativePossibleCast(Closure $createPrice): void
-        {
+    {
         $model        = $this->createModel(PriceAttribute::class . ':positive-false');
         $price        = $createPrice();
         $model->price = $price;
 
-            $model->save();
-            $model->refresh();
+        $model->save();
+        $model->refresh();
 
         if ($price->getVAT()->isNotAny()) {
             $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
             $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
         }
 
-            $this->assertEquals($price->getValue(), $model->price->getValue());
-            $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
-            $this->assertSame(
-                $price->getUnit()->getAlphabeticalCode(),
-                $model->price->getUnit()->getAlphabeticalCode()
-            );
-            $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
+        $this->assertEquals($price->getValue(), $model->price->getValue());
+        $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
+        $this->assertSame(
+            $price->getUnit()->getAlphabeticalCode(),
+            $model->price->getUnit()->getAlphabeticalCode()
+        );
+        $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
 
-            $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
-            $this->assertSame(
-                $price->getVAT()->getCategory() ?: null,
-                $model->price_category ?: null
-            );
-            $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
+        $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
+        $this->assertSame(
+            $price->getVAT()->getCategory() ?: null,
+            $model->price_category ?: null
+        );
+        $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
     }
 
-        /**
-         * @small
-         *
-         * @covers ::__construct
-         * @covers ::set
-         *
-         * @param \Closure(): \MiBo\Prices\Price $createPrice
-         *
-         * @return void
-         *
-         * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getApplicationData()
-         */
+    /**
+     * @small
+     *
+     * @coversNothing
+     *
+     * @param \Closure(): \MiBo\Prices\Price $createPrice
+     *
+     * @return void
+     *
+     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getApplicationData()
+     */
     public function testSpecifiedCategoryCast(Closure $createPrice): void
-        {
+    {
         $model = $this->createModel(PriceAttribute::class . ':category-07');
         $price = $createPrice();
 
@@ -417,20 +406,19 @@ class PriceStoringCastingTest extends LaravelTestCase
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
     }
 
-        /**
-         * @small
-         *
-         * @covers ::__construct
-         * @covers ::set
-         *
-         * @param \Closure(): \MiBo\Prices\Price $createPrice
-         *
-         * @return void
-         *
-         * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getApplicationData()
-         */
+    /**
+     * @small
+     *
+     * @coversNothing
+     *
+     * @param \Closure(): \MiBo\Prices\Price $createPrice
+     *
+     * @return void
+     *
+     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getApplicationData()
+     */
     public function testCategoryDifferentColumnCast(Closure $createPrice): void
-        {
+    {
         $model        = $this->createModel(
             PriceAttribute::class . ':category-_cat',
             [
@@ -444,44 +432,43 @@ class PriceStoringCastingTest extends LaravelTestCase
         $price        = $createPrice();
         $model->price = $price;
 
-            $model->save();
-            $model->refresh();
+        $model->save();
+        $model->refresh();
 
         if ($price->getVAT()->isNotAny()) {
             $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
             $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
         }
 
-            $this->assertEquals($price->getValue(), $model->price->getValue());
-            $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
-            $this->assertSame(
-                $price->getUnit()->getAlphabeticalCode(),
-                $model->price->getUnit()->getAlphabeticalCode()
-            );
-            $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
+        $this->assertEquals($price->getValue(), $model->price->getValue());
+        $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
+        $this->assertSame(
+            $price->getUnit()->getAlphabeticalCode(),
+            $model->price->getUnit()->getAlphabeticalCode()
+        );
+        $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
 
-            $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
-            $this->assertSame(
-                $price->getVAT()->getCategory() ?: null,
-                $model->price_cat ?: null
-            );
-            $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
+        $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
+        $this->assertSame(
+            $price->getVAT()->getCategory() ?: null,
+            $model->price_cat ?: null
+        );
+        $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
     }
 
-        /**
-         * @small
-         *
-         * @covers ::__construct
-         * @covers ::set
-         *
-         * @param \Closure(): \MiBo\Prices\Price $createPrice
-         *
-         * @return void
-         *
-         * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getApplicationData()
-         */
+    /**
+     * @small
+     *
+     * @coversNothing
+     *
+     * @param \Closure(): \MiBo\Prices\Price $createPrice
+     *
+     * @return void
+     *
+     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getApplicationData()
+     */
     public function testCategoryCallbackCast(Closure $createPrice): void
-        {
+    {
         $model = $this->createModel(PriceAttribute::class . ':category-');
         $price = $createPrice();
 
@@ -503,31 +490,30 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         $model->price = $price;
 
-            $model->save();
-            $model->refresh();
+        $model->save();
+        $model->refresh();
 
         if ($price->getVAT()->isNotAny()) {
             $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
             $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
         }
 
-            $this->assertEquals($price->getValue(), $model->price->getValue());
-            $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
-            $this->assertSame(
-                $price->getUnit()->getAlphabeticalCode(),
-                $model->price->getUnit()->getAlphabeticalCode()
-            );
-            $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
+        $this->assertEquals($price->getValue(), $model->price->getValue());
+        $this->assertSame($price->getDateTime()->format('Y-m-d'), $model->price->getDateTime()->format('Y-m-d'));
+        $this->assertSame(
+            $price->getUnit()->getAlphabeticalCode(),
+            $model->price->getUnit()->getAlphabeticalCode()
+        );
+        $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
 
-            $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
-            $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
+        $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
+        $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
     }
 
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::set
+     * @coversNothing
      *
      * @param \Closure(): \MiBo\Prices\Price $createPrice
      *
@@ -566,8 +552,7 @@ class PriceStoringCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::set
+     * @coversNothing
      *
      * @param \Closure(): \MiBo\Prices\Price $createPrice
      *
@@ -614,8 +599,7 @@ class PriceStoringCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::set
+     * @coversNothing
      *
      * @param \Closure(): \MiBo\Prices\Price $createPrice
      *
@@ -660,8 +644,7 @@ class PriceStoringCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::set
+     * @coversNothing
      *
      * @param \Closure(): \MiBo\Prices\Price $createPrice
      *
@@ -699,8 +682,7 @@ class PriceStoringCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::set
+     * @coversNothing
      *
      * @param \Closure(): \MiBo\Prices\Price $createPrice
      *
@@ -750,8 +732,7 @@ class PriceStoringCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::set
+     * @coversNothing
      *
      * @param \Closure(): \MiBo\Prices\Price $createPrice
      *
@@ -797,8 +778,7 @@ class PriceStoringCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::set
+     * @coversNothing
      *
      * @param \Closure(): \MiBo\Prices\Price $createPrice
      *
@@ -832,8 +812,7 @@ class PriceStoringCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::set
+     * @coversNothing
      *
      * @param \Closure(): \MiBo\Prices\Price $createPrice
      *
@@ -871,8 +850,7 @@ class PriceStoringCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::set
+     * @coversNothing
      *
      * @param \Closure(): \MiBo\Prices\Price $createPrice
      *
@@ -910,8 +888,7 @@ class PriceStoringCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::set
+     * @coversNothing
      *
      * @param \Closure(): \MiBo\Prices\Price $createPrice
      *
@@ -949,8 +926,7 @@ class PriceStoringCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::set
+     * @coversNothing
      *
      * @param \Closure(): \MiBo\Prices\Price $createPrice
      *

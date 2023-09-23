@@ -10,6 +10,8 @@ use Illuminate\Foundation\Testing\TestCase;
 use Illuminate\Support\Facades\Facade;
 use MiBo\Prices\Price;
 use MiBo\Prices\Providers\ConfigProvider;
+use MiBo\Prices\Providers\FacadeProvider;
+use MiBo\Prices\Providers\ServiceProvider;
 use MiBo\Prices\Providers\TranslationProvider;
 use MiBo\Prices\Tests\TestingData\Resolvers\VATResolver;
 use MiBo\Prices\Units\Price\Currency;
@@ -65,6 +67,8 @@ class LaravelTestCase extends TestCase
 
         $this->app->register(ConfigProvider::class);
         $this->app->register(TranslationProvider::class);
+        $this->app->register(FacadeProvider::class);
+        $this->app->register(ServiceProvider::class);
 
         $this->setUpTraits();
 

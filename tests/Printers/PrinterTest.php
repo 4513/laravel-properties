@@ -19,19 +19,13 @@ use MiBo\Properties\Contracts\NumericalProperty;
  * @since 0.1
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise.
- *
- * @coversDefaultClass \MiBo\Prices\Printers\Printer
  */
 class PrinterTest extends LaravelTestCase
 {
     /**
      * @small
      *
-     * @covers ::printProperty
-     * @covers ::getTransKey
-     * @covers ::getNumberFormat
-     * @covers \MiBo\Prices\Providers\TranslationProvider::publishLanguages
-     * @covers \MiBo\Prices\Providers\TranslationProvider::boot
+     * @coversNothing
      *
      * @param string $expectedResult
      * @param string $locale
@@ -61,8 +55,7 @@ class PrinterTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::print
-     * @covers ::getNumberFormat
+     * @coversNothing
      *
      * @param string $expectedResult
      * @param string $locale

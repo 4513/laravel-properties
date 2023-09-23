@@ -32,8 +32,6 @@ use Throwable;
  * @since 6I012
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise.
- *
- * @coversDefaultClass \MiBo\Prices\Data\Casting\NumericPropertyAttribute
  */
 class NumericPropStoringCastingTest extends LaravelTestCase
 {
@@ -42,8 +40,7 @@ class NumericPropStoringCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::set
+     * @coversNothing
      *
      * @param int|float $value
      *
@@ -71,8 +68,7 @@ class NumericPropStoringCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::set
+     * @coversNothing
      *
      * @param int|float $value
      *
@@ -100,8 +96,7 @@ class NumericPropStoringCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::set
+     * @coversNothing
      *
      * @param int|float $value
      *
@@ -143,8 +138,7 @@ class NumericPropStoringCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::set
+     * @coversNothing
      *
      * @param int|float $value
      *
@@ -175,8 +169,7 @@ class NumericPropStoringCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::set
+     * @coversNothing
      *
      * @param int|float $value
      *
@@ -209,8 +202,7 @@ class NumericPropStoringCastingTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::set
+     * @coversNothing
      *
      * @param int|float $value
      *

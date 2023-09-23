@@ -74,7 +74,11 @@
         "jetbrains/phpstorm-attributes": "^1.0",
         "laravel/framework": "^10.16",
         "nunomaduro/collision": "^7.8",
-        "mockery/mockery": "^1.6"
+        "mockery/mockery": "^1.6",
+        "mibo/currency-rates": "^1.0"
+    },
+    "suggest": {
+        "mibo/currency-rates": "To convert prices to other currencies."
     },
     "config": {
         "platform-check": true,

@@ -229,6 +229,22 @@ class DiscountFactory
      */
     private array $options = [];
 
+    /**
+     * @phpcs:ignore Generic.Files.LineLength.TooLong
+     * @var array<string, (\Closure(iterable<\MiBo\Prices\Contracts\Discountable>, \MiBo\Prices\PositivePrice|\MiBo\Prices\PositivePriceWithVAT, array{
+     *     config-country: string,
+     *     config-filter: \Closure(\MiBo\Prices\Contracts\Discountable): bool,
+     *     config-percentage_value: float|int,
+     *     config-is_value_with_vat: bool,
+     *     config-whole: bool,
+     *     config-subject: iterable<\MiBo\Prices\Contracts\Discountable>,
+     *     config-type: string|self::TYPE_*,
+     *     config-value: float|int,
+     *     config-vat: \MiBo\VAT\Enums\VATRate
+     * }): (\MiBo\Prices\PositivePrice|\MiBo\Prices\PositivePriceWithVAT))>
+     */
+    private static array $customTypes = [];
+
     private static ?self $instance = null;
 
     final private function __construct()
@@ -248,13 +264,37 @@ class DiscountFactory
     }
 
     /**
+     * Add a custom type of the discount.
+     *
+     * @param string $name Name of the custom type.
+     * @phpcs:ignore Generic.Files.LineLength.TooLong
+     * @param \Closure(iterable<\MiBo\Prices\Contracts\Discountable>, \MiBo\Prices\PositivePrice|\MiBo\Prices\PositivePriceWithVAT, array{
+     *     config-country: string,
+     *     config-filter: \Closure(\MiBo\Prices\Contracts\Discountable): bool,
+     *     config-percentage_value: float|int,
+     *     config-is_value_with_vat: bool,
+     *     config-whole: bool,
+     *     config-subject: iterable<\MiBo\Prices\Contracts\Discountable>,
+     *     config-type: string|self::TYPE_*,
+     *     config-value: float|int,
+     *     config-vat: \MiBo\VAT\Enums\VATRate
+     * }): (\MiBo\Prices\PositivePrice|\MiBo\Prices\PositivePriceWithVAT) $closure Closure that will be called when the
+     *
+     * @return void
+     */
+    public static function customType(string $name, Closure $closure): void
+    {
+        self::$customTypes[$name] = $closure;
+    }
+
+    /**
      * @param self::OPT_* $name
      * @param mixed $value
      *
      * @return static
      *
      * @phpcs:ignore Generic.Files.LineLength.TooLong
-     * @phpstan-return ($name is self::OPT_VAT ? ($value is \MiBo\VAT\Enums\VATRate ? static : never) : ($name is self::OPT_VALUE|self::OPT_PERCENTAGE_VALUE ? ($value is float|int ? static : never) : ($name is self::OPT_TYPE ? ($value is self::TYPE_* ? static : never) : ($name is self::OPT_SUBJECT ? ($value is iterable<\MiBo\Prices\Contracts\Discountable> ? static : never) : ($name is self::OPT_IS_VALUE_WITH_VAT|self::OPT_REQUIRES_WHOLE_SUM_TO_USE ? ($value is bool ? static : never) : ($name is self::OPT_FILTER ? ($value is (\Closure(\MiBo\Prices\Contracts\Discountable): bool) ? static : never) : ($name is self::OPT_COUNTRY ? ($value is string ? static : never) : never)))))))
+     * @phpstan-return ($name is self::OPT_VAT ? ($value is \MiBo\VAT\Enums\VATRate ? static : never) : ($name is self::OPT_VALUE|self::OPT_PERCENTAGE_VALUE ? ($value is float|int ? static : never) : ($name is self::OPT_TYPE ? ($value is string|self::TYPE_* ? static : never) : ($name is self::OPT_SUBJECT ? ($value is iterable<\MiBo\Prices\Contracts\Discountable> ? static : never) : ($name is self::OPT_IS_VALUE_WITH_VAT|self::OPT_REQUIRES_WHOLE_SUM_TO_USE ? ($value is bool ? static : never) : ($name is self::OPT_FILTER ? ($value is (\Closure(\MiBo\Prices\Contracts\Discountable): bool) ? static : never) : ($name is self::OPT_COUNTRY ? ($value is string ? static : never) : never)))))))
      */
     final public function setOption(string $name, mixed $value): static
     {
@@ -303,12 +343,24 @@ class DiscountFactory
             break;
 
             case self::OPT_TYPE:
-                if (!in_array($value, [self::TYPE_FIXED, self::TYPE_PERCENTAGE], true)) {
-                    $message = sprintf(
-                        "Option '%s' must be one of '%s' or '%s', '%s' given.",
-                        $name,
+                if (!in_array(
+                    $value,
+                    [
                         self::TYPE_FIXED,
                         self::TYPE_PERCENTAGE,
+                        ...array_keys(self::$customTypes),
+                    ],
+                    true
+                )
+                ) {
+                    $message = sprintf(
+                        "Option '%s' must be one of '%s'. '%s' given.",
+                        $name,
+                        implode(', ', [
+                            self::TYPE_FIXED,
+                            self::TYPE_PERCENTAGE,
+                            ...array_keys(self::$customTypes),
+                        ]),
                         $value
                     );
                 }
@@ -351,11 +403,21 @@ class DiscountFactory
 
     final public function create(): PositivePrice|PositivePriceWithVAT
     {
+        /** @var \MiBo\Prices\PositivePrice|\MiBo\Prices\PositivePriceWithVAT $discount */
         $discount = PriceFactory::get()
             ->setCountry($this->options[self::OPT_COUNTRY])
             ->strictlyPositive()
             ->setIsVATIncluded($this->options['config-is_value_with_vat'])
             ->create();
+
+        // Using custom type.
+        if (!in_array($this->options[self::OPT_TYPE], [self::TYPE_FIXED, self::TYPE_PERCENTAGE], true)) {
+            return (self::$customTypes[$this->options[self::OPT_TYPE]])(
+                $this->options[self::OPT_SUBJECT],
+                $discount,
+                $this->options
+            );
+        }
 
         $counter = $this->options[self::OPT_VALUE] ?: null;
 
@@ -370,6 +432,7 @@ class DiscountFactory
 
             // Setting the compatible country.
             $subject->getPrice()->forCountry($this->options[self::OPT_COUNTRY]);
+            $subject->getPrice()->getValue();
 
             $vat     = $this->options[self::OPT_VAT];
             $checked = null;

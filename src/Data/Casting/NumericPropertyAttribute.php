@@ -147,11 +147,28 @@ class NumericPropertyAttribute implements CastsAttributes
             unset($unit);
         }
 
+        /** @var \MiBo\Properties\Contracts\PrinterInterface|null $printer */
+        $printer = config('properties.printer') ? app(config('properties.printer')) : null;
+
         if ($isoExt !== false) {
-            return $propertyClass::$isoExt($value);
+            /** @var \MiBo\Properties\NumericalProperty&\MiBo\Properties\Contracts\PrinterAwareInterface $property */
+            $property = $propertyClass::$isoExt($value);
+
+            if ($printer !== null) {
+                $property->setPrinter($printer);
+            }
+
+            return $property;
         }
 
-        return new ($propertyClass)($value, $unit ?? $propertyClass::getQuantityClassName()::getDefaultUnit());
+        /** @var \MiBo\Properties\NumericalProperty&\MiBo\Properties\Contracts\PrinterAwareInterface $property */
+        $property = new ($propertyClass)($value, $unit ?? $propertyClass::getQuantityClassName()::getDefaultUnit());
+
+        if ($printer !== null) {
+            $property->setPrinter($printer);
+        }
+
+        return $property;
     }
 
     /**

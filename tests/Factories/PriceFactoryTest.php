@@ -19,31 +19,13 @@ use MiBo\Prices\Tests\LaravelTestCase;
  * @since 0.1
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise.
- *
- * @coversDefaultClass \MiBo\Prices\Data\Factories\PriceFactory
  */
 class PriceFactoryTest extends LaravelTestCase
 {
     /**
      * @small
      *
-     * @covers ::__construct
-     * @covers ::get
-     * @covers ::getClassName
-     * @covers ::create
-     * @covers ::setValue
-     * @covers ::setCurrency
-     * @covers ::setCategory
-     * @covers ::setCountry
-     * @covers ::setDate
-     * @covers ::setIsVATIncluded
-     * @covers ::setAnyVAT
-     * @covers ::strictlyPositive
-     * @covers ::isWithVAT
-     * @covers ::isWithoutVAT
-     * @covers ::clear
-     * @covers \MiBo\Prices\Providers\ConfigProvider::register
-     * @covers \MiBo\Prices\Providers\ConfigProvider::publishConfigurations
+     * @coversNothing
      *
      * @param \Closure(): \MiBo\Prices\Price $createExpectedPrice
      * @param float|int $value

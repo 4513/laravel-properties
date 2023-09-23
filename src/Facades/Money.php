@@ -26,6 +26,6 @@ class Money extends Facade
      */
     protected static function getFacadeAccessor(): string
     {
-        return "MiBoMoney";
+        return 'MiBoMoney';
     }
 }
