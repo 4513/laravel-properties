@@ -50,6 +50,10 @@ class LaravelTestCase extends TestCase
      */
     protected function setUp(): void
     {
+        if (!is_dir(__DIR__ . '/TestingData/bootstrap/cache')) {
+            mkdir(__DIR__ . '/TestingData/bootstrap/cache', 0777, true);
+        }
+
         $this->beforeApplicationDestroyedCallbacks[] = function(): void {
             try {
                 $this->artisan("clear-compiled");
