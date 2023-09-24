@@ -100,7 +100,7 @@ final class ServiceProvider extends IlluminateServiceProvider
      */
     protected function registerVATConvertor(): void
     {
-        /** @var class-string<\MiBo\VAT\Contracts\Resolver> $config */
+        /** @var class-string<\MiBo\VAT\Contracts\Convertor> $config */
         $config = $this->app['config']['prices.vat.convertor'] ?? $this->app['config']['prices.vat.resolver'];
 
         ProxyResolver::setConvertor($config);
