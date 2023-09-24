@@ -37,6 +37,7 @@ class ServiceProviderTest extends LaravelTestCase
      * @covers ::registerVATResolver
      * @covers ::registerDefaultUnits
      * @covers ::registerAllowedQuantities
+     * @covers ::registerCurrencyListLoader
      *
      * @return void
      */
@@ -58,19 +59,19 @@ class ServiceProviderTest extends LaravelTestCase
      */
     public function testUpdatedRegister(): void
     {
-        $this->app['config']['prices.defaults.price_convertor'] = stdClass::class;
-        $this->app['config']['properties.defaultUnits']         = [Length::class => Foot::class];
-        $this->app['config']['properties.allowedQuantities']    = [Price::class];
+        $this->app['config']['prices.convertor']             = stdClass::class;
+        $this->app['config']['properties.defaultUnits']      = [Length::class => Foot::class];
+        $this->app['config']['properties.allowedQuantities'] = [Price::class];
 
         $provider = new ServiceProvider($this->app);
         $provider->register();
         $this->assertCount(1, PropertyCalc::$quantities);
 
-        $this->app['config']['prices.defaults.price_convertor'] = [
+        $this->app['config']['prices.convertor']             = [
             self::class,
             'whatDoIKnow',
         ];
-        $this->app['config']['properties.allowedQuantities']    = [];
+        $this->app['config']['properties.allowedQuantities'] = [];
 
         $provider = new ServiceProvider($this->app);
         $provider->register();

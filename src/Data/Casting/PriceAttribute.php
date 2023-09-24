@@ -32,7 +32,7 @@ use function is_string;
  * <ul><li>Priorities
  *    <ol><li> Currency code passed to constructor <i>(specified by cast)</i></li>
  *    <li> Currency code passed as an attribute of the Model <i>($key . '_currency')</i></li>
- *    <li> Currency code from configuration file <i>('prices.defaults.currency')</i></li></ol></li>
+ *    <li> Currency code from configuration file <i>('prices.currency.default')</i></li></ol></li>
  * <li>Setting
  *    <ul><li>Specified currency: <i>EUR or USD...</i></li>
  *    <li>Specified column suffix: <i>_currency or _my_currency...</li>
@@ -54,7 +54,7 @@ use function is_string;
  * <ul><li>Priorities
  *   <ol><li> Country passed to constructor <i>(specified by cast)</i></li>
  *   <li> Country passed as an attribute of the Model <i>($key . '_country')</i></li>
- *   <li> Country from configuration file <i>('prices.defaults.country')</i></li></ol></li>
+ *   <li> Country from configuration file <i>('prices.vat.country')</i></li></ol></li>
  * <li>Setting
  *   <ul><li>Specified country: <i>CZ or SK...</i></li>
  *   <li>Specified column suffix: <i>_country or _my_country...</li>
@@ -170,14 +170,14 @@ class PriceAttribute implements CastsAttributes
             ($attributes[$key . $this->config["country"]] ?? '') :
             $this->config["country"];
         $country  = key_exists($country, $attributes) ? $attributes[$country] : $country;
-        $country  = empty($country) ? config('prices.defaults.country') : $country;
+        $country  = empty($country) ? config('prices.vat.country') : $country;
         $currency = str_starts_with($this->config["currency"], "_") ?
             ($attributes[$key . $this->config["currency"]] ?? '') :
             $this->config["currency"];
         $currency = !empty($currency) && key_exists($currency, $attributes) ?
             $attributes[$currency] :
             $currency;
-        $currency = empty($currency) ? config('prices.defaults.currency') : $currency;
+        $currency = empty($currency) ? config('prices.currency.default') : $currency;
         $date     = str_starts_with($this->config["date"], "_") ?
             ($attributes[$key . $this->config["date"]] ?? Carbon::now()) :
             $this->config["date"];
@@ -236,7 +236,7 @@ class PriceAttribute implements CastsAttributes
             $castingCurrency = !empty($this->config['currency'])
                 && !str_starts_with($this->config['currency'], '_')
                 ? $this->config['currency']
-                : config('prices.defaults.currency');
+                : config('prices.currency.default');
 
             $value->convertToUnit(Currency::get($castingCurrency));
         }
@@ -248,7 +248,7 @@ class PriceAttribute implements CastsAttributes
             $result[$key . $this->config['country']] = $value->getVAT()->getCountryCode();
         } else {
             $castingCountry = !empty($this->config['country'])
-                ? $this->config['country'] : config('prices.defaults.country');
+                ? $this->config['country'] : config('prices.vat.country');
 
             !str_starts_with($castingCountry, '_') && $value->forCountry($castingCountry);
         }

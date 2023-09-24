@@ -3,11 +3,14 @@
 declare(strict_types=1);
 
 return [
-    'defaults' => [
-        'currency'        => 'USD',
-        'country'         => 'US',
-        'printer'         => \MiBo\Prices\Printers\Printer::class,
-        'vat_resolver'    => \MiBo\VAT\Resolvers\NullResolver::class,
-        'price_convertor' => null,
+    'printer'   => \MiBo\Prices\Printers\Printer::class,
+    'vat'       => [
+        'resolver' => \MiBo\VAT\Resolvers\NullResolver::class,
+        'country'  => 'US',
+    ],
+    'convertor' => null,
+    'currency'  => [
+        'loader'  => \MiBo\Currencies\ISO\ISOArrayListLoader::class,
+        'default' => 'USD',
     ],
 ];

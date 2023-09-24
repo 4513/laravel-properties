@@ -187,9 +187,9 @@ class PriceFactory
             $this->date
         );
 
-        if (config('prices.defaults.printer') !== null) {
+        if (config('prices.printer') !== null) {
             // @phpstan-ignore-next-line
-            $price->setPrinter(app(config('prices.defaults.printer')));
+            $price->setPrinter(app(config('prices.printer')));
         }
 
         return $price;
@@ -220,10 +220,10 @@ class PriceFactory
         $this->date  = Carbon::now();
         $this->value = 0.0;
         // @phpstan-ignore-next-line
-        $this->currency = config('prices.defaults.currency');
+        $this->currency = config('prices.currency.default');
         $this->category = "";
         // @phpstan-ignore-next-line
-        $this->country        = config('prices.defaults.country');
+        $this->country        = config('prices.vat.country');
         $this->strictPositive = false;
         $this->isVATIncluded  = false;
         $this->isAnyVAT       = false;

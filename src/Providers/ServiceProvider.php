@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MiBo\Prices\Providers;
 
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
+use MiBo\Currencies\ListLoader;
 use MiBo\Prices\Contracts\PriceInterface;
 use MiBo\Prices\Quantities\Price;
 use MiBo\Prices\Units\Price\Currency;
@@ -36,6 +37,7 @@ final class ServiceProvider extends IlluminateServiceProvider
         $this->registerDefaultUnits();
         $this->registerVATResolver();
         $this->registerPriceConvertor();
+        $this->registerCurrencyListLoader();
     }
 
     /**
@@ -85,7 +87,7 @@ final class ServiceProvider extends IlluminateServiceProvider
     protected function registerVATResolver(): void
     {
         /** @var class-string<\MiBo\VAT\Contracts\Resolver> $config */
-        $config = $this->app['config']['prices.defaults.vat_resolver'];
+        $config = $this->app['config']['prices.vat.resolver'];
 
         ProxyResolver::setResolver($config);
     }
@@ -116,5 +118,16 @@ final class ServiceProvider extends IlluminateServiceProvider
             : $config(...);
 
         UnitConvertor::$unitConvertors[Price::class] = $config;
+    }
+
+    /**
+     * Register currency list loader.
+     *
+     * @return void
+     */
+    protected function registerCurrencyListLoader(): void
+    {
+        // @phpstan-ignore-next-line
+        $this->app->bind(ListLoader::class, $this->app['config']['prices.currency.loader']);
     }
 }

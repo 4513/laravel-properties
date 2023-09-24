@@ -41,7 +41,7 @@ class DiscountFactory
      *  All the prices that are passed via Discountable interface are
      * converted to that country.
      *
-     * **Default value:** `config('prices.defaults.country')`
+     * **Default value:** `config('prices.vat.country')`
      */
     public const OPT_COUNTRY = 'config-country';
 
@@ -607,7 +607,7 @@ class DiscountFactory
     final protected function clear(): void
     {
         $this->options = [
-            self::OPT_COUNTRY                   => config('prices.defaults.country'),
+            self::OPT_COUNTRY                   => config('prices.vat.country'),
             self::OPT_FILTER                    => static function(): bool {
                 return true;
             },
