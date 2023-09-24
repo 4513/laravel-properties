@@ -44,6 +44,7 @@
             "name": "0I000"
         }
     ],
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "MiBo\\Prices\\": "src/"
