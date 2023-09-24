@@ -38,7 +38,7 @@ class Printer implements PrinterInterface
     #[Pure]
     public function printProperty(NumericalProperty $property, ?int $decimals = null): string
     {
-        $isPositive = $property->isPositive();
+        $isPositive = $property->isNotNegative();
         $value      = abs($property->getValue());
         $format     = $this->getNumberFormat();
         $integer    = sprintf('%d', $value);
