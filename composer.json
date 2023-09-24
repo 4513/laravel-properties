@@ -60,7 +60,7 @@
         "mibo/properties": "^1.1.2",
         "mibo/currencies": "^1.0",
         "mibo/vat": "^1.0",
-        "mibo/prices": "^1.0",
+        "mibo/prices": "^1.2.1",
         "illuminate/support": "^10.16",
         "illuminate/collections": "^10.16",
         "illuminate/database": "^10.16",
