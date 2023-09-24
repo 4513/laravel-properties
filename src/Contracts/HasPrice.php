@@ -7,6 +7,14 @@ namespace MiBo\Prices\Contracts;
 /**
  * Interface HasPrice
  *
+ *  This Interface is used to indicate that the object has a price, which directly values
+ * the object. The Price of the object should be globally accessible through the getPrice()
+ * method. The result of that method should be a final price of that object, that means
+ * that if the price of the object decreases, the getPrice() method should return lower
+ * price than that of the original price.
+ *
+ *  When working with an object that should have a price, prefer to use this interface.
+ *
  * @package MiBo\Prices\Contracts
  *
  * @author 6I012
@@ -17,5 +25,10 @@ namespace MiBo\Prices\Contracts;
  */
 interface HasPrice
 {
+    /**
+     * Get the price of the object.
+     *
+     * @return \MiBo\Prices\Contracts\PriceInterface Price of the object.
+     */
     public function getPrice(): PriceInterface;
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MiBo\Prices\Tests\Coverage\ProviderTests;
 
-use MiBo\Prices\PriceWithVAT;
 use MiBo\Prices\Providers\ServiceProvider;
 use MiBo\Prices\Quantities\Price;
 use MiBo\Prices\Tests\LaravelTestCase;
@@ -35,6 +34,7 @@ class ServiceProviderTest extends LaravelTestCase
      * @covers ::register
      * @covers ::registerPriceConvertor
      * @covers ::registerVATResolver
+     * @covers ::registerVATConvertor
      * @covers ::registerDefaultUnits
      * @covers ::registerAllowedQuantities
      * @covers ::registerCurrencyListLoader

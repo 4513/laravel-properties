@@ -64,7 +64,10 @@
         "illuminate/support": "^10.16",
         "illuminate/collections": "^10.16",
         "illuminate/database": "^10.16",
-        "mibo/prices-combinations": "^1.0"
+        "illuminate/contracts": "^10.16",
+        "mibo/prices-combinations": "^1.0",
+        "nesbot/carbon": "^2.70",
+        "psr/container": "^2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^10.1",
@@ -73,10 +76,10 @@
         "squizlabs/php_codesniffer": "^3.6",
         "phpstan/phpstan-strict-rules": "^1.5",
         "jetbrains/phpstorm-attributes": "^1.0",
-        "laravel/framework": "^10.16",
         "nunomaduro/collision": "^7.8",
         "mockery/mockery": "^1.6",
-        "mibo/currency-rates": "^1.0"
+        "mibo/currency-rates": "^1.0",
+        "laravel/framework": "^10.24"
     },
     "suggest": {
         "mibo/currency-rates": "To convert prices to other currencies."

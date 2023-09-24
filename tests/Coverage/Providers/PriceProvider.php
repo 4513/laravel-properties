@@ -298,6 +298,8 @@ class PriceProvider
         return new class ($price) implements Discountable {
             private PriceInterface $price;
 
+            private PriceInterface $discountedPrice;
+
             public function __construct(PriceInterface $price)
             {
                 $this->price = $price;
@@ -311,6 +313,11 @@ class PriceProvider
             public function getPrice(): PriceInterface
             {
                 return $this->price;
+            }
+
+            public function getDiscountedPrice(): PriceInterface
+            {
+                return $this->discountedPrice;
             }
         };
     }

@@ -313,6 +313,8 @@ class DiscountFactoryTest extends LaravelTestCase
                     new class ($price) implements Discountable {
                         private PriceInterface $price;
 
+                        private PriceInterface $discount;
+
                         public function __construct(PriceInterface $price)
                         {
                             $this->price = $price;
@@ -320,11 +322,17 @@ class DiscountFactoryTest extends LaravelTestCase
 
                         public function registerDiscountPrice(PriceInterface $discount): void
                         {
+                            $this->discount = $discount;
                         }
 
                         public function getPrice(): PriceInterface
                         {
                             return $this->price;
+                        }
+
+                        public function getDiscountedPrice(): PriceInterface
+                        {
+                            return $this->discount;
                         }
                     },
                 ]
@@ -379,6 +387,8 @@ class DiscountFactoryTest extends LaravelTestCase
                     new class ($price) implements Discountable {
                         private PriceInterface $price;
 
+                        private PriceInterface $discount;
+
                         public function __construct(PriceInterface $price)
                         {
                             $this->price = $price;
@@ -386,11 +396,17 @@ class DiscountFactoryTest extends LaravelTestCase
 
                         public function registerDiscountPrice(PriceInterface $discount): void
                         {
+                            $this->discount = $discount;
                         }
 
                         public function getPrice(): PriceInterface
                         {
                             return $this->price;
+                        }
+
+                        public function getDiscountedPrice(): PriceInterface
+                        {
+                            return $this->discount;
                         }
                     },
                 ]

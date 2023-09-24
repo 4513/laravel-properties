@@ -36,6 +36,7 @@ final class ServiceProvider extends IlluminateServiceProvider
         $this->registerAllowedQuantities();
         $this->registerDefaultUnits();
         $this->registerVATResolver();
+        $this->registerVATConvertor();
         $this->registerPriceConvertor();
         $this->registerCurrencyListLoader();
     }
@@ -90,6 +91,19 @@ final class ServiceProvider extends IlluminateServiceProvider
         $config = $this->app['config']['prices.vat.resolver'];
 
         ProxyResolver::setResolver($config);
+    }
+
+    /**
+     * Registers VAT resolver.
+     *
+     * @return void
+     */
+    protected function registerVATConvertor(): void
+    {
+        /** @var class-string<\MiBo\VAT\Contracts\Resolver> $config */
+        $config = $this->app['config']['prices.vat.convertor'] ?? $this->app['config']['prices.vat.resolver'];
+
+        ProxyResolver::setConvertor($config);
     }
 
     /**

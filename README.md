@@ -2,6 +2,61 @@
 
 [![codecov](https://codecov.io/gh/4513/laravel-properties/graph/badge.svg?token=p9C5HsHfsw)](https://codecov.io/gh/4513/laravel-properties)
 
+(Mostly) Prices, VAT, Currencies but also other quantities and their units such as weight, length, area, volume,
+time, speed, temperature, etc. are included in this library.
+
+The library focuses on the ability to store, retrieve, calculate, convert, display and do other magic with
+quantities and their units.
+
+### Purpose
+Beginning with prices and anything related to it:
+1. **Creating** a price (**with or without VAT**);
+2. Creating a **positive price** (a price that MUST NOT be negative);
+3. **Calculating** prices (adding, subtracting);
+4. **Converting** prices (to different currencies such as from CZK to EUR);
+5. Converting **VAT rate** based on the country (checking VAT rate and its value among different countries);
+6. **Displaying** prices (formatting the price to a specific locale and displaying correct currency name or its symbol);
+7. Calculating prices with different currencies and/or VAT rates;
+8. Working with an **exchange rate**;
+9. Using **historical price** (price might have been created a time ago and a different VAT rate and/or value is used);
+10. **Storing** price into database with **custom format**;
+11. **Retrieving** price from database with custom format;
+12. Creating **discounts** based on the provided price-able objects;
+13. Retrieving **true VAT value of combined prices**;
+14. Ability to have **custom currency** (internal web/app currency);
+15. Price **per quantity** (e.g. price per 1 kilogram, piece, etc.);
+16. **Full ISO currency** list (one can choose to use all the time updated source);
+
+And to not end with the prices only:
+1. Most common **quantities** and their **units** (such as length - meter, mile, inch, etc.);
+2. **Converting** units (such as from meter to mile);
+3. **SI prefixed** for units (for example kilo, milli);
+4. **Metric**, **Imperial**, **US customary**, **SI units**;
+5. Calculating quantities (adding, subtracting, **multiplying**, **dividing**);
+6. **Derived** quantities (such as speed, acceleration, etc.);
+7. **Displaying** quantities using a printer;
+8. **Storing** and **retrieving** quantities into database with **custom format**;
+9. **Creating** a quantity (**with specified or default unit**);
+10. Access to **decimal** property (one can choose number of digits);
+11. Access to more precise **float** property (optimized for calculations while thinking about the speed and memory);
+12. Ability to **create custom quantity**, units or install additional ones;
+13. **Support** for custom **not numerical quantities** (such as clothes size - *inDev*);
+14. **Comparing** properties (such as whether are equal, greater, less, between, etc.);
+
+and all of that and more for Laravel framework. Note, that most of these features are accessible out of
+this library and can be used in any other PHP project. This library only collects them together and provides
+additional features for Laravel and Eloquent, such as attribute casting for database, translations, and others.
+
+### Installation
+```bash
+composer require mibo/laravel-properties
+
+php artisan vendor:publish --provider="MiBo\Prices\Providers\ConfigProvider"
+```
+
+ One should first edit the configuration file `prices.php` and add a VAT Resolver and Convertor to be used. Without
+them, the prices are zero-able only.
+
 ## Schemas
 Product has a price.
 
