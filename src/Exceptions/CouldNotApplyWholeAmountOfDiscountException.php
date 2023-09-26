@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace MiBo\Prices\Exceptions;
+namespace MiBo\Properties\Exceptions;
 
 use RuntimeException;
 
 /**
  * Class CouldNotApplyWholeAmountOfDiscountException
  *
- * @package MiBo\Prices\Exceptions
+ * @package MiBo\Properties\Exceptions
  *
  * @author Michal Boris <michal.boris27@gmail.com>
  *

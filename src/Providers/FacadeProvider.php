@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace MiBo\Prices\Providers;
+namespace MiBo\Properties\Providers;
 
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
-use MiBo\Prices\Managers\MoneyManager;
+use MiBo\Properties\Managers\MoneyManager;
 
 /**
  * Class FacadeProvider

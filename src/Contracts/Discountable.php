@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace MiBo\Prices\Contracts;
+namespace MiBo\Properties\Contracts;
+
+use MiBo\Prices\Contracts\PriceInterface;
 
 /**
  * Interface Discountable
@@ -14,7 +16,7 @@ namespace MiBo\Prices\Contracts;
  * of a class that applies the discount calls the registerDiscountPrice() method, which
  * registers the discount on this object.
  *
- * @package MiBo\Prices\Contracts
+ * @package MiBo\Properties\Contracts
  *
  * @author Michal Boris <michal.boris27@gmail.com>
  *

@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace MiBo\Prices\Tests\Casting;
+namespace MiBo\Properties\Tests\Casting;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use MiBo\Prices\Data\Casting\PriceAttribute;
+use MiBo\Properties\Data\Casting\PriceAttribute;
 use MiBo\Prices\Exceptions\NegativePriceException;
-use MiBo\Prices\Tests\LaravelTestCase;
+use MiBo\Properties\Tests\LaravelTestCase;
 use function is_string;
 
 /**
  * Class PriceRetrieveCastingTest
  *
- * @package MiBo\Prices\Tests\Casting
+ * @package MiBo\Properties\Tests\Casting
  *
  * @author Michal Boris <michal.boris27@gmail.com>
  *
@@ -44,7 +44,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testDefaultCaster(array $data): void
     {
@@ -87,7 +87,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testInMajorCaster(array $data): void
     {
@@ -130,7 +130,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testInMinorCaster(array $data): void
     {
@@ -173,7 +173,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testCurrencyFixedCaster(array $data): void
     {
@@ -216,7 +216,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testCurrencyNotProvidedCaster(array $data): void
     {
@@ -261,7 +261,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testCurrencyDifferentColumn1Caster(array $data): void
     {
@@ -304,7 +304,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testCurrencyDifferentColumn2Caster(array $data): void
     {
@@ -347,7 +347,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testNegativesPossibleCaster(array $data): void
     {
@@ -390,7 +390,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testNegativesForbiddenCaster(array $data): void
     {
@@ -437,7 +437,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testSpecifiedCategoryCaster(array $data): void
     {
@@ -480,7 +480,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testCategoryDifferentColumnCaster(array $data): void
     {
@@ -523,7 +523,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testCategoryEmptyCaster(array $data): void
     {
@@ -566,7 +566,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testCategoryCallbackCaster(array $data): void
     {
@@ -616,7 +616,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testCountryCaster(array $data): void
     {
@@ -659,7 +659,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testCountryDifferentColumnCaster(array $data): void
     {
@@ -702,7 +702,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testCountryNotProvidedCaster(array $data): void
     {
@@ -747,7 +747,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testDateCaster(array $data): void
     {
@@ -787,7 +787,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testDateColumnCaster(array $data): void
     {
@@ -830,7 +830,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testDateColumnForeignCaster(array $data): void
     {
@@ -876,7 +876,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testDateNotProvidedCaster(array $data): void
     {
@@ -921,7 +921,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testAnyVATTrueCaster(array $data): void
     {
@@ -964,7 +964,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testAnyVATFalseCaster(array $data): void
     {
@@ -1007,7 +1007,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testWithVATTrueCaster(array $data): void
     {
@@ -1050,7 +1050,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testWithVATFalseCaster(array $data): void
     {
@@ -1093,7 +1093,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testCombinationCaster(array $data): void
     {
@@ -1139,7 +1139,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testUselessCastingCaster(array $data): void
     {

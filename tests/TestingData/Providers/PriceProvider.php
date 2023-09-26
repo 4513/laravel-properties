@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace MiBo\Prices\Tests\TestingData\Providers;
+namespace MiBo\Properties\Tests\TestingData\Providers;
 
 use Carbon\Carbon;
 use Generator;
-use MiBo\Prices\Contracts\Discountable;
+use MiBo\Properties\Contracts\Discountable;
 use MiBo\Prices\Contracts\PriceInterface;
-use MiBo\Prices\Data\Factories\DiscountFactory;
-use MiBo\Prices\Data\Factories\PriceFactory;
+use MiBo\Properties\Data\Factories\DiscountFactory;
+use MiBo\Properties\Data\Factories\PriceFactory;
 use MiBo\Prices\PositivePrice;
 use MiBo\Prices\PositivePriceWithVAT;
 use MiBo\Prices\Price;
@@ -22,7 +22,7 @@ use MiBo\VAT\VAT;
 /**
  * Class PriceProvider
  *
- * @package MiBo\Prices\Tests\TestingData\Providers
+ * @package MiBo\Properties\Tests\TestingData\Providers
  *
  * @author 3I666
  *

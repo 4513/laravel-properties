@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace MiBo\Prices\Tests\Coverage\ProviderTests;
+namespace MiBo\Properties\Tests\Coverage\ProviderTests;
 
-use MiBo\Prices\Data\Factories\DiscountFactory;
-use MiBo\Prices\Data\Factories\PriceFactory;
-use MiBo\Prices\Facades\Money;
-use MiBo\Prices\Managers\MoneyManager;
-use MiBo\Prices\Providers\FacadeProvider;
-use MiBo\Prices\Tests\LaravelTestCase;
+use MiBo\Properties\Data\Factories\DiscountFactory;
+use MiBo\Properties\Data\Factories\PriceFactory;
+use MiBo\Properties\Facades\Money;
+use MiBo\Properties\Managers\MoneyManager;
+use MiBo\Properties\Providers\FacadeProvider;
+use MiBo\Properties\Tests\LaravelTestCase;
 
 /**
  * Class FacadeProviderTest
@@ -22,7 +22,7 @@ use MiBo\Prices\Tests\LaravelTestCase;
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise.
  *
- * @coversDefaultClass \MiBo\Prices\Providers\FacadeProvider
+ * @coversDefaultClass \MiBo\Properties\Providers\FacadeProvider
  */
 class FacadeProviderTest extends LaravelTestCase
 {
@@ -31,8 +31,8 @@ class FacadeProviderTest extends LaravelTestCase
      *
      * @covers ::provides
      * @covers ::register
-     * @covers \MiBo\Prices\Facades\Money::getFacadeAccessor
-     * @covers \MiBo\Prices\Managers\MoneyManager::__construct
+     * @covers \MiBo\Properties\Facades\Money::getFacadeAccessor
+     * @covers \MiBo\Properties\Managers\MoneyManager::__construct
      *
      * @return void
      */
@@ -48,9 +48,9 @@ class FacadeProviderTest extends LaravelTestCase
     /**
      * @small
      *
-     * @covers \MiBo\Prices\Managers\MoneyManager::__construct
-     * @covers \MiBo\Prices\Managers\MoneyManager::priceFactory
-     * @covers \MiBo\Prices\Managers\MoneyManager::discountFactory
+     * @covers \MiBo\Properties\Managers\MoneyManager::__construct
+     * @covers \MiBo\Properties\Managers\MoneyManager::priceFactory
+     * @covers \MiBo\Properties\Managers\MoneyManager::discountFactory
      *
      * @return void
      */

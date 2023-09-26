@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace MiBo\Prices\Tests\Coverage\Factories;
+namespace MiBo\Properties\Tests\Coverage\Factories;
 
 use Closure;
-use MiBo\Prices\Exceptions\CouldNotApplyWholeAmountOfDiscountException;
-use MiBo\Prices\Tests\Factories\DiscountFactoryTest as BaseTest;
+use MiBo\Properties\Exceptions\CouldNotApplyWholeAmountOfDiscountException;
+use MiBo\Properties\Tests\Factories\DiscountFactoryTest as BaseTest;
 
 /**
  * Class DiscountFactoryTest
@@ -19,7 +19,7 @@ use MiBo\Prices\Tests\Factories\DiscountFactoryTest as BaseTest;
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise.
  *
- * @coversDefaultClass \MiBo\Prices\Data\Factories\DiscountFactory
+ * @coversDefaultClass \MiBo\Properties\Data\Factories\DiscountFactory
  */
 class DiscountFactoryTest extends BaseTest
 {
@@ -49,11 +49,11 @@ class DiscountFactoryTest extends BaseTest
      * @covers ::create
      * @covers ::applyFixed
      *
-     * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
+     * @param \Closure(): array<\MiBo\Properties\Contracts\Discountable> $createList
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceProvider::provideDiscountableList()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceProvider::provideDiscountableList()
      */
     public function testDefaultWithList(Closure $createList): void
     {
@@ -70,11 +70,11 @@ class DiscountFactoryTest extends BaseTest
      * @covers ::create
      * @covers ::applyFixed
      *
-     * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
+     * @param \Closure(): array<\MiBo\Properties\Contracts\Discountable> $createList
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceProvider::provideDiscountableList()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceProvider::provideDiscountableList()
      */
     public function testDefaultWithListWithVAT(Closure $createList): void
     {
@@ -91,11 +91,11 @@ class DiscountFactoryTest extends BaseTest
      * @covers ::create
      * @covers ::applyFixed
      *
-     * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
+     * @param \Closure(): array<\MiBo\Properties\Contracts\Discountable> $createList
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceProvider::provideDiscountableList()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceProvider::provideDiscountableList()
      */
     public function testDefaultWithListWithFilter(Closure $createList): void
     {
@@ -111,13 +111,13 @@ class DiscountFactoryTest extends BaseTest
      * @covers ::apply
      * @covers ::create
      * @covers ::applyFixed
-     * @covers \MiBo\Prices\Exceptions\CouldNotApplyWholeAmountOfDiscountException::__construct
+     * @covers \MiBo\Properties\Exceptions\CouldNotApplyWholeAmountOfDiscountException::__construct
      *
-     * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
+     * @param \Closure(): array<\MiBo\Properties\Contracts\Discountable> $createList
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceProvider::provideDiscountableList()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceProvider::provideDiscountableList()
      */
     public function testDefaultWithListWithRequiredWholeSum(Closure $createList): void
     {
@@ -134,11 +134,11 @@ class DiscountFactoryTest extends BaseTest
      * @covers ::create
      * @covers ::applyFixed
      *
-     * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
+     * @param \Closure(): array<\MiBo\Properties\Contracts\Discountable> $createList
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceProvider::provideDiscountableList()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceProvider::provideDiscountableList()
      */
     public function testDefaultWithListWithValue(Closure $createList): void
     {
@@ -155,11 +155,11 @@ class DiscountFactoryTest extends BaseTest
      * @covers ::create
      * @covers ::applyFixed
      *
-     * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
+     * @param \Closure(): array<\MiBo\Properties\Contracts\Discountable> $createList
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceProvider::provideDiscountableList()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceProvider::provideDiscountableList()
      */
     public function testDefaultWithListWithVATNone(Closure $createList): void
     {
@@ -176,11 +176,11 @@ class DiscountFactoryTest extends BaseTest
      * @covers ::create
      * @covers ::applyPercentage
      *
-     * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
+     * @param \Closure(): array<\MiBo\Properties\Contracts\Discountable> $createList
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceProvider::provideDiscountableList()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceProvider::provideDiscountableList()
      */
     public function testDefaultWithListWithPercentage(Closure $createList): void
     {
@@ -197,11 +197,11 @@ class DiscountFactoryTest extends BaseTest
      * @covers ::create
      * @covers ::applyPercentage
      *
-     * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
+     * @param \Closure(): array<\MiBo\Properties\Contracts\Discountable> $createList
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceProvider::provideDiscountableList()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceProvider::provideDiscountableList()
      */
     public function testDefaultWithListWithPercentageAndValue(Closure $createList): void
     {
@@ -218,11 +218,11 @@ class DiscountFactoryTest extends BaseTest
      * @covers ::create
      * @covers ::applyFixed
      *
-     * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
+     * @param \Closure(): array<\MiBo\Properties\Contracts\Discountable> $createList
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceProvider::provideDiscountableList()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceProvider::provideDiscountableList()
      */
     public function testDefaultWithCombinedVAT(Closure $createList): void
     {
@@ -275,11 +275,11 @@ class DiscountFactoryTest extends BaseTest
      * @covers ::create
      * @covers ::applyFixed
      *
-     * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
+     * @param \Closure(): array<\MiBo\Properties\Contracts\Discountable> $createList
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceProvider::provideDiscountableList()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceProvider::provideDiscountableList()
      */
     public function testDefaultWithCombinedVATWithFilter(Closure $createList): void
     {
@@ -296,11 +296,11 @@ class DiscountFactoryTest extends BaseTest
      * @covers ::create
      * @covers ::applyFixed
      *
-     * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
+     * @param \Closure(): array<\MiBo\Properties\Contracts\Discountable> $createList
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceProvider::provideDiscountableList()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceProvider::provideDiscountableList()
      */
     public function testDefaultWithListWithVATAndLimitFixed(Closure $createList): void
     {
@@ -317,11 +317,11 @@ class DiscountFactoryTest extends BaseTest
      * @covers ::create
      * @covers ::applyPercentage
      *
-     * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
+     * @param \Closure(): array<\MiBo\Properties\Contracts\Discountable> $createList
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceProvider::provideDiscountableList()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceProvider::provideDiscountableList()
      */
     public function testDefaultWithListWithVATAndLimitPercentage(Closure $createList): void
     {
@@ -338,7 +338,7 @@ class DiscountFactoryTest extends BaseTest
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceProvider::provideFailingOptionList()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceProvider::provideFailingOptionList()
      */
     public function testFailingOptions(
         string $option,

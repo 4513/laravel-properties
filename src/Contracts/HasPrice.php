@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace MiBo\Prices\Contracts;
+namespace MiBo\Properties\Contracts;
+
+use MiBo\Prices\Contracts\PriceInterface;
 
 /**
  * Interface HasPrice
@@ -15,7 +17,7 @@ namespace MiBo\Prices\Contracts;
  *
  *  When working with an object that should have a price, prefer to use this interface.
  *
- * @package MiBo\Prices\Contracts
+ * @package MiBo\Properties\Contracts
  *
  * @author 6I012
  *

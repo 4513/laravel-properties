@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MiBo\Prices\Tests\TestingData\Resolvers;
+namespace MiBo\Properties\Tests\TestingData\Resolvers;
 
 use DateTime;
 use MiBo\VAT\Contracts\Convertor;
@@ -13,7 +13,7 @@ use MiBo\VAT\VAT;
 /**
  * Class VATResolver
  *
- * @package MiBo\Prices\Tests\TestingData\Resolvers
+ * @package MiBo\Properties\Tests\TestingData\Resolvers
  *
  * @author Michal Boris <michal.boris27@gmail.com>
  *

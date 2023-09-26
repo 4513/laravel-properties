@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MiBo\Prices\Tests\TestingData\Providers;
+namespace MiBo\Properties\Tests\TestingData\Providers;
 
 use Generator;
 use MiBo\Prices\Price;
@@ -16,7 +16,7 @@ use MiBo\Properties\Units\ThermodynamicTemperature\DegreeCelsius;
 /**
  * Class PrinterProvider
  *
- * @package MiBo\Prices\Tests\TestingData\Providers
+ * @package MiBo\Properties\Tests\TestingData\Providers
  *
  * @author 9I214
  *

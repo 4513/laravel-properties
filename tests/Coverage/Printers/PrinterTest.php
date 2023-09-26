@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace MiBo\Prices\Tests\Coverage\Printers;
+namespace MiBo\Properties\Tests\Coverage\Printers;
 
-use MiBo\Prices\Tests\Printers\PrinterTest as BaseTest;
+use MiBo\Properties\Tests\Printers\PrinterTest as BaseTest;
 use MiBo\Properties\Contracts\NumericalProperty;
 
 /**
  * Class PrinterTest
  *
- * @package MiBo\Prices\Tests\Coverage\Printers
+ * @package MiBo\Properties\Tests\Coverage\Printers
  *
  * @author 9I214
  *
@@ -18,7 +18,7 @@ use MiBo\Properties\Contracts\NumericalProperty;
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise.
  *
- * @coversDefaultClass \MiBo\Prices\Printers\Printer
+ * @coversDefaultClass \MiBo\Properties\Printers\Printer
  */
 class PrinterTest extends BaseTest
 {
@@ -28,8 +28,8 @@ class PrinterTest extends BaseTest
      * @covers ::printProperty
      * @covers ::getTransKey
      * @covers ::getNumberFormat
-     * @covers \MiBo\Prices\Providers\TranslationProvider::publishLanguages
-     * @covers \MiBo\Prices\Providers\TranslationProvider::boot
+     * @covers \MiBo\Properties\Providers\TranslationProvider::publishLanguages
+     * @covers \MiBo\Properties\Providers\TranslationProvider::boot
      *
      * @param string $expectedResult
      * @param string $locale
@@ -38,9 +38,9 @@ class PrinterTest extends BaseTest
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PrinterProvider::getDataToFormat()
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PrinterProvider::getPricesToFormat()
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PrinterProvider::getDataWithNullableDecimals()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PrinterProvider::getDataToFormat()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PrinterProvider::getPricesToFormat()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PrinterProvider::getDataWithNullableDecimals()
      */
     public function testPrintingProperty(
         string $expectedResult,
@@ -65,7 +65,7 @@ class PrinterTest extends BaseTest
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PrinterProvider::getDataToFormat()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PrinterProvider::getDataToFormat()
      */
     public function testPrintingString(
         string $expectedResult,

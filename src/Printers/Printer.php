@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MiBo\Prices\Printers;
+namespace MiBo\Properties\Printers;
 
 use Illuminate\Support\Facades\App;
 use JetBrains\PhpStorm\ArrayShape;

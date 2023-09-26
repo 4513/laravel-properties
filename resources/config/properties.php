@@ -20,5 +20,5 @@ return [
         'class-string<\MiBo\Properties\Contracts\Quantity>'  => 'class-string<\MiBo\Properties\Contracts\Unit>',
         'class-string<\MiBo\Properties\Contracts\Quantity>2' => 'class-string<\MiBo\Properties\Contracts\Unit>',
     ],
-    'printer'           => \MiBo\Prices\Printers\Printer::class,
+    'printer'           => \MiBo\Properties\Printers\Printer::class,
 ];

@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace MiBo\Prices\Tests\TestingData\Providers;
+namespace MiBo\Properties\Tests\TestingData\Providers;
 
 use Carbon\Carbon;
 use Generator;
-use MiBo\Prices\Data\Factories\PriceFactory;
+use MiBo\Properties\Data\Factories\PriceFactory;
 use MiBo\Prices\Price;
 
 /**
  * Class PriceCastingProvider
  *
- * @package MiBo\Prices\Tests\TestingData\Providers
+ * @package MiBo\Properties\Tests\TestingData\Providers
  *
  * @author Michal Boris <michal.boris27@gmail.com>
  *

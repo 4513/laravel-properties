@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MiBo\Prices\Providers;
+namespace MiBo\Properties\Providers;
 
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 use MiBo\Currencies\ListLoader;
@@ -19,7 +19,7 @@ use function is_string;
 /**
  * Class ServiceProvider
  *
- * @package MiBo\Prices\Providers
+ * @package MiBo\Properties\Providers
  *
  * @author Michal Boris <michal.boris27@gmail.com>
  *

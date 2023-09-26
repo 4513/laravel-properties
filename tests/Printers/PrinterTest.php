@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace MiBo\Prices\Tests\Printers;
+namespace MiBo\Properties\Tests\Printers;
 
 use MiBo\Currencies\CurrencyInterface;
-use MiBo\Prices\Printers\Printer;
-use MiBo\Prices\Tests\LaravelTestCase;
+use MiBo\Properties\Printers\Printer;
+use MiBo\Properties\Tests\LaravelTestCase;
 use MiBo\Properties\Contracts\NumericalProperty;
 
 /**
  * Class PrinterTest
  *
- * @package MiBo\Prices\Tests\Printers
+ * @package MiBo\Properties\Tests\Printers
  *
  * @author 9I214
  *
@@ -34,9 +34,9 @@ class PrinterTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PrinterProvider::getDataToFormat()
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PrinterProvider::getPricesToFormat()
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PrinterProvider::getDataWithNullableDecimals()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PrinterProvider::getDataToFormat()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PrinterProvider::getPricesToFormat()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PrinterProvider::getDataWithNullableDecimals()
      */
     public function testPrintingProperty(
         string $expectedResult,
@@ -64,7 +64,7 @@ class PrinterTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PrinterProvider::getDataToFormat()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PrinterProvider::getDataToFormat()
      */
     public function testPrintingString(
         string $expectedResult,

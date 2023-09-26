@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace MiBo\Prices\Tests\Factories;
+namespace MiBo\Properties\Tests\Factories;
 
 use Closure;
-use MiBo\Prices\Contracts\Discountable;
+use MiBo\Properties\Contracts\Discountable;
 use MiBo\Prices\Contracts\PriceInterface;
-use MiBo\Prices\Data\Factories\DiscountFactory;
-use MiBo\Prices\Data\Factories\PriceFactory;
-use MiBo\Prices\Exceptions\CouldNotApplyWholeAmountOfDiscountException;
+use MiBo\Properties\Data\Factories\DiscountFactory;
+use MiBo\Properties\Data\Factories\PriceFactory;
+use MiBo\Properties\Exceptions\CouldNotApplyWholeAmountOfDiscountException;
 use MiBo\Prices\PositivePrice;
 use MiBo\Prices\PositivePriceWithVAT;
-use MiBo\Prices\Tests\LaravelTestCase;
+use MiBo\Properties\Tests\LaravelTestCase;
 use MiBo\VAT\Enums\VATRate;
 use stdClass;
 use ValueError;
@@ -20,7 +20,7 @@ use ValueError;
 /**
  * Class DiscountFactoryTest
  *
- * @package MiBo\Prices\Tests\Factories
+ * @package MiBo\Properties\Tests\Factories
  *
  * @author Michal Boris <michal.boris27@gmail.com>
  *
@@ -51,11 +51,11 @@ class DiscountFactoryTest extends LaravelTestCase
      *
      * @coversNothing
      *
-     * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
+     * @param \Closure(): array<\MiBo\Properties\Contracts\Discountable> $createList
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceProvider::provideDiscountableList()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceProvider::provideDiscountableList()
      */
     public function testDefaultWithList(Closure $createList): void
     {
@@ -73,11 +73,11 @@ class DiscountFactoryTest extends LaravelTestCase
      *
      * @coversNothing
      *
-     * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
+     * @param \Closure(): array<\MiBo\Properties\Contracts\Discountable> $createList
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceProvider::provideDiscountableList()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceProvider::provideDiscountableList()
      */
     public function testDefaultWithListWithVAT(Closure $createList): void
     {
@@ -96,11 +96,11 @@ class DiscountFactoryTest extends LaravelTestCase
      *
      * @coversNothing
      *
-     * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
+     * @param \Closure(): array<\MiBo\Properties\Contracts\Discountable> $createList
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceProvider::provideDiscountableList()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceProvider::provideDiscountableList()
      */
     public function testDefaultWithListWithFilter(Closure $createList): void
     {
@@ -119,11 +119,11 @@ class DiscountFactoryTest extends LaravelTestCase
      *
      * @coversNothing
      *
-     * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
+     * @param \Closure(): array<\MiBo\Properties\Contracts\Discountable> $createList
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceProvider::provideDiscountableList()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceProvider::provideDiscountableList()
      */
     public function testDefaultWithListWithRequiredWholeSum(Closure $createList): void
     {
@@ -149,11 +149,11 @@ class DiscountFactoryTest extends LaravelTestCase
      *
      * @coversNothing
      *
-     * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
+     * @param \Closure(): array<\MiBo\Properties\Contracts\Discountable> $createList
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceProvider::provideDiscountableList()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceProvider::provideDiscountableList()
      */
     public function testDefaultWithListWithValue(Closure $createList): void
     {
@@ -173,11 +173,11 @@ class DiscountFactoryTest extends LaravelTestCase
      *
      * @coversNothing
      *
-     * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
+     * @param \Closure(): array<\MiBo\Properties\Contracts\Discountable> $createList
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceProvider::provideDiscountableList()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceProvider::provideDiscountableList()
      */
     public function testDefaultWithListWithVATNone(Closure $createList): void
     {
@@ -196,11 +196,11 @@ class DiscountFactoryTest extends LaravelTestCase
      *
      * @coversNothing
      *
-     * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
+     * @param \Closure(): array<\MiBo\Properties\Contracts\Discountable> $createList
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceProvider::provideDiscountableList()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceProvider::provideDiscountableList()
      */
     public function testDefaultWithListWithPercentage(Closure $createList): void
     {
@@ -220,11 +220,11 @@ class DiscountFactoryTest extends LaravelTestCase
      *
      * @coversNothing
      *
-     * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
+     * @param \Closure(): array<\MiBo\Properties\Contracts\Discountable> $createList
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceProvider::provideDiscountableList()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceProvider::provideDiscountableList()
      */
     public function testDefaultWithListWithPercentageAndValue(Closure $createList): void
     {
@@ -245,11 +245,11 @@ class DiscountFactoryTest extends LaravelTestCase
      *
      * @coversNothing
      *
-     * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
+     * @param \Closure(): array<\MiBo\Properties\Contracts\Discountable> $createList
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceProvider::provideDiscountableList()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceProvider::provideDiscountableList()
      */
     public function testDefaultWithCombinedVAT(Closure $createList): void
     {
@@ -437,11 +437,11 @@ class DiscountFactoryTest extends LaravelTestCase
      *
      * @coversNothing
      *
-     * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
+     * @param \Closure(): array<\MiBo\Properties\Contracts\Discountable> $createList
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceProvider::provideDiscountableList()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceProvider::provideDiscountableList()
      */
     public function testDefaultWithCombinedVATWithFilter(Closure $createList): void
     {
@@ -467,11 +467,11 @@ class DiscountFactoryTest extends LaravelTestCase
      *
      * @coversNothing
      *
-     * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
+     * @param \Closure(): array<\MiBo\Properties\Contracts\Discountable> $createList
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceProvider::provideDiscountableList()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceProvider::provideDiscountableList()
      */
     public function testDefaultWithListWithVATAndLimitFixed(Closure $createList): void
     {
@@ -494,11 +494,11 @@ class DiscountFactoryTest extends LaravelTestCase
      *
      * @coversNothing
      *
-     * @param \Closure(): array<\MiBo\Prices\Contracts\Discountable> $createList
+     * @param \Closure(): array<\MiBo\Properties\Contracts\Discountable> $createList
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceProvider::provideDiscountableList()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceProvider::provideDiscountableList()
      */
     public function testDefaultWithListWithVATAndLimitPercentage(Closure $createList): void
     {
@@ -528,7 +528,7 @@ class DiscountFactoryTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceProvider::provideFailingOptionList()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceProvider::provideFailingOptionList()
      */
     public function testFailingOptions(
         string $option,

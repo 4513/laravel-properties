@@ -47,12 +47,12 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "MiBo\\Prices\\": "src/"
+            "MiBo\\Properties\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "MiBo\\Prices\\Tests\\": "tests/"
+            "MiBo\\Properties\\Tests\\": "tests/"
         }
     },
     "require": {
@@ -91,10 +91,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "MiBo\\Prices\\Providers\\ConfigProvider",
-                "MiBo\\Prices\\Providers\\FacadeProvider",
-                "MiBo\\Prices\\Providers\\ServiceProvider",
-                "MiBo\\Prices\\Providers\\TranslationProvider"
+                "MiBo\\Properties\\Providers\\ConfigProvider",
+                "MiBo\\Properties\\Providers\\FacadeProvider",
+                "MiBo\\Properties\\Providers\\ServiceProvider",
+                "MiBo\\Properties\\Providers\\TranslationProvider"
             ]
         }
     }

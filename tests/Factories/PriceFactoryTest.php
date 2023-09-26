@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace MiBo\Prices\Tests\Factories;
+namespace MiBo\Properties\Tests\Factories;
 
 use Closure;
 use Exception;
-use MiBo\Prices\Data\Factories\PriceFactory;
-use MiBo\Prices\Tests\LaravelTestCase;
+use MiBo\Properties\Data\Factories\PriceFactory;
+use MiBo\Properties\Tests\LaravelTestCase;
 
 /**
  * Class PriceFactoryTest
  *
- * @package MiBo\Prices\Tests\Factories
+ * @package MiBo\Properties\Tests\Factories
  *
  * @author 3I666
  *
@@ -41,7 +41,7 @@ class PriceFactoryTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\PriceProvider::dataForCreatingPrices()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\PriceProvider::dataForCreatingPrices()
      */
     public function testCreatingPrice(
         Closure $createExpectedPrice,

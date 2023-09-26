@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MiBo\Prices\Data\Factories;
+namespace MiBo\Properties\Data\Factories;
 
 use Carbon\Carbon;
 use DateTimeInterface;
@@ -18,7 +18,7 @@ use MiBo\VAT\VAT;
 /**
  * Class PriceFactory
  *
- * @package MiBo\Prices\Data\Factories
+ * @package MiBo\Properties\Data\Factories
  *
  * @author 3I666
  *

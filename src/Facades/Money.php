@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MiBo\Prices\Facades;
+namespace MiBo\Properties\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Facade;
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise.
  *
- * @mixin \MiBo\Prices\Managers\MoneyManager
+ * @mixin \MiBo\Properties\Managers\MoneyManager
  */
 class Money extends Facade
 {

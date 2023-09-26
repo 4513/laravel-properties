@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace MiBo\Prices\Tests\Coverage\Casting;
+namespace MiBo\Properties\Tests\Coverage\Casting;
 
-use MiBo\Prices\Tests\Casting\PriceRetrieveCastingTest as BaseTest;
+use MiBo\Properties\Tests\Casting\PriceRetrieveCastingTest as BaseTest;
 
 /**
  * Class PriceRetrieveCastingTest
  *
- * @package MiBo\Prices\Tests\Coverage\Casting
+ * @package MiBo\Properties\Tests\Coverage\Casting
  *
  * @author Michal Boris <michal.boris27@gmail.com>
  *
@@ -17,15 +17,15 @@ use MiBo\Prices\Tests\Casting\PriceRetrieveCastingTest as BaseTest;
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise.
  *
- * @coversDefaultClass \MiBo\Prices\Data\Casting\PriceAttribute
+ * @coversDefaultClass \MiBo\Properties\Data\Casting\PriceAttribute
  */
 class PriceRetrieveCastingTest extends BaseTest
 {
     /**
      * @small
      *
-     * @covers \MiBo\Prices\Data\Factories\PriceFactory::get
-     * @covers \MiBo\Prices\Data\Factories\PriceFactory::__construct
+     * @covers \MiBo\Properties\Data\Factories\PriceFactory::get
+     * @covers \MiBo\Properties\Data\Factories\PriceFactory::__construct
      * @covers ::__construct
      * @covers ::get
      *
@@ -44,7 +44,7 @@ class PriceRetrieveCastingTest extends BaseTest
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testDefaultCaster(array $data): void
     {
@@ -72,7 +72,7 @@ class PriceRetrieveCastingTest extends BaseTest
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testInMajorCaster(array $data): void
     {
@@ -100,7 +100,7 @@ class PriceRetrieveCastingTest extends BaseTest
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testInMinorCaster(array $data): void
     {
@@ -128,7 +128,7 @@ class PriceRetrieveCastingTest extends BaseTest
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testCurrencyFixedCaster(array $data): void
     {
@@ -156,7 +156,7 @@ class PriceRetrieveCastingTest extends BaseTest
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testCurrencyNotProvidedCaster(array $data): void
     {
@@ -184,7 +184,7 @@ class PriceRetrieveCastingTest extends BaseTest
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testCurrencyDifferentColumn1Caster(array $data): void
     {
@@ -212,7 +212,7 @@ class PriceRetrieveCastingTest extends BaseTest
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testCurrencyDifferentColumn2Caster(array $data): void
     {
@@ -240,7 +240,7 @@ class PriceRetrieveCastingTest extends BaseTest
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testNegativesPossibleCaster(array $data): void
     {
@@ -268,7 +268,7 @@ class PriceRetrieveCastingTest extends BaseTest
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testNegativesForbiddenCaster(array $data): void
     {
@@ -296,7 +296,7 @@ class PriceRetrieveCastingTest extends BaseTest
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testSpecifiedCategoryCaster(array $data): void
     {
@@ -324,7 +324,7 @@ class PriceRetrieveCastingTest extends BaseTest
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testCategoryDifferentColumnCaster(array $data): void
     {
@@ -352,7 +352,7 @@ class PriceRetrieveCastingTest extends BaseTest
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testCategoryEmptyCaster(array $data): void
     {
@@ -381,7 +381,7 @@ class PriceRetrieveCastingTest extends BaseTest
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testCategoryCallbackCaster(array $data): void
     {
@@ -409,7 +409,7 @@ class PriceRetrieveCastingTest extends BaseTest
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testCountryCaster(array $data): void
     {
@@ -437,7 +437,7 @@ class PriceRetrieveCastingTest extends BaseTest
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testCountryDifferentColumnCaster(array $data): void
     {
@@ -465,7 +465,7 @@ class PriceRetrieveCastingTest extends BaseTest
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testCountryNotProvidedCaster(array $data): void
     {
@@ -493,7 +493,7 @@ class PriceRetrieveCastingTest extends BaseTest
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testDateCaster(array $data): void
     {
@@ -521,7 +521,7 @@ class PriceRetrieveCastingTest extends BaseTest
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testDateColumnCaster(array $data): void
     {
@@ -549,7 +549,7 @@ class PriceRetrieveCastingTest extends BaseTest
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testDateColumnForeignCaster(array $data): void
     {
@@ -577,7 +577,7 @@ class PriceRetrieveCastingTest extends BaseTest
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testDateNotProvidedCaster(array $data): void
     {
@@ -605,7 +605,7 @@ class PriceRetrieveCastingTest extends BaseTest
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testAnyVATTrueCaster(array $data): void
     {
@@ -633,7 +633,7 @@ class PriceRetrieveCastingTest extends BaseTest
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testAnyVATFalseCaster(array $data): void
     {
@@ -661,7 +661,7 @@ class PriceRetrieveCastingTest extends BaseTest
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testWithVATTrueCaster(array $data): void
     {
@@ -689,7 +689,7 @@ class PriceRetrieveCastingTest extends BaseTest
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testWithVATFalseCaster(array $data): void
     {
@@ -717,7 +717,7 @@ class PriceRetrieveCastingTest extends BaseTest
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testCombinationCaster(array $data): void
     {
@@ -745,7 +745,7 @@ class PriceRetrieveCastingTest extends BaseTest
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceCastingProvider::getDatabaseData()
      */
     public function testUselessCastingCaster(array $data): void
     {

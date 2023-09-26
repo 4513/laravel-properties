@@ -2,18 +2,19 @@
 
 declare(strict_types=1);
 
-namespace MiBo\Prices\Tests;
+namespace MiBo\Properties\Tests;
 
+use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Testing\TestCase;
 use Illuminate\Support\Facades\Facade;
 use MiBo\Prices\Price;
-use MiBo\Prices\Providers\ConfigProvider;
-use MiBo\Prices\Providers\FacadeProvider;
-use MiBo\Prices\Providers\ServiceProvider;
-use MiBo\Prices\Providers\TranslationProvider;
-use MiBo\Prices\Tests\TestingData\Resolvers\VATResolver;
+use MiBo\Properties\Providers\ConfigProvider;
+use MiBo\Properties\Providers\FacadeProvider;
+use MiBo\Properties\Providers\ServiceProvider;
+use MiBo\Properties\Providers\TranslationProvider;
+use MiBo\Properties\Tests\TestingData\Resolvers\VATResolver;
 use MiBo\Prices\Units\Price\Currency;
 use MiBo\Properties\Calculators\UnitConvertor;
 use MiBo\VAT\Resolvers\ProxyResolver;
@@ -22,7 +23,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 /**
  * Class LaravelTestCase
  *
- * @package MiBo\Prices\Tests
+ * @package MiBo\Properties\Tests
  *
  * @author Michal Boris <michal.boris27@gmail.com>
  *
@@ -40,7 +41,7 @@ class LaravelTestCase extends TestCase
         /** @var \Illuminate\Contracts\Foundation\Application $app */
         $app = include __DIR__ . '/TestingData/bootstrap/app.php';
 
-        $app->make(\Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+        $app->make(Kernel::class)->bootstrap();
 
         return $app;
     }

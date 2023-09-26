@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace MiBo\Prices\Data\Casting;
+namespace MiBo\Properties\Data\Casting;
 
 use Carbon\Carbon;
 use Closure;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
-use MiBo\Prices\Data\Factories\PriceFactory;
+use MiBo\Properties\Data\Factories\PriceFactory;
 use MiBo\Prices\Exceptions\NegativePriceException;
 use MiBo\Prices\Price;
 use MiBo\Prices\Units\Price\Currency;
@@ -22,11 +22,11 @@ use function is_string;
  * *This Attribute casts price and its properties from and to database.*
  *
  * Synopsys:
- * * \MiBo\Prices\Data\Casting\PriceAttribute::class
- * * \MiBo\Prices\Data\Casting\PriceAttribute::class . [':attr-value' . [',:attr-value' ...]]
+ * * \MiBo\Properties\Data\Casting\PriceAttribute::class
+ * * \MiBo\Properties\Data\Casting\PriceAttribute::class . [':attr-value' . [',:attr-value' ...]]
  *
  * Example:
- * * \MiBo\Prices\Data\Casting\PriceAttribute::class . ':currency-EUR,date-created_at,inMinor-false'
+ * * \MiBo\Properties\Data\Casting\PriceAttribute::class . ':currency-EUR,date-created_at,inMinor-false'
  *
  * **Currency** - Currency code (ISO 4217)
  * <ul><li>Priorities
@@ -81,7 +81,7 @@ use function is_string;
  *   <li>Price stored in major units: false</li></ul></li></ul>
  *
  *
- * @package MiBo\Prices\Data\Casting
+ * @package MiBo\Properties\Data\Casting
  *
  * @author Michal Boris <michal.boris27@gmail.com>
  *

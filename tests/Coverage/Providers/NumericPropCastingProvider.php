@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace MiBo\Prices\Tests\Coverage\Providers;
+namespace MiBo\Properties\Tests\Coverage\Providers;
 
 use Generator;
 
 /**
  * Class NumericPropCastingProvider
  *
- * @package MiBo\Prices\Tests\Coverage\Providers
+ * @package MiBo\Properties\Tests\Coverage\Providers
  *
  * @author 9I214
  * @author 6I012

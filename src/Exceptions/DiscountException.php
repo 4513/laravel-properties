@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MiBo\Prices\Exceptions;
+namespace MiBo\Properties\Exceptions;
 
 /**
  * Interface DiscountException

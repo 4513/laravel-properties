@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace MiBo\Prices\Tests\Casting;
+namespace MiBo\Properties\Tests\Casting;
 
 use Illuminate\Database\Eloquent\Model;
-use MiBo\Prices\Data\Casting\NumericPropertyAttribute;
-use MiBo\Prices\Tests\LaravelTestCase;
+use MiBo\Properties\Data\Casting\NumericPropertyAttribute;
+use MiBo\Properties\Tests\LaravelTestCase;
 use MiBo\Properties\Area;
 use MiBo\Properties\Length;
 use MiBo\Properties\Pure;
@@ -19,7 +19,7 @@ use Throwable;
 /**
  * Class NumericPropRetrieveCastingTest
  *
- * @package MiBo\Prices\Tests\Casting
+ * @package MiBo\Properties\Tests\Casting
  *
  * @author 9I214
  *
@@ -38,7 +38,7 @@ class NumericPropRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\NumericPropCastingProvider::provideRawValue()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\NumericPropCastingProvider::provideRawValue()
      */
     public function testPureCasting(int|float $value): void
     {
@@ -68,7 +68,7 @@ class NumericPropRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\NumericPropCastingProvider::provideRawValue()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\NumericPropCastingProvider::provideRawValue()
      */
     public function testLengthAloneCasting(int|float $value): void
     {
@@ -99,7 +99,7 @@ class NumericPropRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\NumericPropCastingProvider::provideRawValue()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\NumericPropCastingProvider::provideRawValue()
      */
     public function testLengthCasting(int|float $value): void
     {
@@ -130,7 +130,7 @@ class NumericPropRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\NumericPropCastingProvider::provideRawValue()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\NumericPropCastingProvider::provideRawValue()
      */
     public function testLengthWithFeetCasting(int|float $value): void
     {
@@ -164,7 +164,7 @@ class NumericPropRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\NumericPropCastingProvider::provideRawValue()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\NumericPropCastingProvider::provideRawValue()
      */
     public function testSpecifiedUnitOnlyCasting(int|float $value): void
     {
@@ -195,7 +195,7 @@ class NumericPropRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\NumericPropCastingProvider::provideRawValue()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\NumericPropCastingProvider::provideRawValue()
      */
     public function testSIUnitCasting(int|float $value): void
     {
@@ -227,7 +227,7 @@ class NumericPropRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\NumericPropCastingProvider::provideRawValue()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\NumericPropCastingProvider::provideRawValue()
      */
     public function testUselessCasting(): void
     {
@@ -259,7 +259,7 @@ class NumericPropRetrieveCastingTest extends LaravelTestCase
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\TestingData\Providers\NumericPropCastingProvider::provideRawValue()
+     * @dataProvider \MiBo\Properties\Tests\TestingData\Providers\NumericPropCastingProvider::provideRawValue()
      */
     public function testInvalidCombinationCasting(): void
     {

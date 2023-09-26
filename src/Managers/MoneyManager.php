@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace MiBo\Prices\Managers;
+namespace MiBo\Properties\Managers;
 
-use MiBo\Prices\Data\Factories\DiscountFactory;
-use MiBo\Prices\Data\Factories\PriceFactory;
+use MiBo\Properties\Data\Factories\DiscountFactory;
+use MiBo\Properties\Data\Factories\PriceFactory;
 use Psr\Container\ContainerInterface;
 
 /**
  * Class MoneyManager
  *
- * @package MiBo\Prices\Managers
+ * @package MiBo\Properties\Managers
  *
  * @author Michal Boris <michal.boris27@gmail.com>
  *

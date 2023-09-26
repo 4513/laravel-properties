@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace MiBo\Prices\Tests\Coverage\Factories;
+namespace MiBo\Properties\Tests\Coverage\Factories;
 
 use Closure;
-use MiBo\Prices\Tests\Factories\PriceFactoryTest as BaseTest;
+use MiBo\Properties\Tests\Factories\PriceFactoryTest as BaseTest;
 
 /**
  * Class PriceFactoryTest
  *
- * @package MiBo\Prices\Tests\Coverage\Factories
+ * @package MiBo\Properties\Tests\Coverage\Factories
  *
  * @author 3I666
  *
@@ -18,7 +18,7 @@ use MiBo\Prices\Tests\Factories\PriceFactoryTest as BaseTest;
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise.
  *
- * @coversDefaultClass \MiBo\Prices\Data\Factories\PriceFactory
+ * @coversDefaultClass \MiBo\Properties\Data\Factories\PriceFactory
  */
 class PriceFactoryTest extends BaseTest
 {
@@ -40,8 +40,8 @@ class PriceFactoryTest extends BaseTest
      * @covers ::isWithVAT
      * @covers ::isWithoutVAT
      * @covers ::clear
-     * @covers \MiBo\Prices\Providers\ConfigProvider::register
-     * @covers \MiBo\Prices\Providers\ConfigProvider::publishConfigurations
+     * @covers \MiBo\Properties\Providers\ConfigProvider::register
+     * @covers \MiBo\Properties\Providers\ConfigProvider::publishConfigurations
      *
      * @param \Closure(): \MiBo\Prices\Price $createExpectedPrice
      * @param float|int $value
@@ -57,7 +57,7 @@ class PriceFactoryTest extends BaseTest
      *
      * @return void
      *
-     * @dataProvider \MiBo\Prices\Tests\Coverage\Providers\PriceProvider::dataForCreatingPrices()
+     * @dataProvider \MiBo\Properties\Tests\Coverage\Providers\PriceProvider::dataForCreatingPrices()
      */
     public function testCreatingPrice(
         Closure $createExpectedPrice,

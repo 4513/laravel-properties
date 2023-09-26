@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'printer'    => \MiBo\Prices\Printers\Printer::class,
+    'printer'    => \MiBo\Properties\Printers\Printer::class,
     'vat'        => [
         'resolver'  => \MiBo\VAT\Resolvers\NullResolver::class,
         'convertor' => null,

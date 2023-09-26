@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MiBo\Prices\Data\Casting;
+namespace MiBo\Properties\Data\Casting;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
@@ -21,11 +21,11 @@ use function in_array;
  * *The Attribute casts a numeric property and its unit from and to database.*
  *
  * Synopsys:
- * * \MiBo\Prices\Data\Casting\NumericPropertyAttribute::class . [':attr-value' . [',:attr-value' ...]]
- * * \MiBo\Prices\Data\Casting\NumericPropertyAttribute::class . [':class-string(property)']
+ * * \MiBo\Properties\Data\Casting\NumericPropertyAttribute::class . [':attr-value' . [',:attr-value' ...]]
+ * * \MiBo\Properties\Data\Casting\NumericPropertyAttribute::class . [':class-string(property)']
  *
  * Example:
- * * \MiBo\Prices\Data\Casting\NumericPropertyAttribute::class . ':unit-(class-string)|(iso-ext)'
+ * * \MiBo\Properties\Data\Casting\NumericPropertyAttribute::class . ':unit-(class-string)|(iso-ext)'
  *
  *  **Property** class that implements \MiBo\Properties\Contracts\NumericalProperty and is being used as a
  * result.
@@ -39,7 +39,7 @@ use function in_array;
  *   <li>Specified as an ISO ext (milli, micro,...): <i>unit-DECI, unit-KILO,...</i></li></ul>
  * If the unit class is not specified, default unit of the given property is used.</li></ul>
  *
- * @package MiBo\Prices\Data\Casting
+ * @package MiBo\Properties\Data\Casting
  *
  * @author 9I214
  *

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace MiBo\Prices\Tests\Coverage\ProviderTests;
+namespace MiBo\Properties\Tests\Coverage\ProviderTests;
 
-use MiBo\Prices\Providers\ServiceProvider;
+use MiBo\Properties\Providers\ServiceProvider;
 use MiBo\Prices\Quantities\Price;
-use MiBo\Prices\Tests\LaravelTestCase;
+use MiBo\Properties\Tests\LaravelTestCase;
 use MiBo\Properties\Calculators\PropertyCalc;
 use MiBo\Properties\Calculators\UnitConvertor;
 use MiBo\Properties\Quantities\Length;
@@ -16,7 +16,7 @@ use stdClass;
 /**
  * Class ServiceProviderTest
  *
- * @package MiBo\Prices\Tests\Coverage\ProviderTests
+ * @package MiBo\Properties\Tests\Coverage\ProviderTests
  *
  * @author Michal Boris <michal.boris27@gmail.com>
  *
@@ -24,7 +24,7 @@ use stdClass;
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise.
  *
- * @coversDefaultClass \MiBo\Prices\Providers\ServiceProvider
+ * @coversDefaultClass \MiBo\Properties\Providers\ServiceProvider
  */
 class ServiceProviderTest extends LaravelTestCase
 {
