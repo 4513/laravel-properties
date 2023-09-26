@@ -1,5 +1,7 @@
 # Laravel Properties
 
+*MiBo/laravel-properties*
+
 [![codecov](https://codecov.io/gh/4513/laravel-properties/graph/badge.svg?token=p9C5HsHfsw)](https://codecov.io/gh/4513/laravel-properties)
 
 (Mostly) Prices, VAT, Currencies but also other quantities and their units such as weight, length, area, volume,
@@ -51,7 +53,7 @@ additional features for Laravel and Eloquent, such as attribute casting for data
 ```bash
 composer require mibo/laravel-properties
 
-php artisan vendor:publish --provider="MiBo\Prices\Providers\ConfigProvider"
+php artisan vendor:publish --provider="MiBo\Properties\Providers\ConfigProvider"
 ```
 
  One should first edit the configuration file `prices.php` and add a VAT Resolver and Convertor to be used. Without
