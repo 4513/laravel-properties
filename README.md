@@ -57,6 +57,150 @@ php artisan vendor:publish --provider="MiBo\Prices\Providers\ConfigProvider"
  One should first edit the configuration file `prices.php` and add a VAT Resolver and Convertor to be used. Without
 them, the prices are zero-able only.
 
+ To use comparing prices, rounding, ceiling or flooring them, one should install implementation of the
+`\MiBo\Prices\Contracts\PriceCalculatorHelper` for rounding, and/or `\MiBo\Prices\Contracts\PriceComparer`
+for comparing the prices, and set them up in the configuration file.
+
+### Usage
+
+#### Creating a price
+ Trying to avoid using many classes to create one price, we created a Factory that can be used to create a price
+with any required properties. With or without VAT? No problem. Specific VAT rate? Currency? That's all possible.  
+ By default, the Factory uses default values from configuration file. Each calling of `::get()` method on the
+Factory restores the default values to let the user create a new price, while keeping only one instance of the
+Factory.
+```php
+$factory = \MiBo\Prices\Data\Factories\PriceFactory::get();
+
+$factory->setValue(10) // The price value
+    ->setCurrency('USD') // The currency that the price should have
+    ->setDate(\Carbon\Carbon::now()->addYears(-1)) // The price might have been created a time ago
+    ->setIsVATIncluded(true)
+    ->create();
+```
+The example above would return a price that's total value is 10 USD including VAT => less than 10 USD without VAT,
+while the following example would return a price that's total value is 10 USD without VAT => more than 10 USD
+including VAT.
+```php
+$factory->setValue(10)
+    ->setCurrency('USD')
+    ->setDate(\Carbon\Carbon::now()->addYears(-1))
+    ->setIsVATIncluded(false)
+    ->create();
+```
+One can create an empty price with only default values (currency, VAT rate, current time):
+```php
+$factory->create();
+```
+
+ You might specify, that the price MUST NOT be negative. That might be helpful when you want to create a price
+or calculate a price that normally should not be negative, such as a price of a purchase. This type of price
+is considered invalid if its value is negative and throws an Error. The price is considered negative if at
+least one of its price based on the VAT is negative.
+```php
+$factory->setValue(10)
+    ->strictlyPositive()
+    ->create();
+```
+
+#### Calculating prices
+ Adding and subtracting prices are easy thanks to the direct methods on the prices themselves. One is not required
+to use any additional classes to calculate them.
+```php
+/** @var \MiBo\Prices\Price $price */
+$price = {...};
+$price->add($price); // Adding another or the same instance of the Price
+$price->add(10); // Adding a number of int or float
+$price->subtract($price); // Subtracting another or the same instance of the Price
+$price->subtract(10.0); // Subtracting a number of int or float
+```
+
+ If int or float are provided, it is considered that the value is as the same unit (currency), VAT rate and date
+as the current price, while the value is without VAT. User must be aware that adding or subtracting a float or
+int from the price that's VAT rate is combined triggers an Error, because in such a case there is no information
+what kind of price is expected to be added or subtracted.
+
+**Different Currencies?**  
+ When calculating multiple prices that do have different currency, the Exchanger is used to convert the prices
+to the same currency. In that case, the current price is kept in its currency, while the given subject is converted
+to the currency of the current price.  
+ Such a way of calculating prices provides us more flexibility and no need to convert every price before calculating
+them. The Exchanger is used only when it is needed.  
+
+**Different VAT rates?**  
+ Again, when calculating we want to combine only compatible subjects. Because of that, it is being checked that
+both the prices have the same VAT rate. Firstly, the VAT country is changed to that of the current price. Next,
+the VAT rate is being compared. If the VAT rate is different, the current price's VAT rate is set to 'COMBINED',
+which represents a combination of two or more VAT rates. This solution let us calculate true value of the final
+price and at the same time, allows us to still have the ability to convert the prices, either to different
+currencies or VAT rates for another countries.
+
+**More calculation required?**  
+ Except of adding and subtracting, the price offers multiplying and dividing. Of course, multiplying price by
+price does not make a sense, but multiplying can be made using
+```php
+/** @var \MiBo\Prices\Price $price */
+$price = {...};
+$price->multiply(10); // Multiplying by int or float
+```
+ Or a price per a quantity is needed? Such as 10 EUR per 1 millimeter can be done! And another converting can be done
+as well!
+```php
+/** @var \MiBo\Prices\Price $price */
+$price = {...};
+$price->divide(\MiBo\Properties\Length::MILLI(1));
+```
+
+#### Converting
+ To make sure we provide the final price in correct currency, one can call a method directly on the price:
+```php
+/** @var \MiBo\Prices\Price $price */
+$price = {...};
+$price->convertToUnit(\MiBo\Prices\Units\Price\Currency::get('EUR'));
+```
+The method itself takes care to change the price's currency and to use the Exchanger to convert the price's value.
+
+#### International selling
+ Each country has its own VAT rates, with different categories, and the value of the VAT rate. Making sure
+that the user fully avoids the need to check whether he or she calculates the prices correctly, the Price
+object comes with a method to simply change VAT country. And after that, the `getPriceWithVAT` returns the
+price with the VAT of that given country. Just like that:
+```php
+/** @var \MiBo\Prices\Price $price */
+$price = {...};
+$price->forCountry('SVK');
+```
+
+#### Printer and locale
+ Some countries have fancy way of displaying prices (no offense). To make sure that the price is displayed
+correctly, the Price object comes with a Printer that can be set in configuration. There is an option to
+use native PHP format based on the request, however that is not always the best option.
+```php
+/** @var \MiBo\Prices\Price $price */
+$price = {...};
+$price->print(); // $10.00 / 10,00 € / or set up yours just like you want it!
+```
+ The printer can be called directly on the price or can be used as a standalone object and the price can be
+parsed into it. The printer provides an ability to specify a decimal digit count.
+ The library comes with all current currencies symbols and names of the currencies.
+
+#### Historical Price
+ When comes to purchases, that were made a year ago or so, the VAT rate might have changed. Not only the VAT
+value, but even its rate and who knows what else. For that, the DateTime comes to prices and is always used
+when checking the Price's true value. If the DateTime is not specified, the price is considered as the current
+one.  
+ To simplify, if the VAT for bread was 0 % in 2010 and 20 % now, and the price without VAT was always 10 EUR,
+then the Price with specified time of year 2010 will return 10 EUR with VAT, while the price without specified
+time or the time of year 2010 and later will return 22 EUR with VAT.
+
+#### Eloquent
+ Hell! Prices are so complex with so much information, one might to ruin his/her database with so many columns.
+Many of us do not need to store all the information about the price, because we might not want to use more than
+one currency. We would like to use only current prices, and I dunno what.
+ Solution for (I hope) everyone! *Just please, lemme know if not.*
+
+`\MiBo\Prices\Data\Casting\PriceAttribute` joined the party and is configurable for everyone's need.
+
 ## Schemas
 Product has a price.
 

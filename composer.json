@@ -67,7 +67,8 @@
         "illuminate/contracts": "^10.16",
         "mibo/prices-combinations": "^1.0",
         "nesbot/carbon": "^2.70",
-        "psr/container": "^2.0"
+        "psr/container": "^2.0",
+        "mibo/currency-rates": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^10.1",
@@ -78,11 +79,7 @@
         "jetbrains/phpstorm-attributes": "^1.0",
         "nunomaduro/collision": "^7.8",
         "mockery/mockery": "^1.6",
-        "mibo/currency-rates": "^1.0",
         "laravel/framework": "^10.24"
-    },
-    "suggest": {
-        "mibo/currency-rates": "To convert prices to other currencies."
     },
     "config": {
         "platform-check": true,

@@ -6,6 +6,7 @@ namespace MiBo\Prices\Providers;
 
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 use MiBo\Currencies\ListLoader;
+use MiBo\Prices\Calculators\PriceCalc;
 use MiBo\Prices\Contracts\PriceInterface;
 use MiBo\Prices\Quantities\Price;
 use MiBo\Prices\Units\Price\Currency;
@@ -37,7 +38,9 @@ final class ServiceProvider extends IlluminateServiceProvider
         $this->registerDefaultUnits();
         $this->registerVATResolver();
         $this->registerVATConvertor();
+        $this->registerPriceCalculator();
         $this->registerPriceConvertor();
+        $this->registerPriceComparer();
         $this->registerCurrencyListLoader();
     }
 
@@ -113,13 +116,8 @@ final class ServiceProvider extends IlluminateServiceProvider
      */
     protected function registerPriceConvertor(): void
     {
-        /** @var callable|class-string<\MiBo\Currency\Rates\Contracts\ExchangerInterface>|null $config */
-        $config = $this->app['config']['prices.defaults.price_convertor'];
-
-        if ($config === null) {
-            return;
-        }
-
+        /** @var callable|class-string<\MiBo\Currency\Rates\Contracts\ExchangerInterface> $config */
+        $config = $this->app['config']['prices.convertor'];
         $config = is_string($config) && class_exists($config)
             ? static function(PriceInterface $price, Currency $currency) use ($config): Value {
                 /** @var \MiBo\Currency\Rates\Contracts\ExchangerInterface $config */
@@ -143,5 +141,45 @@ final class ServiceProvider extends IlluminateServiceProvider
     {
         // @phpstan-ignore-next-line
         $this->app->bind(ListLoader::class, $this->app['config']['prices.currency.loader']);
+    }
+
+    /**
+     * Registers price calculator.
+     *
+     * @return void
+     */
+    protected function registerPriceCalculator(): void
+    {
+        /** @var class-string<\MiBo\Prices\Contracts\PriceCalculatorHelper>|null $config */
+        $config = $this->app['config']['prices.calculator'] ?? null;
+
+        if ($config === null) {
+            return;
+        }
+
+        /** @var \MiBo\Prices\Contracts\PriceCalculatorHelper $helper */
+        $helper = $this->app->make($config);
+
+        PriceCalc::setCalculatorHelper($helper);
+    }
+
+    /**
+     * Registers price comparer.
+     *
+     * @return void
+     */
+    protected function registerPriceComparer(): void
+    {
+        /** @var class-string<\MiBo\Prices\Contracts\PriceComparer>|null $config */
+        $config = $this->app['config']['prices.comparer'] ?? null;
+
+        if ($config === null) {
+            return;
+        }
+
+        /** @var \MiBo\Prices\Contracts\PriceComparer $comparer */
+        $comparer = $this->app->make($config);
+
+        PriceCalc::setComparerHelper($comparer);
     }
 }
