@@ -193,108 +193,195 @@ one.
 then the Price with specified time of year 2010 will return 10 EUR with VAT, while the price without specified
 time or the time of year 2010 and later will return 22 EUR with VAT.
 
-#### Eloquent
+### Eloquent
  Hell! Prices are so complex with so much information, one might to ruin his/her database with so many columns.
 Many of us do not need to store all the information about the price, because we might not want to use more than
-one currency. We would like to use only current prices, and I dunno what.
+one currency. We would like to use only current prices. Want to use minor units instead of major ones so there
+is no need to use floats or decimals in the database.
  Solution for (I hope) everyone! *Just please, lemme know if not.*
 
 `\MiBo\Prices\Data\Casting\PriceAttribute` joined the party and is configurable for everyone's need.
 
-## Schemas
-Product has a price.
+Lets consider a table `tbl_product` of a model MyModel:
+```php
+class MyModel extends \Illuminate\Database\Eloquent\Model
+{
+    protected $table = 'tbl_product';
 
-### Price schemas
+    protected $casts = [
+        'price' => \MiBo\Prices\Data\Casting\PriceAttribute::class,
+    ];
+}
+```
+ The attribute caster changes the data of that model into `\MiBo\Prices\Price` object when the model is used
+in the application, and stores all the price's information into the database, so the developer does not need
+to take care of all the information. Be default, category for VAT `''`, current date, currency from the config,
+country from the config are used and Price without VAT is created/stored. However:
 
-Tbl Product (simple price)
-* being used when the application uses only one currency and VAT rate is always for the same country;
-* VAT category can have a separated column or can be specified within the Model;
-* currency is loaded as a default from configuration file.
+#### Additional columns
+ If the table comes with additional columns, the caster uses their values to create the Price object, and stores
+the Price's information into those columns. To continue using the example above, lets add new columns in a migration:
+```php
+function(\Illuminate\Database\Schema\Blueprint $table) {
+    $table->string('price_currency', 3); // Currency code of the price
+    $table->string('price_country', 3); // Country code of the price
+    $table->string('price_category', 8); // VAT category (classification) of the price
+    $table->date('price_date'); // Date of the price
+}
+```
+ Now, the caster will use those columns. The 'price' prefix of the column depends on the name of the attribute.
 
-| Product ID (PK) | Price Value |
-|-----------------|-------------|
-| 1               | 10          |
-| 2               | 10          |
+**Different column names (suffix)**  
+ Sometimes we do want to rename the columns (for example to have 'price_cat' instead of 'price_category'). That
+can be done by specifying the column names in the caster:
+```php
+    protected $casts = [
+        'price' => \MiBo\Prices\Data\Casting\PriceAttribute::class . ':category-_cat',
+    ];
+```
+In that example we tell the caster that for the category, suffix `_cat` should be used.
 
-Tbl Product & Tbl Price (multi currency)
-* used when the product might have different currencies;
-* prices are stored in a separated table;
-* VAT category is specified within Product Model and is located within the Product's table;
-* applicable for those who sell products in different currencies within the same country.
+**Different column names (whole name)**  
+ Date, currency and country might have a completely different column name that should be used. The main reason
+behind that is that the price for a product or an order might use the time of creation instead of its own
+column that would be a duplicated information. Note, that in that case, the caster does not change the information
+within the column and rather changes or converts the price before storing. An example for using common `created_at`
+column for the date of the price:
+```php
+    protected $casts = [
+        'price' => \MiBo\Prices\Data\Casting\PriceAttribute::class . ':date-created_at',
+    ];
+```
 
-| Product ID (FK) | Price Value | Currency Code |
-|-----------------|-------------|---------------|
-| 1               | 10          | USD           |
-| 1               | 20          | CZK           |
-| 2               | 10          | USD           |
-| 2               | 8           | EUR           |
+#### Fixed values of the model
+ Sometimes we do know that the currency for that particular model will always be same. The Caster allows us to
+define currency, date, country and more for the model directly where the caster is set:
+```php
+    protected $casts = [
+        'price' => \MiBo\Prices\Data\Casting\PriceAttribute::class . ':currency-EUR,country-SVK',
+    ];
+```
+ In the example above, we tell the caster that all the prices are stored in euros and the country used for VAT
+is Slovakia. The caster will use those values to create the correct value which is provided. When storing the
+price, the caster makes sure that the values are stored correctly and performs a conversion if needed.
 
-Tbl Product & Tbl PriceLog
-* combinable with both previous schemas;
-* used when the application needs to store the price history;
-* VAT category can be retrieved correctly by the timestamp of the price change;
-* one can use the table to store final price of an entity of a specific time;
-* application can use the table as a log of price changes.
+#### Settings of the Caster
+ The settings come after a column (`:`) of the class name of the caster, where the keys and the values are separated
+by a dash (`-`). The pairs are separated by a comma (`,`). The caster comes with the following settings:
 
-| Product ID (FK) | Price Value | Currency Code | Timestamp  |
-|-----------------|-------------|---------------|------------|
-| 1               | 10          | USD           | 2019-01-01 |
-| 1               | 20          | CZK           | 2019-01-01 |
-| 2               | 10          | USD           | 2019-01-01 |
-| 2               | 8           | EUR           | 2019-01-01 |
-| 1               | 12          | USD           | 2022-01-01 |
+* **Currency** (`currency`)
+  * if not provided and the column does not exist, value from configuration is used;
+  * if not provided, but the column with suffix `_currency` is used, that value is used to create the Price;
+  * if provided string that begins with `_`, the column with that suffix is used to create the Price;
+  * if provided string that does not begin with `_` and the column with that name exists, that value is used;
+  * if provided string contains valid currency code of the ISO 4217, that value is used (`EUR`).
+* **Positives** (`positive`)
+  * if not provided, price that can be negative is created;
+  * if specified, the price will be created as positive or negative (`true` or `false`).
+  * Use `positive-true` to create only positive prices.
+* **Category** (`category`)
+  * if set closure via `setCategoryCallback()` method on the caster, that closure is used to get the category;
+  * if not specified and the column with suffix `_category` exist, it is used;
+  * if specified string that begins with `_` and the column with that suffix exists, that value is used;
+  * if specified string, it is used as the category;
+  * if nothing is valid, null or an empty string is used.
+* **Country** (`country`)
+  * if not specified and the column with suffix `_country` exists, that value is used;
+  * if specified string with `_` and the column with that suffix exists, that value is used;
+  * if specified string, it is used as the country (expected ISO 3166-1 alpha-3/2);
+  * if nothing is valid, value from configuration is used.
+* **Date** (`date`)
+  * if not specified and the column with suffix `_date` exists, that value is used;
+  * if specified string with `_` and the column with that suffix exists, that value is used (read-write);
+  * if specified and the column exist, it is used (read only);
+  * if specified in format `Y-m-d`, it is used as the date;
+  * if nothing is valid, current date is used.
+* **Any VAT rate** (`any`)
+  * if not specified, the VAT rate is being used as a result of VAT Resolver;
+  * if set to 'true', the VAT rate of ANY is set to the result.
+* **With VAT** (`vat`)
+  * if not specified, the value without VAT is stored and created;
+  * if set to 'true', the value with VAT is stored and created.
+* **Minor Unit** (`inMinor`)
+  * if not specified, the value is stored in minor units of that currency (cents in EUR) - allows to have integers instead of floats, decimals;
+  * if set to 'false', the value is stored in major units of that currency (euros in EUR).
 
-Tbl Product w Log inside
-* the table contains a timestamp of the creation time of that entity, which is used as a timestamp for VAT;
-* applicable for retrieving exact price of a sold product for specified time.
+### Discounts
+ Discounts and their applying might be tricky. What VAT rate should be used when the discount is applied? How
+to check what can be discounted and what not?
 
-| Product ID (PK) | Price Value | Currency Code | Timestamp   |
-|-----------------|-------------|---------------|-------------|
-| 1               | 10          | USD           | 2019-01-01  |
-| 2               | 10          | USD           | 2019-01-01  |
-| 1               | 12          | USD           | 2022-01-01  |
+We offer a Factory that creates a discount with its price based on the settings and provided discountable objects.
 
-### VAT schemas
-Event tho VAT belongs to a price, the VAT is not based on the price (not being meant its value, but the VAT rate).  
-The VAT rate is based on the country and the classification of the product. There are many classification
-systems and a few of them have a specific categories, so no product changes its category.  
-Over a time, the classification category might change its VAT rate and, the VAT rate might change its percentage
-value.  
-Because of both of the above, the VAT rate is separated from product and price table. That allows us to get
-the very true price and its value with VAT for a specific time.  
+ Discount of type percentage or fixed amount, with or without VAT, for specified VAT rate only or any, and much
+more can be set using a 'setOption' on the factory.
 
-Tbl VAT
+```php
+$factory  = \MiBo\Prices\Data\Factories\DiscountFactory::get();
+$discount = $factory->setOption(\MiBo\Prices\Data\Factories\DiscountFactory::OPT_VALUE, 550)
+    ->setOption(\MiBo\Prices\Data\Factories\DiscountFactory::OPT_SUBJECT, [$productList])
+    ->create();
+```
 
-| Category ID (FK) (UK category country) | Country Code (UK category country) | VAT Rate | Timestamp   |
-|----------------------------------------|------------------------------------|----------|-------------|
-| 1                                      | CZ                                 | STANDARD | 2019-01-01  |
-| 1                                      | CZ                                 | REDUCED  | 2022-01-01  |
-| 2                                      | CZ                                 | 10       | 2019-01-01  |
+The factory provides the following options:
+* `OPT_COUNTRY` to specify the country of the discount;
+* `OPT_FILTER` to set up your filter for the list of objects that can be discounted;
+* `OPT_IS_VALUE_WITH_VAT` want to use the provided value with VAT or without/Do you want to apply on a price with or without VAT?;
+* `OPT_PERCENTAGE_VALUE` using percentage? Specify its value *(0-100)*;
+* `OPT_REQUIRES_WHOLE_SUM_TO_USE` want to make sure that the discount is applied only if it is fully used?;
+* `OPT_SUBJECT` what will be discounted? Provide a list of objects that can be discounted;
+* `OPT_TYPE` type of percentage or fixed amount? Or a custom? Create your own discount type;
+* `OPT_VALUE` value of the discount that can be used (e.g. 100 CZK);
+* `OPT_VAT` VAT rate of the discount. Can be used for anything? Or only products with specified rate?
 
-Tbl VAT Rate
-* maximum number of rows within this table is number of countries multiplied by 5 (types of VAT rates) multiplied
-  by count of changes of VAT rates for specific country;
+Add your own type using
+```php
+\MiBo\Prices\Data\Factories\DiscountFactory::customType(
+    'your-type-name',
+    function (
+        iterable $subject,
+        \MiBo\Prices\PositivePrice|\MiBo\Prices\PositivePriceWithVAT $discount,
+        array $config
+    ): \MiBo\Prices\PositivePrice|\MiBo\Prices\PositivePriceWithVAT {
+       // your code
+    }
+);
+\MiBo\Prices\Data\Factories\DiscountFactory::get()
+    ->setOption(\MiBo\Prices\Data\Factories\DiscountFactory::OPT_TYPE, 'your-type-name')
+    ->create();
+```
 
-| Country Code (PK) | VAT Rate (PK)  | Percentage Value (PK) | Timestamp (PK) |
-|-------------------|----------------|-----------------------|----------------|
-| CZ                | STANDARD       | 21                    | 2019-01-01     |
-| CZ                | REDUCED        | 15                    | 2022-01-01     |
-| CZ                | SECOND_REDUCED | 10                    | 2019-01-01     |
-| CZ                | NONE           | 0                     | 2019-01-01     |
-| SK                | STANDARD       | 20                    | 2019-01-01     |
-| SK                | REDUCED        | 10                    | 2019-01-01     |
-| SK                | NONE           | 0                     | 2019-01-01     |
+### Currencies
+ By default, ISO List loader for currencies is used. It loads the list that has all current currencies. However,
+you can create, implement or use different loader. Why? Create your own currency for your application as a
+benefit for your users. Update the Exchanger to convert your currency to another one and set its rate.
 
-Tbl Product
-* the table contains a reference to a category classification of the product;
-* user might use a product ID as a category ID instead, but that loses the ability to categorize multiple
-  products into one category and simply use their shared information.
+### Comparing
+ *This feature requires an implementation of some interfaces and their configuring in the config file.*
+ Try to avoid getting a value of a price and comparing it with another one. Especially when comparing two
+float values, the result might be unexpected. Use common interface of the price. It provides all needed methods
+and their negation, so you can compare two prices without getting their values.
+```php
+/** @var \MiBo\Prices\Price $price */
+$price = {...};
+$price->isBetween(10, $price);
+$price->isLessThan($price);
+$price->isGreaterThanOrEqualTo($price);
+$price->isZero();
+$price->isNegative();
+$price->is($price);
+$price->hasSameValueAs($price);
+$price->hasNotSameValueWithVATAs($price);
+```
+You can mostly use either price object or float/int. And, you can round, ceil and floor the value. For each of
+these, you can specify the precision (yep, for floor and ceil too!):
+```php
+/** @var \MiBo\Prices\Price $price */
+$price = {...};
+$price->ceil(2);
+$price->floor(-2);
+$price->round(2, PHP_ROUND_HALF_DOWN);
+```
 
-| Product ID (PK) | Category ID (FK) |
-|-----------------|------------------|
-| 1               | 1                |
-| 2               | 2                |
-| 3               | 1                |
 
 ### Translations
 Most (or all) of the properties from library mibo/properties and property of Price have translations in this
