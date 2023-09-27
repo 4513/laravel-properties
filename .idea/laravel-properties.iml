@@ -3,8 +3,8 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" packagePrefix="MiBo\Prices\" />
-      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" packagePrefix="MiBo\Prices\Tests\" />
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" packagePrefix="MiBo\Properties\" />
+      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" packagePrefix="MiBo\Properties\Tests\" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/mibo/currencies" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/mibo/vat" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/mibo/properties" />
