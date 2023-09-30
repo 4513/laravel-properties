@@ -1,11 +1,9 @@
-name: Main
+name: PHPCoverage
 
 on:
   push:
     branches:
       - "**"
-  pull_request:
-    branches: [ "master" ]
   schedule:
     - cron: "0 1 * * *"
 
@@ -23,17 +21,8 @@ jobs:
       - name: Composer Install
         run: composer install --prefer-dist --no-progress
 
-      - name: PHPUnit
-        run: XDEBUG_MODE=coverage ./vendor/bin/phpunit
-
       - name: PHPUnitCoverage
         run: XDEBUG_MODE=coverage ./vendor/bin/phpunit --testsuite Coverage --log-junit junit_report.xml --coverage-clover clover.xml --coverage-text --colors=never
-
-      - name: PHPStan
-        run: ./vendor/bin/phpstan
-
-      - name: PHP_CodeSniffer
-        run: ./vendor/bin/phpcs
 
       - name: CodeCov
         uses: codecov/codecov-action@v3

@@ -1,0 +1,23 @@
+name: PHP_CodeSniffer
+
+on:
+  push:
+    branches:
+      - "**"
+
+permissions:
+  contents: read
+
+jobs:
+  standard:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Composer Install
+        run: composer install --prefer-dist --no-progress
+
+      - name: PHP_CodeSniffer
+        run: ./vendor/bin/phpcs

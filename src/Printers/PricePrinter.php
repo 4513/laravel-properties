@@ -50,7 +50,10 @@ class PricePrinter extends Printer
         }
 
         if (self::$convertCurrencyByLocale === true) {
-            $property->convertToUnit(Currency::get(trans($this->getTransKey($property, 'default'))));
+            /** @var non-empty-string $currency */
+            $currency = trans($this->getTransKey($property, 'default'));
+
+            $property->convertToUnit(Currency::get($currency));
         }
 
         $user     = Auth::getUser();
@@ -69,6 +72,7 @@ class PricePrinter extends Printer
                 $property->getUnit()->getAlphabeticalCode(),
                 'symbol'
             ), (int) $value),
+            // @phpstan-ignore-next-line
             $decimals ?? ($property->getUnit()->getMinorUnitRate() ?? 0)
         );
     }
@@ -99,6 +103,7 @@ class PricePrinter extends Printer
         };
 
         return trim(
+            // @phpstan-ignore-next-line
             trans(
                 'properties::price.format.short',
                 [

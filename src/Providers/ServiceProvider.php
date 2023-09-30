@@ -145,7 +145,10 @@ final class ServiceProvider extends IlluminateServiceProvider
         // @phpstan-ignore-next-line
         $this->app->bind(ListLoader::class, $this->app['config']['prices.currency.loader']);
 
-        Currency::setCurrencyProvider($this->app->make($this->app['config']['prices.currency.provider']));
+        /** @var \MiBo\Currencies\CurrencyProvider|null $provider */
+        $provider = $this->app->make($this->app['config']['prices.currency.provider']);
+
+        Currency::setCurrencyProvider($provider);
     }
 
     /**
