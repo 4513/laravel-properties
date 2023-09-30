@@ -58,7 +58,7 @@
     "require": {
         "php": "^8.1",
         "mibo/properties": "^1.1.2",
-        "mibo/currencies": "^1.0",
+        "mibo/currencies": "^1.1",
         "mibo/vat": "^1.0",
         "mibo/prices": "^1.2.1",
         "illuminate/support": "^10.16",
