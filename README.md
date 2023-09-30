@@ -186,6 +186,14 @@ $price->print(); // $10.00 / 10,00 € / or set up yours just like you want it!
 parsed into it. The printer provides an ability to specify a decimal digit count.
  The library comes with all current currencies symbols and names of the currencies.
 
+ By default, price has PricePrinter that automatically changes the displayed currency for the user by the
+locale of the request (customizable within locale file of prices). That behavior can be ignored by setting
+the printer's public static property `$convertCurrencyByLocale` to false.  
+ Furthermore, the printer use Auth facade of Laravel to retrieve the current user and if the user is instance of
+`\MiBo\Properties\Contracts\SubjectToTax` Interface, the printer will use the user's information whether he or
+she is VAT payer or not. If the user is not logged in, the printer uses default that is set within configuration
+file. If the user is VAT payer, the displayed price is without VAT, with VAT otherwise.
+
 #### Historical Price
  When comes to purchases, that were made a year ago or so, the VAT rate might have changed. Not only the VAT
 value, but even its rate and who knows what else. For that, the DateTime comes to prices and is always used

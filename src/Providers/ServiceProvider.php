@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MiBo\Properties\Providers;
 
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
+use MiBo\Currencies\CurrencyProvider;
 use MiBo\Currencies\ListLoader;
 use MiBo\Prices\Calculators\PriceCalc;
 use MiBo\Prices\Contracts\PriceInterface;
@@ -81,6 +82,8 @@ final class ServiceProvider extends IlluminateServiceProvider
 
             $quantity::setDefaultUnit($unit::get());
         }
+
+        Currency::$defaultCurrency = $this->app['config']['prices.currency.default'] ?? Currency::$defaultCurrency;
     }
 
     /**
@@ -141,6 +144,8 @@ final class ServiceProvider extends IlluminateServiceProvider
     {
         // @phpstan-ignore-next-line
         $this->app->bind(ListLoader::class, $this->app['config']['prices.currency.loader']);
+
+        Currency::setCurrencyProvider($this->app->make($this->app['config']['prices.currency.provider']));
     }
 
     /**

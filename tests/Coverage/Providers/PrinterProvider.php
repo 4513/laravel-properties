@@ -139,6 +139,38 @@ class PrinterProvider
         }
     }
 
+    public static function getPricesToSimpleFormat(): Generator
+    {
+        $data = [
+            'Price'  => [
+                'expected' => [
+                    'en' => '$1,234',
+                    'sk' => '1 234 $',
+                ],
+                'value'    => new Price(1234.56, Currency::get('USD')),
+            ],
+            'Price2' => [
+                'expected' => [
+                    'en' => '$1,234.220,000,0',
+                    'sk' => '1 234,22000 00 $',
+                ],
+                'value'    => new Price(1234.2222251, Currency::get('USD')),
+                'decimals' => 7,
+            ],
+        ];
+
+        foreach ($data as $key => $value) {
+            foreach ($value['expected'] as $locale => $expected) {
+                yield $locale . ' - ' . $key => [
+                    $expected,
+                    $locale,
+                    $value['value'],
+                    $value['decimals'] ?? null,
+                ];
+            }
+        }
+    }
+
     public static function getDataWithNullableDecimals(): Generator
     {
         $data = [

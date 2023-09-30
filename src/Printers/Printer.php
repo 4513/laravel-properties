@@ -213,7 +213,7 @@ class Printer implements PrinterInterface
      * @return non-empty-string
      */
     #[Pure]
-    private function getTransKey(NumericalProperty $property, string ...$key): string
+    final protected function getTransKey(NumericalProperty $property, string ...$key): string
     {
         return 'properties::' .
             // @phpstan-ignore-next-line

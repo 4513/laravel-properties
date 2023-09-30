@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 // @phpcs:disable Generic.Files.LineLength
 return [
-    'name'   => 'Cena',
-    'units'  => [
+    'name'    => 'Cena',
+    'units'   => [
         'AED' => [
             'name'       => '{1} Dirham Spojených arabských emirátov|[2,4] Dirhamy Spojených arabských emirátov|[5,*] Dirhamov Spojených arabských emirátov',
             'name-float' => 'Dirhamu Spojených arabských emirátov',
@@ -903,7 +903,7 @@ return [
             'symbol'     => '$',
         ],
     ],
-    'format' => [
+    'format'  => [
         'short' => ':symbol:count :unit',
         'long'  => ':symbol:count :unit',
         'vat'   => [
@@ -916,4 +916,5 @@ return [
             'rate'    => ':count %',
         ],
     ],
+    'default' => 'EUR',
 ];

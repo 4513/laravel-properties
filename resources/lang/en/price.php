@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 return [
-    'name'   => 'Price',
-    'units'  => [
+    'name'    => 'Price',
+    'units'   => [
         'AED' => [
             'name'       => 'United Arab Emirates dirham|United Arab Emirates dirhams',
             'name-float' => 'United Arab Emirates dirhams',
@@ -901,7 +901,7 @@ return [
             'symbol'     => '$',
         ],
     ],
-    'format' => [
+    'format'  => [
         'short' => ':symbol:unit:count',
         'long'  => ':symbol:unit:count',
         'vat'   => [
@@ -914,4 +914,5 @@ return [
             'rate'    => ':count %',
         ],
     ],
+    'default' => 'USD',
 ];

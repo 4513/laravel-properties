@@ -38,6 +38,8 @@ class ServiceProviderTest extends LaravelTestCase
      * @covers ::registerDefaultUnits
      * @covers ::registerAllowedQuantities
      * @covers ::registerCurrencyListLoader
+     * @covers ::registerPriceCalculator
+     * @covers ::registerPriceComparer
      *
      * @return void
      */

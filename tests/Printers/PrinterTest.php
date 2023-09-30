@@ -47,7 +47,7 @@ class PrinterTest extends LaravelTestCase
     {
         app()->setLocale($locale);
 
-        $printer = new Printer();
+        $printer = $this->getPrinter();
 
         $this->assertSame($expectedResult, $printer->printProperty($property, $decimals));
     }
@@ -76,12 +76,22 @@ class PrinterTest extends LaravelTestCase
         app()->setLocale($locale);
 
         $decimal ??= 0;
-        $printer   = new Printer();
+        $printer   = $this->getPrinter();
         $symbol    = $property->getUnit() instanceof CurrencyInterface ? '$' : $property->getUnit()->getSymbol();
 
         $this->assertSame(
             $expectedResult,
             $printer->print((string) $property->getValue(), $symbol, $decimal)
         );
+    }
+
+    /**
+     * Get the printer for the test.
+     *
+     * @return \MiBo\Properties\Printers\Printer
+     */
+    protected function getPrinter(): Printer
+    {
+        return new Printer();
     }
 }
