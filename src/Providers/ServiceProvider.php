@@ -14,6 +14,7 @@ use MiBo\Prices\Units\Price\Currency;
 use MiBo\Properties\Calculators\PropertyCalc;
 use MiBo\Properties\Calculators\UnitConvertor;
 use MiBo\Properties\Value;
+use MiBo\VAT\Manager;
 use MiBo\VAT\Resolvers\ProxyResolver;
 use function is_string;
 
@@ -109,6 +110,7 @@ final class ServiceProvider extends IlluminateServiceProvider
         /** @var class-string<\MiBo\VAT\Contracts\Convertor> $config */
         $config = $this->app['config']['prices.vat.convertor'] ?? $this->app['config']['prices.vat.resolver'];
 
+        Manager::
         ProxyResolver::setConvertor($config);
     }
 

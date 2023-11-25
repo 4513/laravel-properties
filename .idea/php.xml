@@ -122,6 +122,7 @@
       <path value="$PROJECT_DIR$/vendor/nette/utils" />
       <path value="$PROJECT_DIR$/vendor/nette/schema" />
       <path value="$PROJECT_DIR$/vendor/webmozart/assert" />
+      <path value="$PROJECT_DIR$/vendor/mibo/taxonomy" />
     </include_path>
   </component>
   <component name="PhpInterpreters">

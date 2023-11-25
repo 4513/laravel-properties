@@ -6,6 +6,8 @@
 
     <arg value="sp" />
 
+    <ini name="memory_limit" value="1G"/>
+
     <file>./src</file>
     <file>./tests</file>
 

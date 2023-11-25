@@ -6,13 +6,15 @@ namespace MiBo\Properties\Data\Factories;
 
 use Carbon\Carbon;
 use DateTimeInterface;
+use MiBo\Prices\Calculators\PriceCalc;
 use MiBo\Prices\PositivePrice;
 use MiBo\Prices\PositivePriceWithVAT;
 use MiBo\Prices\Price;
 use MiBo\Prices\PriceWithVAT;
+use MiBo\Prices\Taxonomies\AnyTaxonomy;
 use MiBo\Prices\Units\Price\Currency;
+use MiBo\Taxonomy\Contracts\ProductTaxonomy;
 use MiBo\VAT\Enums\VATRate;
-use MiBo\VAT\Resolvers\ProxyResolver;
 use MiBo\VAT\VAT;
 
 /**
@@ -28,13 +30,11 @@ use MiBo\VAT\VAT;
  */
 class PriceFactory
 {
-    private static ?self $instance = null;
-
     private float $value = 0.0;
 
     private string $currency = "";
 
-    private string $category = "";
+    private ?ProductTaxonomy $classification = null;
 
     private string $country = "";
 
@@ -51,15 +51,9 @@ class PriceFactory
         $this->date = Carbon::now();
     }
 
-    public static function get(): self
+    public static function get(): static
     {
-        if (self::$instance === null) {
-            self::$instance = new self();
-        }
-
-        self::$instance->clear();
-
-        return self::$instance;
+        return new static;
     }
 
     /**
@@ -87,14 +81,14 @@ class PriceFactory
     }
 
     /**
-     * @param string $category
+     * @param \MiBo\Taxonomy\Contracts\ProductTaxonomy $classification
      *
      * @return static
      */
-    public function setCategory(string $category): static
+    public function setClassification(ProductTaxonomy $classification): static
     {
-        $this->category = $category;
-        $this->isAnyVAT = false;
+        $this->classification = $classification;
+        $this->isAnyVAT       = false;
 
         return $this;
     }
@@ -182,8 +176,12 @@ class PriceFactory
             // @phpstan-ignore-next-line
             Currency::get($this->currency),
             $this->isAnyVAT ?
-                VAT::get($this->country, VATRate::ANY) :
-                ProxyResolver::retrieveByCategory($this->category, $this->country),
+                VAT::get($this->country, VATRate::ANY, AnyTaxonomy::get(), $this->date) :
+                PriceCalc::getVATManager()->retrieveVAT(
+                    $this->classification ?? AnyTaxonomy::get(),
+                    $this->country,
+                    $this->date
+                ),
             $this->date
         );
 
@@ -215,13 +213,13 @@ class PriceFactory
         return Price::class;
     }
 
-    protected function clear(): void
+    public function clear(): void
     {
         $this->date  = Carbon::now();
         $this->value = 0.0;
         // @phpstan-ignore-next-line
-        $this->currency = config('prices.currency.default');
-        $this->category = "";
+        $this->currency       = config('prices.currency.default');
+        $this->classification = null;
         // @phpstan-ignore-next-line
         $this->country        = config('prices.vat.country');
         $this->strictPositive = false;
