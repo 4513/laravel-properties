@@ -1,9 +1,11 @@
-name: PHP_CodeSniffer
+name: Vendor Check
 
 on:
   push:
     branches:
-      - "**"
+      - "main"
+  schedule:
+    - cron: "0 1 * * *"
 
 permissions:
   contents: read
@@ -22,7 +24,7 @@ jobs:
           php-version: '8.3'
 
       - name: Composer Install
-        run: composer install --prefer-dist --no-progress
+        run: composer install
 
-      - name: PHP_CodeSniffer
-        run: ./vendor/bin/phpcs
+      - name: Check new major versions of vendor libs
+        run: composer outdated
