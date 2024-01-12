@@ -27,7 +27,7 @@ jobs:
         run: composer install --prefer-dist --no-progress
 
       - name: PHPUnitCoverage
-        run: XDEBUG_MODE=coverage ./vendor/bin/phpunit --log-junit junit_report.xml --coverage-clover clover.xml --coverage-text --colors=never
+        run: XDEBUG_MODE=coverage ./vendor/bin/phpunit --testsuite Coverage --log-junit junit_report.xml --coverage-clover clover.xml --coverage-text --colors=never
 
       - name: CodeCov
         uses: codecov/codecov-action@v3
