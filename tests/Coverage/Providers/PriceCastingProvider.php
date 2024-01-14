@@ -6,6 +6,7 @@ namespace MiBo\Properties\Tests\Coverage\Providers;
 
 use Carbon\Carbon;
 use Generator;
+use MiBo\Properties\Classifications\Creator;
 use MiBo\Properties\Data\Factories\PriceFactory;
 use MiBo\Prices\Price;
 
@@ -35,7 +36,7 @@ class PriceCastingProvider
                         ->setDate(
                             Carbon::now()->addDays(-11)->setMinute(0)->setSecond(0)->setHour(0)
                         )
-                        ->setCategory('07')
+                        ->setClassification(app(Creator::class)->createFromString('07'))
                         ->create();
                 },
             ],
@@ -49,7 +50,7 @@ class PriceCastingProvider
                         ->setDate(
                             Carbon::now()->addDays(-365)->setMinute(0)->setSecond(0)->setHour(0)
                         )
-                        ->setCategory('07')
+                        ->setClassification(app(Creator::class)->createFromString('07'))
                         ->create();
                 },
             ],
@@ -63,7 +64,7 @@ class PriceCastingProvider
                         ->setDate(
                             Carbon::now()->addDays(-30)->setMinute(0)->setSecond(0)->setHour(0)
                         )
-                        ->setCategory('07')
+                        ->setClassification(app(Creator::class)->createFromString('07'))
                         ->create();
                 },
             ],
@@ -77,7 +78,7 @@ class PriceCastingProvider
                         ->setDate(
                             Carbon::now()->setMinute(0)->setSecond(0)->setHour(0),
                         )
-                        ->setCategory('07')
+                        ->setClassification(app(Creator::class)->createFromString('07'))
                         ->create();
                 },
             ],
@@ -92,7 +93,7 @@ class PriceCastingProvider
                             Carbon::now()->addDays(-1)->setMinute(0)->setSecond(0)->setHour(0),
                         )
                         ->strictlyPositive()
-                        ->setCategory('07')
+                        ->setClassification(app(Creator::class)->createFromString('07'))
                         ->create();
                 },
             ],
@@ -106,7 +107,7 @@ class PriceCastingProvider
                         ->setDate(
                             Carbon::now()->addDays(-11)->setMinute(0)->setSecond(0)->setHour(0)
                         )
-                        ->setCategory('07')
+                        ->setClassification(app(Creator::class)->createFromString('07'))
                         ->create();
                 },
             ],
@@ -121,7 +122,7 @@ class PriceCastingProvider
                             Carbon::createFromFormat('Y-m-d', '2023-01-01')
                         )
                         ->strictlyPositive()
-                        ->setCategory('07')
+                        ->setClassification(app(Creator::class)->createFromString('07'))
                         ->create();
                 },
             ],
@@ -135,7 +136,7 @@ class PriceCastingProvider
                         ->setDate(
                             Carbon::now()->addDays(-11)->setMinute(0)->setSecond(0)->setHour(0)
                         )
-                        ->setCategory('07')
+                        ->setClassification(app(Creator::class)->createFromString('07'))
                         ->setAnyVAT()
                         ->create();
                 },
@@ -147,7 +148,7 @@ class PriceCastingProvider
                         ->setValue(-1000)
                         ->setCurrency('EUR')
                         ->setCountry('SVK')
-                        ->setCategory('07')
+                        ->setClassification(app(Creator::class)->createFromString('07'))
                         ->create();
                 },
             ],
@@ -161,7 +162,7 @@ class PriceCastingProvider
                         ->setDate(
                             Carbon::now()->addDays(-11)->setMinute(0)->setSecond(0)->setHour(0)
                         )
-                        ->setCategory('07')
+                        ->setClassification(app(Creator::class)->createFromString('07'))
                         ->isWithVAT()
                         ->create();
                 },
@@ -176,7 +177,7 @@ class PriceCastingProvider
                         ->setDate(
                             Carbon::now()->addDays(-365)->setMinute(0)->setSecond(0)->setHour(0)
                         )
-                        ->setCategory('07')
+                        ->setClassification(app(Creator::class)->createFromString('07'))
                         ->isWithVAT()
                         ->create();
                 },
@@ -191,7 +192,7 @@ class PriceCastingProvider
                         ->setDate(
                             Carbon::now()->addDays(-30)->setMinute(0)->setSecond(0)->setHour(0)
                         )
-                        ->setCategory('07')
+                        ->setClassification(app(Creator::class)->createFromString('07'))
                         ->isWithVAT()
                         ->create();
                 },
@@ -206,7 +207,7 @@ class PriceCastingProvider
                         ->setDate(
                             Carbon::now()->setMinute(0)->setSecond(0)->setHour(0),
                         )
-                        ->setCategory('07')
+                        ->setClassification(app(Creator::class)->createFromString('07'))
                         ->isWithVAT()
                         ->create();
                 },
@@ -222,7 +223,7 @@ class PriceCastingProvider
                             Carbon::now()->addDays(-1)->setMinute(0)->setSecond(0)->setHour(0),
                         )
                         ->strictlyPositive()
-                        ->setCategory('07')
+                        ->setClassification(app(Creator::class)->createFromString('07'))
                         ->isWithVAT()
                         ->create();
                 },
@@ -237,7 +238,7 @@ class PriceCastingProvider
                         ->setDate(
                             Carbon::now()->addDays(-11)->setMinute(0)->setSecond(0)->setHour(0)
                         )
-                        ->setCategory('07')
+                        ->setClassification(app(Creator::class)->createFromString('07'))
                         ->isWithVAT()
                         ->create();
                 },
@@ -253,7 +254,7 @@ class PriceCastingProvider
                             Carbon::createFromFormat('Y-m-d', '2023-01-01')
                         )
                         ->strictlyPositive()
-                        ->setCategory('07')
+                        ->setClassification(app(Creator::class)->createFromString('07'))
                         ->isWithVAT()
                         ->create();
                 },
@@ -268,7 +269,7 @@ class PriceCastingProvider
                         ->setDate(
                             Carbon::now()->addDays(-11)->setMinute(0)->setSecond(0)->setHour(0)
                         )
-                        ->setCategory('07')
+                        ->setClassification(app(Creator::class)->createFromString('07'))
                         ->isWithVAT()
                         ->create();
                 },
@@ -280,7 +281,7 @@ class PriceCastingProvider
                         ->setValue(-1000)
                         ->setCurrency('EUR')
                         ->setCountry('SVK')
-                        ->setCategory('07')
+                        ->setClassification(app(Creator::class)->createFromString('07'))
                         ->isWithVAT()
                         ->create();
                 },

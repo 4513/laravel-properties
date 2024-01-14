@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace MiBo\Properties\Tests\TestingData\Resolvers;
 
-use DateTime;
+use Carbon\Carbon;
+use DateTimeInterface;
+use MiBo\Taxonomy\Contracts\ProductTaxonomy;
 use MiBo\VAT\Contracts\Convertor;
-use MiBo\VAT\Contracts\Resolver;
+use MiBo\VAT\Contracts\ValueResolver;
 use MiBo\VAT\Enums\VATRate;
 use MiBo\VAT\VAT;
+use Stringable;
 
 /**
  * Class VATResolver
@@ -21,27 +24,8 @@ use MiBo\VAT\VAT;
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise.
  */
-class VATResolver implements Resolver, Convertor
+class VATResolver implements \MiBo\VAT\Contracts\VATResolver, Convertor, ValueResolver
 {
-    public static function convertForCountry(VAT $vat, string $countryCode): VAT
-    {
-        return self::retrieveByCategory($vat->getCategory() ?? "", $countryCode);
-    }
-
-    public static function retrieveByCategory(string $category, string $countryCode): VAT
-    {
-        if (empty(self::getVATs()[$countryCode][$category])) {
-            return VAT::get($countryCode, VATRate::STANDARD, $category);
-        }
-
-        return VAT::get($countryCode, self::getVATs()[$countryCode][$category], $category);
-    }
-
-    public static function getPercentageOf(VAT $vat, ?DateTime $time = null): float|int
-    {
-        return self::getPercentages()[$vat->getCountryCode()][$vat->getRate()->name];
-    }
-
     /**
      * @return array<string, array<string, \MiBo\VAT\Enums\VATRate>>
      */
@@ -71,6 +55,7 @@ class VATResolver implements Resolver, Convertor
                 '08' => VATRate::STANDARD,
                 '06' => VATRate::STANDARD,
                 '02' => VATRate::STANDARD,
+                '1'  => VATRate::STANDARD,
             ],
         ];
     }
@@ -100,5 +85,54 @@ class VATResolver implements Resolver, Convertor
                 VATRate::SECOND_REDUCED->name => 0.20,
             ],
         ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function convert(VAT $vat, ?string $countryCode = null, ?DateTimeInterface $date = null): VAT
+    {
+        return $this->retrieveVAT(
+            $vat->getClassification(),
+            $countryCode ?? $vat->getCountryCode(),
+            $date ?? $vat->getDate()
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function retrieveVAT(
+        ProductTaxonomy $classification,
+        Stringable|string $countryCode,
+        ?DateTimeInterface $date
+    ): VAT
+    {
+        if (empty(self::getVATs()[(string) $countryCode][$classification->getCode()])) {
+            return VAT::get($countryCode, VATRate::STANDARD, $classification, $date ?? Carbon::now());
+        }
+
+        return VAT::get(
+            $countryCode,
+            self::getVATs()[(string) $countryCode][$classification->getCode()],
+            $classification,
+            $date ?? Carbon::now()
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValueOfVAT(VAT $vat): float|int
+    {
+        if ($vat->isAny() || $vat->isNone() || $vat->isCombined()) {
+            return 0;
+        }
+
+        if ($vat->getCountryCode() === '') {
+            return 0;
+        }
+
+        return self::getPercentages()[$vat->getCountryCode()][$vat->getRate()->name];
     }
 }

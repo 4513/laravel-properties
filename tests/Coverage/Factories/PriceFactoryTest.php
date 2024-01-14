@@ -31,7 +31,7 @@ class PriceFactoryTest extends BaseTest
      * @covers ::create
      * @covers ::setValue
      * @covers ::setCurrency
-     * @covers ::setCategory
+     * @covers ::setClassification
      * @covers ::setCountry
      * @covers ::setDate
      * @covers ::setIsVATIncluded

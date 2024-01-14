@@ -60,7 +60,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
         $this->assertSame((float) ($data['price'] * 10 ** -2), (float) $price->getValue());
         $this->assertSame($data['price_currency'], $price->getUnit()->getAlphabeticalCode());
         $this->assertSame($data['price_country'], $price->getVAT()->getCountryCode());
-        $this->assertSame($data['price_category'], $price->getVAT()->getCategory());
+        $this->assertSame($data['price_category'], $price->getVAT()->getClassification()->getCode());
         $this->assertSame(
             is_string($data['price_date']) ? $data['price_date'] : $data['price_date']?->format('Y-m-d'),
             $price->getDateTime()?->format('Y-m-d')
@@ -103,7 +103,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
         $this->assertSame((float) $data['price'], (float) $price->getValue());
         $this->assertSame($data['price_currency'], $price->getUnit()->getAlphabeticalCode());
         $this->assertSame($data['price_country'], $price->getVAT()->getCountryCode());
-        $this->assertSame($data['price_category'], $price->getVAT()->getCategory());
+        $this->assertSame($data['price_category'], $price->getVAT()->getClassification()->getCode());
         $this->assertSame(
             is_string($data['price_date']) ? $data['price_date'] : $data['price_date']?->format('Y-m-d'),
             $price->getDateTime()?->format('Y-m-d')
@@ -146,7 +146,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
         $this->assertSame((float) ($data['price'] * 10 ** -2), (float) $price->getValue());
         $this->assertSame($data['price_currency'], $price->getUnit()->getAlphabeticalCode());
         $this->assertSame($data['price_country'], $price->getVAT()->getCountryCode());
-        $this->assertSame($data['price_category'], $price->getVAT()->getCategory());
+        $this->assertSame($data['price_category'], $price->getVAT()->getClassification()->getCode());
         $this->assertSame(
             is_string($data['price_date']) ? $data['price_date'] : $data['price_date']?->format('Y-m-d'),
             $price->getDateTime()?->format('Y-m-d')
@@ -189,7 +189,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
         $this->assertSame((float) ($data['price'] * 10 ** -2), (float) $price->getValue());
         $this->assertSame('SEK', $price->getUnit()->getAlphabeticalCode());
         $this->assertSame($data['price_country'], $price->getVAT()->getCountryCode());
-        $this->assertSame($data['price_category'], $price->getVAT()->getCategory());
+        $this->assertSame($data['price_category'], $price->getVAT()->getClassification()->getCode());
         $this->assertSame(
             is_string($data['price_date']) ? $data['price_date'] : $data['price_date']?->format('Y-m-d'),
             $price->getDateTime()?->format('Y-m-d')
@@ -234,7 +234,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
         $this->assertSame((float) ($data['price'] * 10 ** -2), (float) $price->getValue());
         $this->assertSame('USD', $price->getUnit()->getAlphabeticalCode());
         $this->assertSame($data['price_country'], $price->getVAT()->getCountryCode());
-        $this->assertSame($data['price_category'], $price->getVAT()->getCategory());
+        $this->assertSame($data['price_category'], $price->getVAT()->getClassification()->getCode());
         $this->assertSame(
             is_string($data['price_date']) ? $data['price_date'] : $data['price_date']?->format('Y-m-d'),
             $price->getDateTime()?->format('Y-m-d')
@@ -277,7 +277,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
         $this->assertSame((float) ($data['price'] * 10 ** -2), (float) $price->getValue());
         $this->assertSame($data['currency'], $price->getUnit()->getAlphabeticalCode());
         $this->assertSame($data['price_country'], $price->getVAT()->getCountryCode());
-        $this->assertSame($data['price_category'], $price->getVAT()->getCategory());
+        $this->assertSame($data['price_category'], $price->getVAT()->getClassification()->getCode());
         $this->assertSame(
             is_string($data['price_date']) ? $data['price_date'] : $data['price_date']?->format('Y-m-d'),
             $price->getDateTime()?->format('Y-m-d')
@@ -320,7 +320,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
         $this->assertSame((float) ($data['price'] * 10 ** -2), (float) $price->getValue());
         $this->assertSame($data['price_currency'], $price->getUnit()->getAlphabeticalCode());
         $this->assertSame($data['price_country'], $price->getVAT()->getCountryCode());
-        $this->assertSame($data['price_category'], $price->getVAT()->getCategory());
+        $this->assertSame($data['price_category'], $price->getVAT()->getClassification()->getCode());
         $this->assertSame(
             is_string($data['price_date']) ? $data['price_date'] : $data['price_date']?->format('Y-m-d'),
             $price->getDateTime()?->format('Y-m-d')
@@ -363,7 +363,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
         $this->assertSame((float) ($data['price'] * 10 ** -2), (float) $price->getValue());
         $this->assertSame($data['price_currency'], $price->getUnit()->getAlphabeticalCode());
         $this->assertSame($data['price_country'], $price->getVAT()->getCountryCode());
-        $this->assertSame($data['price_category'], $price->getVAT()->getCategory());
+        $this->assertSame($data['price_category'], $price->getVAT()->getClassification()->getCode());
         $this->assertSame(
             is_string($data['price_date']) ? $data['price_date'] : $data['price_date']?->format('Y-m-d'),
             $price->getDateTime()?->format('Y-m-d')
@@ -410,7 +410,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
         $this->assertSame((float) ($data['price'] * 10 ** -2), (float) $price->getValue());
         $this->assertSame($data['price_currency'], $price->getUnit()->getAlphabeticalCode());
         $this->assertSame($data['price_country'], $price->getVAT()->getCountryCode());
-        $this->assertSame($data['price_category'], $price->getVAT()->getCategory());
+        $this->assertSame($data['price_category'], $price->getVAT()->getClassification()->getCode());
         $this->assertSame(
             is_string($data['price_date']) ? $data['price_date'] : $data['price_date']?->format('Y-m-d'),
             $price->getDateTime()?->format('Y-m-d')
@@ -453,7 +453,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
         $this->assertSame((float) ($data['price'] * 10 ** -2), (float) $price->getValue());
         $this->assertSame($data['price_currency'], $price->getUnit()->getAlphabeticalCode());
         $this->assertSame($data['price_country'], $price->getVAT()->getCountryCode());
-        $this->assertSame('08', $price->getVAT()->getCategory());
+        $this->assertSame('08', $price->getVAT()->getClassification()->getCode());
         $this->assertSame(
             is_string($data['price_date']) ? $data['price_date'] : $data['price_date']?->format('Y-m-d'),
             $price->getDateTime()?->format('Y-m-d')
@@ -496,7 +496,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
         $this->assertSame((float) ($data['price'] * 10 ** -2), (float) $price->getValue());
         $this->assertSame($data['price_currency'], $price->getUnit()->getAlphabeticalCode());
         $this->assertSame($data['price_country'], $price->getVAT()->getCountryCode());
-        $this->assertSame($data['price_cat'], $price->getVAT()->getCategory());
+        $this->assertSame($data['price_cat'], $price->getVAT()->getClassification()->getCode());
         $this->assertSame(
             is_string($data['price_date']) ? $data['price_date'] : $data['price_date']?->format('Y-m-d'),
             $price->getDateTime()?->format('Y-m-d')
@@ -539,7 +539,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
         $this->assertSame((float) ($data['price'] * 10 ** -2), (float) $price->getValue());
         $this->assertSame($data['price_currency'], $price->getUnit()->getAlphabeticalCode());
         $this->assertSame($data['price_country'], $price->getVAT()->getCountryCode());
-        $this->assertEmpty($price->getVAT()->getCategory());
+        $this->assertEmpty($price->getVAT()->getClassification()->getCode());
         $this->assertSame(
             is_string($data['price_date']) ? $data['price_date'] : $data['price_date']?->format('Y-m-d'),
             $price->getDateTime()?->format('Y-m-d')
@@ -589,7 +589,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
         $this->assertSame((float) ($data['price'] * 10 ** -2), (float) $price->getValue());
         $this->assertSame($data['price_currency'], $price->getUnit()->getAlphabeticalCode());
         $this->assertSame($data['price_country'], $price->getVAT()->getCountryCode());
-        $this->assertSame((string) $data['id'], $price->getVAT()->getCategory());
+        $this->assertSame((string) $data['id'], $price->getVAT()->getClassification()->getCode());
         $this->assertSame(
             is_string($data['price_date']) ? $data['price_date'] : $data['price_date']?->format('Y-m-d'),
             $price->getDateTime()?->format('Y-m-d')
@@ -632,7 +632,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
         $this->assertSame((float) ($data['price'] * 10 ** -2), (float) $price->getValue());
         $this->assertSame($data['price_currency'], $price->getUnit()->getAlphabeticalCode());
         $this->assertSame('SVK', $price->getVAT()->getCountryCode());
-        $this->assertSame($data['price_category'], $price->getVAT()->getCategory());
+        $this->assertSame($data['price_category'], $price->getVAT()->getClassification()->getCode());
         $this->assertSame(
             is_string($data['price_date']) ? $data['price_date'] : $data['price_date']?->format('Y-m-d'),
             $price->getDateTime()?->format('Y-m-d')
@@ -675,7 +675,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
         $this->assertSame((float) ($data['price'] * 10 ** -2), (float) $price->getValue());
         $this->assertSame($data['price_currency'], $price->getUnit()->getAlphabeticalCode());
         $this->assertSame($data['price_cntry'], $price->getVAT()->getCountryCode());
-        $this->assertSame($data['price_category'], $price->getVAT()->getCategory());
+        $this->assertSame($data['price_category'], $price->getVAT()->getClassification()->getCode());
         $this->assertSame(
             is_string($data['price_date']) ? $data['price_date'] : $data['price_date']?->format('Y-m-d'),
             $price->getDateTime()?->format('Y-m-d')
@@ -720,7 +720,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
         $this->assertSame((float) ($data['price'] * 10 ** -2), (float) $price->getValue());
         $this->assertSame($data['price_currency'], $price->getUnit()->getAlphabeticalCode());
         $this->assertSame('US', $price->getVAT()->getCountryCode());
-        $this->assertSame($data['price_category'], $price->getVAT()->getCategory());
+        $this->assertSame($data['price_category'], $price->getVAT()->getClassification()->getCode());
         $this->assertSame(
             is_string($data['price_date']) ? $data['price_date'] : $data['price_date']?->format('Y-m-d'),
             $price->getDateTime()?->format('Y-m-d')
@@ -763,7 +763,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
         $this->assertSame((float) ($data['price'] * 10 ** -2), (float) $price->getValue());
         $this->assertSame($data['price_currency'], $price->getUnit()->getAlphabeticalCode());
         $this->assertSame($data['price_country'], $price->getVAT()->getCountryCode());
-        $this->assertSame($data['price_category'], $price->getVAT()->getCategory());
+        $this->assertSame($data['price_category'], $price->getVAT()->getClassification()->getCode());
         $this->assertSame('2023-01-01', $price->getDateTime()?->format('Y-m-d'));
     }
 
@@ -803,7 +803,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
         $this->assertSame((float) ($data['price'] * 10 ** -2), (float) $price->getValue());
         $this->assertSame($data['price_currency'], $price->getUnit()->getAlphabeticalCode());
         $this->assertSame($data['price_country'], $price->getVAT()->getCountryCode());
-        $this->assertSame($data['price_category'], $price->getVAT()->getCategory());
+        $this->assertSame($data['price_category'], $price->getVAT()->getClassification()->getCode());
         $this->assertSame(
             is_string($data['price_date']) ? $data['price_date'] : $data['price_date']?->format('Y-m-d'),
             $price->getDateTime()?->format('Y-m-d')
@@ -849,7 +849,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
         $this->assertSame((float) ($data['price'] * 10 ** -2), (float) $price->getValue());
         $this->assertSame($data['price_currency'], $price->getUnit()->getAlphabeticalCode());
         $this->assertSame($data['price_country'], $price->getVAT()->getCountryCode());
-        $this->assertSame($data['price_category'], $price->getVAT()->getCategory());
+        $this->assertSame($data['price_category'], $price->getVAT()->getClassification()->getCode());
         $this->assertSame(
             is_string($data['price_date']) ? $data['price_date'] : $data['price_date']?->format('Y-m-d'),
             $price->getDateTime()?->format('Y-m-d')
@@ -894,7 +894,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
         $this->assertSame((float) ($data['price'] * 10 ** -2), (float) $price->getValue());
         $this->assertSame($data['price_currency'], $price->getUnit()->getAlphabeticalCode());
         $this->assertSame($data['price_country'], $price->getVAT()->getCountryCode());
-        $this->assertSame($data['price_category'], $price->getVAT()->getCategory());
+        $this->assertSame($data['price_category'], $price->getVAT()->getClassification()->getCode());
         $this->assertSame(
             Carbon::now()->format('Y-m-d'),
             $price->getDateTime()?->format('Y-m-d')
@@ -980,7 +980,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
         $this->assertSame((float) ($data['price'] * 10 ** -2), (float) $price->getValue());
         $this->assertSame($data['price_currency'], $price->getUnit()->getAlphabeticalCode());
         $this->assertSame($data['price_country'], $price->getVAT()->getCountryCode());
-        $this->assertSame($data['price_category'], $price->getVAT()->getCategory());
+        $this->assertSame($data['price_category'], $price->getVAT()->getClassification()->getCode());
         $this->assertSame(
             is_string($data['price_date']) ? $data['price_date'] : $data['price_date']?->format('Y-m-d'),
             $price->getDateTime()?->format('Y-m-d')
@@ -1023,7 +1023,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
         $this->assertSame((float) ($data['price'] * 10 ** -2), round((float) $price->getValueWithVAT(), 2));
         $this->assertSame($data['price_currency'], $price->getUnit()->getAlphabeticalCode());
         $this->assertSame($data['price_country'], $price->getVAT()->getCountryCode());
-        $this->assertSame($data['price_category'], $price->getVAT()->getCategory());
+        $this->assertSame($data['price_category'], $price->getVAT()->getClassification()->getCode());
         $this->assertSame(
             is_string($data['price_date']) ? $data['price_date'] : $data['price_date']?->format('Y-m-d'),
             $price->getDateTime()?->format('Y-m-d')
@@ -1066,7 +1066,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
         $this->assertSame((float) ($data['price'] * 10 ** -2), (float) $price->getValue());
         $this->assertSame($data['price_currency'], $price->getUnit()->getAlphabeticalCode());
         $this->assertSame($data['price_country'], $price->getVAT()->getCountryCode());
-        $this->assertSame($data['price_category'], $price->getVAT()->getCategory());
+        $this->assertSame($data['price_category'], $price->getVAT()->getClassification()->getCode());
         $this->assertSame(
             is_string($data['price_date']) ? $data['price_date'] : $data['price_date']?->format('Y-m-d'),
             $price->getDateTime()?->format('Y-m-d')
@@ -1115,7 +1115,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
         $this->assertSame((float) $data['price'], (float) $price->getValueWithVAT());
         $this->assertSame('XXX', $price->getUnit()->getAlphabeticalCode());
         $this->assertSame('SVK', $price->getVAT()->getCountryCode());
-        $this->assertSame('07', $price->getVAT()->getCategory());
+        $this->assertSame('07', $price->getVAT()->getClassification()->getCode());
         $this->assertSame('2020-01-01', $price->getDateTime()?->format('Y-m-d'));
     }
 
@@ -1162,7 +1162,7 @@ class PriceRetrieveCastingTest extends LaravelTestCase
         $this->assertSame((float) ($data['price'] * 10 ** -2), (float) $price->getValue());
         $this->assertSame($data['price_currency'], $price->getUnit()->getAlphabeticalCode());
         $this->assertSame($data['price_country'], $price->getVAT()->getCountryCode());
-        $this->assertSame($data['price_category'], $price->getVAT()->getCategory());
+        $this->assertSame($data['price_category'], $price->getVAT()->getClassification()->getCode());
         $this->assertSame(
             is_string($data['price_date']) ? $data['price_date'] : $data['price_date']?->format('Y-m-d'),
             $price->getDateTime()?->format('Y-m-d')

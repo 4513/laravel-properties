@@ -254,13 +254,7 @@ class DiscountFactory
 
     public static function get(): self
     {
-        if (self::$instance === null) {
-            self::$instance = new self();
-        }
-
-        self::$instance->clear();
-
-        return self::$instance;
+        return new self();
     }
 
     /**

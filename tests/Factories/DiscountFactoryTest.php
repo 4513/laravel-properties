@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MiBo\Properties\Tests\Factories;
 
 use Closure;
+use MiBo\Properties\Classifications\Creator;
 use MiBo\Properties\Contracts\Discountable;
 use MiBo\Prices\Contracts\PriceInterface;
 use MiBo\Properties\Data\Factories\DiscountFactory;
@@ -87,8 +88,14 @@ class DiscountFactoryTest extends LaravelTestCase
             ->setOption(DiscountFactory::OPT_IS_VALUE_WITH_VAT, true)
             ->create();
 
+        $price = 0;
+
+        foreach ($list as $item) {
+            $price += $item->getDiscountedPrice()->getValueWithVAT();
+        }
+
         $this->assertInstanceOf(PositivePriceWithVAT::class, $discount);
-        $this->assertEquals(count($list) * 25, $discount->getValue());
+        $this->assertEquals($price, $discount->getValue());
     }
 
     /**
@@ -279,27 +286,27 @@ class DiscountFactoryTest extends LaravelTestCase
     {
         $price    = PriceFactory::get()
             ->setValue(10)
-            ->setCategory('2201')
+            ->setClassification(app(Creator::class)->createFromString('2201'))
             ->setCountry('CZE')
             ->create()
             ->add(
                 PriceFactory::get()
                     ->setValue(10)
-                    ->setCategory('1')
+                    ->setClassification(app(Creator::class)->createFromString('1'))
                     ->setCountry('CZE')
                     ->create()
             )
             ->add(
                 PriceFactory::get()
                     ->setValue(10)
-                    ->setCategory('2201')
+                    ->setClassification(app(Creator::class)->createFromString('2201'))
                     ->setCountry('CZE')
                     ->create()
             )
             ->add(
                 PriceFactory::get()
                     ->setValue(10)
-                    ->setCategory('06')
+                    ->setClassification(app(Creator::class)->createFromString('06'))
                     ->setCountry('CZE')
                     ->create()
             );
@@ -353,27 +360,27 @@ class DiscountFactoryTest extends LaravelTestCase
     {
         $price    = PriceFactory::get()
             ->setValue(10)
-            ->setCategory('2201')
+            ->setClassification(app(Creator::class)->createFromString('2201'))
             ->setCountry('CZE')
             ->create()
             ->add(
                 PriceFactory::get()
                     ->setValue(10)
-                    ->setCategory('1')
+                    ->setClassification(app(Creator::class)->createFromString('1'))
                     ->setCountry('CZE')
                     ->create()
             )
             ->add(
                 PriceFactory::get()
                     ->setValue(10)
-                    ->setCategory('2201')
+                    ->setClassification(app(Creator::class)->createFromString('2201'))
                     ->setCountry('CZE')
                     ->create()
             )
             ->add(
                 PriceFactory::get()
                     ->setValue(10)
-                    ->setCategory('06')
+                    ->setClassification(app(Creator::class)->createFromString('06'))
                     ->setCountry('CZE')
                     ->create()
             );
@@ -482,10 +489,16 @@ class DiscountFactoryTest extends LaravelTestCase
             ->setOption(DiscountFactory::OPT_IS_VALUE_WITH_VAT, true)
             ->create();
 
+        $price = 0;
+
+        foreach ($list as $item) {
+            $price += $item->getDiscountedPrice()->getValueWithVAT();
+        }
+
         $this->assertInstanceOf(PositivePriceWithVAT::class, $discount);
         $this->assertTrue(
-            min(count($list) * 25, 100) == $discount->getValue()
-            || min(count($list) * 25, 100) == $discount->getValueWithVAT()
+            min($price, 100) == $discount->getValue()
+            || min($price, 100) == $discount->getValueWithVAT()
         );
     }
 
@@ -511,10 +524,16 @@ class DiscountFactoryTest extends LaravelTestCase
             ->setOption(DiscountFactory::OPT_IS_VALUE_WITH_VAT, true)
             ->create();
 
+        $price = 0;
+
+        foreach ($list as $item) {
+            $price += $item->getDiscountedPrice()->getValueWithVAT();
+        }
+
         $this->assertInstanceOf(PositivePriceWithVAT::class, $discount);
         $this->assertTrue(
-            min(count($list) * 25, 100) == $discount->getValueWithVAT()
-            || min(count($list) * 25, 100) == $discount->getValue()
+            min($price, 100) == $discount->getValueWithVAT()
+            || min($price, 100) == $discount->getValue()
         );
     }
 

@@ -10,6 +10,7 @@ use MiBo\Properties\Tests\LaravelTestCase;
 use MiBo\Properties\Calculators\PropertyCalc;
 use MiBo\Properties\Calculators\UnitConvertor;
 use MiBo\Properties\Quantities\Length;
+use MiBo\Properties\Tests\TestingData\Resolvers\VATResolver;
 use MiBo\Properties\Units\Length\Foot;
 use stdClass;
 
@@ -45,6 +46,8 @@ class ServiceProviderTest extends LaravelTestCase
      */
     public function testDefaultRegister(): void
     {
+        $this->app['config']['prices.vat.resolver'] = VATResolver::class;
+
         $provider = new ServiceProvider($this->app);
         $provider->register();
         $this->assertArrayHasKey(Price::class, UnitConvertor::$unitConvertors);
@@ -61,6 +64,7 @@ class ServiceProviderTest extends LaravelTestCase
      */
     public function testUpdatedRegister(): void
     {
+        $this->app['config']['prices.vat.resolver']          = VATResolver::class;
         $this->app['config']['prices.convertor']             = stdClass::class;
         $this->app['config']['properties.defaultUnits']      = [Length::class => Foot::class];
         $this->app['config']['properties.allowedQuantities'] = [Price::class];

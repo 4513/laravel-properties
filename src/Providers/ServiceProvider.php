@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace MiBo\Properties\Providers;
 
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
-use MiBo\Currencies\CurrencyProvider;
 use MiBo\Currencies\ListLoader;
 use MiBo\Prices\Calculators\PriceCalc;
 use MiBo\Prices\Contracts\PriceInterface;
@@ -13,9 +13,9 @@ use MiBo\Prices\Quantities\Price;
 use MiBo\Prices\Units\Price\Currency;
 use MiBo\Properties\Calculators\PropertyCalc;
 use MiBo\Properties\Calculators\UnitConvertor;
+use MiBo\Properties\Classifications\Creator;
 use MiBo\Properties\Value;
 use MiBo\VAT\Manager;
-use MiBo\VAT\Resolvers\ProxyResolver;
 use function is_string;
 
 /**
@@ -38,12 +38,12 @@ final class ServiceProvider extends IlluminateServiceProvider
     {
         $this->registerAllowedQuantities();
         $this->registerDefaultUnits();
-        $this->registerVATResolver();
-        $this->registerVATConvertor();
         $this->registerPriceCalculator();
         $this->registerPriceConvertor();
         $this->registerPriceComparer();
         $this->registerCurrencyListLoader();
+        $this->registerManager();
+        $this->registerClassificationCreator();
     }
 
     /**
@@ -92,26 +92,22 @@ final class ServiceProvider extends IlluminateServiceProvider
      *
      * @return void
      */
-    protected function registerVATResolver(): void
+    protected function registerManager(): void
     {
-        /** @var class-string<\MiBo\VAT\Contracts\Resolver> $config */
-        $config = $this->app['config']['prices.vat.resolver'];
+        $this->app->singleton(Manager::class, static function (Application $app): Manager {
+            /** @var \MiBo\VAT\Contracts\ValueResolver $vatValueResolver */
+            $vatValueResolver = $app->make($app['config']['prices.vat.value_resolver']);
 
-        ProxyResolver::setResolver($config);
-    }
+            /** @var \MiBo\VAT\Contracts\VATResolver $vatResolver */
+            $vatResolver = $app->make($app['config']['prices.vat.resolver']);
 
-    /**
-     * Registers VAT resolver.
-     *
-     * @return void
-     */
-    protected function registerVATConvertor(): void
-    {
-        /** @var class-string<\MiBo\VAT\Contracts\Convertor> $config */
-        $config = $this->app['config']['prices.vat.convertor'] ?? $this->app['config']['prices.vat.resolver'];
+            /** @var \MiBo\VAT\Contracts\Convertor $vatConvertor */
+            $vatConvertor = $app->make(
+                $app['config']['prices.vat.convertor'] ?? $app['config']['prices.vat.resolver']
+            );
 
-        Manager::
-        ProxyResolver::setConvertor($config);
+            return new Manager($vatConvertor, $vatValueResolver, $vatResolver);
+        });
     }
 
     /**
@@ -191,5 +187,15 @@ final class ServiceProvider extends IlluminateServiceProvider
         $comparer = $this->app->make($config);
 
         PriceCalc::setComparerHelper($comparer);
+    }
+
+    /**
+     * Registers classification creator.
+     *
+     * @return void
+     */
+    protected function registerClassificationCreator(): void
+    {
+        $this->app->singleton(Creator::class, Creator::class);
     }
 }

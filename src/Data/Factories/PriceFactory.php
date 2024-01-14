@@ -174,7 +174,7 @@ class PriceFactory
         $price = new ($this->getClassName())(
             $this->value,
             // @phpstan-ignore-next-line
-            Currency::get($this->currency),
+            Currency::get($this->currency ?: config('prices.currency.default')),
             $this->isAnyVAT ?
                 VAT::get($this->country, VATRate::ANY, AnyTaxonomy::get(), $this->date) :
                 PriceCalc::getVATManager()->retrieveVAT(

@@ -9,6 +9,7 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Testing\TestCase;
 use Illuminate\Support\Facades\Facade;
+use MiBo\Prices\Calculators\PriceCalc;
 use MiBo\Prices\Price;
 use MiBo\Properties\Providers\ConfigProvider;
 use MiBo\Properties\Providers\FacadeProvider;
@@ -17,7 +18,7 @@ use MiBo\Properties\Providers\TranslationProvider;
 use MiBo\Properties\Tests\TestingData\Resolvers\VATResolver;
 use MiBo\Prices\Units\Price\Currency;
 use MiBo\Properties\Calculators\UnitConvertor;
-use MiBo\VAT\Resolvers\ProxyResolver;
+use MiBo\VAT\Manager;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
@@ -83,7 +84,13 @@ class LaravelTestCase extends TestCase
 
         $this->setUpHasRun = true;
 
-        ProxyResolver::setResolver(VATResolver::class);
+        $this->app->bind(Manager::class, static function(Application $app): Manager {
+            $resolver = new VATResolver();
+
+            return new Manager($resolver, $resolver, $resolver);
+        });
+
+        PriceCalc::setVATManager($this->app->make(Manager::class));
 
         // Setting conversion rate between CZK and EUR => 1 EUR = 25 CZK
         UnitConvertor::$unitConvertors[\MiBo\Prices\Quantities\Price::class] = function(Price $price, Currency $unit) {

@@ -5,10 +5,12 @@ declare(strict_types=1);
 return [
     'printer'    => \MiBo\Properties\Printers\PricePrinter::class,
     'vat'        => [
-        'resolver'         => \MiBo\VAT\Resolvers\NullResolver::class,
+        'value_resolver'   => \MiBo\VAT\ValueResolvers\EUValueResolver::class,
+        'resolver'         => null,
         'convertor'        => null,
         'country'          => 'US',
         'visitor_is_payer' => false,
+        'classification_creator' => \MiBo\Properties\Classifications\Creator::class,
     ],
     'calculator' => null,
     'convertor'  => \MiBo\Currency\Rates\Exchangers\ECB::class,

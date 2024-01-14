@@ -9,7 +9,7 @@ use JetBrains\PhpStorm\Pure;
 use MiBo\Prices\Contracts\PriceInterface;
 use MiBo\Prices\Units\Price\Currency;
 use MiBo\Properties\Contracts\NumericalProperty;
-use MiBo\Properties\Contracts\SubjectToTax;
+use MiBo\VAT\Contracts\SubjectToValueAddedTax;
 
 /**
  * Class PricePrinter
@@ -57,7 +57,7 @@ class PricePrinter extends Printer
         }
 
         $user     = Auth::getUser();
-        $vatPayer = $user instanceof SubjectToTax ? $user->paysVAT() : (bool) config(
+        $vatPayer = $user instanceof SubjectToValueAddedTax ? $user->isValueAddedTaxPayer() : (bool) config(
             'prices.vat.visitor_is_payer',
             false
         );

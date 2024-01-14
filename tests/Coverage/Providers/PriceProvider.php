@@ -6,6 +6,8 @@ namespace MiBo\Properties\Tests\Coverage\Providers;
 
 use Carbon\Carbon;
 use Generator;
+use MiBo\Prices\Taxonomies\AnyTaxonomy;
+use MiBo\Properties\Classifications\Creator;
 use MiBo\Properties\Contracts\Discountable;
 use MiBo\Prices\Contracts\PriceInterface;
 use MiBo\Properties\Data\Factories\DiscountFactory;
@@ -16,6 +18,7 @@ use MiBo\Prices\Price;
 use MiBo\Prices\PriceWithVAT;
 use MiBo\Prices\Units\Price\Currency;
 use MiBo\VAT\Enums\VATRate;
+use MiBo\VAT\Manager;
 use MiBo\VAT\Resolvers\ProxyResolver;
 use MiBo\VAT\VAT;
 
@@ -72,7 +75,7 @@ class PriceProvider
                     return new Price(
                         0.0,
                         Currency::get('EUR'),
-                        ProxyResolver::retrieveByCategory('', 'US'),
+                        app(Manager::class)->retrieveVAT(app(Creator::class)->createFromString(''), 'US'),
                         Carbon::now(),
                     );
                 },
@@ -84,7 +87,7 @@ class PriceProvider
                     return new Price(
                         0.0,
                         Currency::get('USD'),
-                        ProxyResolver::retrieveByCategory('', 'US'),
+                        app(Manager::class)->retrieveVAT(app(Creator::class)->createFromString(''), 'US'),
                         Carbon::now(),
                     );
                 },
@@ -95,7 +98,7 @@ class PriceProvider
                     return new Price(
                         0.0,
                         Currency::get('USD'),
-                        ProxyResolver::retrieveByCategory('', 'US'),
+                        app(Manager::class)->retrieveVAT(app(Creator::class)->createFromString(''), 'US'),
                         Carbon::now(),
                     );
                 },
@@ -107,7 +110,7 @@ class PriceProvider
                     return new Price(
                         10,
                         Currency::get('USD'),
-                        ProxyResolver::retrieveByCategory('', 'US'),
+                        app(Manager::class)->retrieveVAT(app(Creator::class)->createFromString(''), 'US'),
                         Carbon::now(),
                     );
                 },
@@ -118,20 +121,20 @@ class PriceProvider
                     return new Price(
                         0.0,
                         Currency::get('USD'),
-                        ProxyResolver::retrieveByCategory('07', 'CZE'),
+                        app(Manager::class)->retrieveVAT(app(Creator::class)->createFromString(''), 'US'),
                         Carbon::now(),
                     );
                 },
                 'value'    => 0.0,
                 'country'  => 'CZE',
-                'category' => '07',
+                'category' => '',
             ],
             [
                 'price' => static function(): Price {
                     return new Price(
                         0.0,
                         Currency::get('USD'),
-                        ProxyResolver::retrieveByCategory('', 'US'),
+                        app(Manager::class)->retrieveVAT(app(Creator::class)->createFromString(''), 'US'),
                         Carbon::now()->addYears(-1),
                     );
                 },
@@ -143,7 +146,7 @@ class PriceProvider
                     return new PriceWithVAT(
                         10,
                         Currency::get('USD'),
-                        ProxyResolver::retrieveByCategory('', 'US'),
+                        app(Manager::class)->retrieveVAT(app(Creator::class)->createFromString(''), 'US'),
                         Carbon::now(),
                     );
                 },
@@ -155,7 +158,7 @@ class PriceProvider
                     return new PositivePrice(
                         10,
                         Currency::get('USD'),
-                        ProxyResolver::retrieveByCategory('', 'US'),
+                        app(Manager::class)->retrieveVAT(app(Creator::class)->createFromString(''), 'US'),
                         Carbon::now(),
                     );
                 },
@@ -167,7 +170,7 @@ class PriceProvider
                     return new PositivePriceWithVAT(
                         10,
                         Currency::get('USD'),
-                        ProxyResolver::retrieveByCategory('', 'US'),
+                        app(Manager::class)->retrieveVAT(app(Creator::class)->createFromString(''), 'US'),
                         Carbon::now(),
                     );
                 },
@@ -180,7 +183,7 @@ class PriceProvider
                     return new Price(
                         0.0,
                         Currency::get('EUR'),
-                        ProxyResolver::retrieveByCategory('', 'US'),
+                        app(Manager::class)->retrieveVAT(app(Creator::class)->createFromString(''), 'US'),
                         Carbon::now(),
                     );
                 },
@@ -193,7 +196,12 @@ class PriceProvider
                     return new Price(
                         0.0,
                         Currency::get('EUR'),
-                        VAT::get('US', VATRate::ANY),
+                        VAT::get(
+                            'US',
+                            VATRate::ANY,
+                            AnyTaxonomy::get(),
+                            Carbon::now()
+                        ),
                         Carbon::now(),
                     );
                 },
@@ -286,7 +294,11 @@ class PriceProvider
 
         for ($i = $count; $i > 0; $i--) {
             $list[] = self::createDiscountableObject(
-                PriceFactory::get()->setValue(25)->create()
+                PriceFactory::get()
+                    ->setValue(25)
+                    ->setClassification(AnyTaxonomy::get())
+                    ->setAnyVAT()
+                    ->create()
             );
         }
 
@@ -298,7 +310,7 @@ class PriceProvider
         return new class ($price) implements Discountable {
             private PriceInterface $price;
 
-            private PriceInterface $discountedPrice;
+            private ?PriceInterface $discount = null;
 
             public function __construct(PriceInterface $price)
             {
@@ -307,6 +319,7 @@ class PriceProvider
 
             public function registerDiscountPrice(PriceInterface $discount): void
             {
+                $this->discount = clone $discount;
                 $this->price->subtract($discount);
             }
 
@@ -317,7 +330,7 @@ class PriceProvider
 
             public function getDiscountedPrice(): PriceInterface
             {
-                return $this->discountedPrice;
+                return $this->discount ?? (clone $this->price)->multiply(0);
             }
         };
     }

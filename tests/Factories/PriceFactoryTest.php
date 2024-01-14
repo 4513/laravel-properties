@@ -6,6 +6,7 @@ namespace MiBo\Properties\Tests\Factories;
 
 use Closure;
 use Exception;
+use MiBo\Properties\Classifications\Creator;
 use MiBo\Properties\Data\Factories\PriceFactory;
 use MiBo\Properties\Tests\LaravelTestCase;
 
@@ -53,6 +54,7 @@ class PriceFactoryTest extends LaravelTestCase
         $factory = PriceFactory::get();
 
         $factory->setValue($value);
+        $factory->setClassification(app(Creator::class)->createFromString(''));
 
         foreach ($data as $key => $value) {
             if ($value === null) {
@@ -65,7 +67,7 @@ class PriceFactoryTest extends LaravelTestCase
                 break;
 
                 case 'category':
-                    $factory->setCategory($value);
+                    $factory->setClassification(app(Creator::class)->createFromString($value));
                 break;
 
                 case 'country':

@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Closure;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
+use MiBo\Properties\Classifications\Creator;
 use MiBo\Properties\Data\Factories\PriceFactory;
 use MiBo\Prices\Exceptions\NegativePriceException;
 use MiBo\Prices\Price;
@@ -191,7 +192,7 @@ class PriceAttribute implements CastsAttributes
             );
 
         $factory = $factory->setCurrency($currency)
-            ->setCategory($category ?? '')
+            ->setClassification(app(Creator::class)->createFromString($category ?? ''))
             ->setCountry($country)
             ->setDate($date)
             ->setValue(
@@ -257,10 +258,10 @@ class PriceAttribute implements CastsAttributes
             && $model->isFillable($key . $this->config['category']);
 
         if ($categoryFillable && empty($attributes[$key . $this->config['category']])) {
-            $result[$key . $this->config['category']] = $value->getVAT()->getCategory();
+            $result[$key . $this->config['category']] = $value->getVAT()->getClassification()->getCode();
         } else if (!$categoryFillable
             && $this->config['any'] !== 'true'
-            && ($this->config['category'] !== $value->getVAT()->getCategory()
+            && ($this->config['category'] !== $value->getVAT()->getClassification()->getCode()
             && (self::$categoryCallback === null
             || !(self::$categoryCallback)(false, $model, $attributes, $key, $value)))
         ) {
@@ -268,7 +269,7 @@ class PriceAttribute implements CastsAttributes
                 strtr(
                     'Tried to save a Price with category :cat which does not match the set category (:set)!',
                     [
-                        ':cat' => $value->getVAT()->getCategory(),
+                        ':cat' => $value->getVAT()->getClassification()->getCode(),
                         ':set' => $this->config['category'] ?? '',
                     ]
                 )

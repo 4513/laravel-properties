@@ -55,7 +55,10 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         if ($price->getVAT()->isNotAny()) {
             $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
-            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+            $this->assertSame(
+                $price->getVAT()->getClassification()->getCode(),
+                $model->price->getVAT()->getClassification()->getCode()
+            );
         }
 
         $this->assertEquals($price->getValue(), $model->price->getValue());
@@ -65,7 +68,7 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
         $this->assertSame(
-            $price->getVAT()->getCategory() ?: null,
+            $price->getVAT()->getClassification()->getCode(),
             $model->price_category ?: null
         );
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
@@ -93,7 +96,10 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         if ($price->getVAT()->isNotAny()) {
             $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
-            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+            $this->assertSame(
+                $price->getVAT()->getClassification()->getCode(),
+                $model->price->getVAT()->getClassification()->getCode()
+            );
         }
 
         $this->assertEquals($price->getValue(), $model->price->getValue());
@@ -103,7 +109,7 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
         $this->assertSame(
-            $price->getVAT()->getCategory() ?: null,
+            $price->getVAT()->getClassification()->getCode() ?: null,
             $model->price_category ?: null
         );
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
@@ -131,7 +137,10 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         if ($price->getVAT()->isNotAny()) {
             $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
-            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+            $this->assertSame(
+                $price->getVAT()->getClassification()->getCode(),
+                $model->price->getVAT()->getClassification()->getCode()
+            );
         }
 
         $this->assertEquals($price->getValue(), $model->price->getValue());
@@ -141,7 +150,7 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
         $this->assertSame(
-            $price->getVAT()->getCategory() ?: null,
+            $price->getVAT()->getClassification()->getCode(),
             $model->price_category ?: null
         );
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
@@ -171,7 +180,10 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         if ($price->getVAT()->isNotAny()) {
             $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
-            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+            $this->assertSame(
+                $price->getVAT()->getClassification()->getCode(),
+                $model->price->getVAT()->getClassification()->getCode()
+            );
         }
 
         $this->assertEquals($price->getValue(), $model->price->getValue());
@@ -180,7 +192,7 @@ class PriceStoringCastingTest extends LaravelTestCase
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
         $this->assertSame('CZK', $model->price->getUnit()->getAlphabeticalCode());
         $this->assertSame(
-            $price->getVAT()->getCategory() ?: null,
+            $price->getVAT()->getClassification()->getCode(),
             $model->price_category ?: null
         );
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
@@ -218,7 +230,10 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         if ($price->getVAT()->isNotAny()) {
             $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
-            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+            $this->assertSame(
+                $price->getVAT()->getClassification()->getCode(),
+                $model->price->getVAT()->getClassification()->getCode()
+            );
         }
 
         $this->assertEquals($price->getValue(), $model->price->getValue());
@@ -228,7 +243,7 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
         $this->assertSame(
-            $price->getVAT()->getCategory() ?: null,
+            $price->getVAT()->getClassification()->getCode(),
             $model->price_category ?: null
         );
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
@@ -265,7 +280,10 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         if ($price->getVAT()->isNotAny()) {
             $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
-            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+            $this->assertSame(
+                $price->getVAT()->getClassification()->getCode(),
+                $model->price->getVAT()->getClassification()->getCode()
+            );
         }
 
         $this->assertEquals($price->getValue(), $model->price->getValue());
@@ -275,7 +293,7 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
         $this->assertSame(
-            $price->getVAT()->getCategory() ?: null,
+            $price->getVAT()->getClassification()->getCode(),
             $model->price_category ?: null
         );
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
@@ -308,7 +326,10 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         if ($price->getVAT()->isNotAny()) {
             $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
-            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+            $this->assertSame(
+                $price->getVAT()->getClassification()->getCode(),
+                $model->price->getVAT()->getClassification()->getCode()
+            );
         }
 
         $this->assertEquals($price->getValue(), $model->price->getValue());
@@ -318,7 +339,7 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
         $this->assertSame(
-            $price->getVAT()->getCategory() ?: null,
+            $price->getVAT()->getClassification()->getCode(),
             $model->price_category ?: null
         );
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
@@ -346,7 +367,10 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         if ($price->getVAT()->isNotAny()) {
             $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
-            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+            $this->assertSame(
+                $price->getVAT()->getClassification()->getCode(),
+                $model->price->getVAT()->getClassification()->getCode()
+            );
         }
 
         $this->assertEquals($price->getValue(), $model->price->getValue());
@@ -359,7 +383,7 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
         $this->assertSame(
-            $price->getVAT()->getCategory() ?: null,
+            $price->getVAT()->getClassification()->getCode(),
             $model->price_category ?: null
         );
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
@@ -381,7 +405,7 @@ class PriceStoringCastingTest extends LaravelTestCase
         $model = $this->createModel(PriceAttribute::class . ':category-07');
         $price = $createPrice();
 
-        if ($price->getVAT()->getCategory() !== '07') {
+        if ($price->getVAT()->getClassification()->getCode() !== '07') {
             $this->expectException(ValueError::class);
         }
 
@@ -391,7 +415,7 @@ class PriceStoringCastingTest extends LaravelTestCase
         $model->refresh();
 
         if ($price->getVAT()->isNotAny()) {
-            $this->assertSame('07', $model->price->getVAT()->getCategory());
+            $this->assertSame('07', $model->price->getVAT()->getClassification()->getCode());
         }
 
         $this->assertEquals($price->getValue(), $model->price->getValue());
@@ -400,7 +424,7 @@ class PriceStoringCastingTest extends LaravelTestCase
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price->getVAT()->getCountryCode());
 
         $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
-        $this->assertSame('07', $price->getVAT()->getCategory());
+        $this->assertSame('07', $price->getVAT()->getClassification()->getCode());
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
     }
 
@@ -435,7 +459,10 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         if ($price->getVAT()->isNotAny()) {
             $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
-            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+            $this->assertSame(
+                $price->getVAT()->getClassification()->getCode(),
+                $model->price->getVAT()->getClassification()->getCode()
+            );
         }
 
         $this->assertEquals($price->getValue(), $model->price->getValue());
@@ -448,7 +475,7 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         $this->assertTrue($price->getUnit()->is($model->price->getUnit()));
         $this->assertSame(
-            $price->getVAT()->getCategory() ?: null,
+            $price->getVAT()->getClassification()->getCode(),
             $model->price_cat ?: null
         );
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
@@ -475,7 +502,7 @@ class PriceStoringCastingTest extends LaravelTestCase
                 static $data = [];
 
                 if ($retrieve === false) {
-                    $data[$key] = $value->getVAT()->getCategory();
+                    $data[$key] = $value->getVAT()->getClassification()->getCode();
                 }
 
                 if ($retrieve === true) {
@@ -493,7 +520,10 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         if ($price->getVAT()->isNotAny()) {
             $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
-            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+            $this->assertSame(
+                $price->getVAT()->getClassification()->getCode(),
+                $model->price->getVAT()->getClassification()->getCode()
+            );
         }
 
         $this->assertEquals($price->getValue(), $model->price->getValue());
@@ -530,8 +560,8 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         if ($price->getVAT()->isNotAny()) {
             $this->assertSame(
-                $price->getVAT()->getCategory() ?: null,
-                $model->price->getVAT()->getCategory() ?: null
+                $price->getVAT()->getClassification()->getCode(),
+                $model->price->getVAT()->getClassification()->getCode()
             );
         }
 
@@ -542,7 +572,7 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
         $this->assertSame(
-            $price->getVAT()->getCategory() ?: null,
+            $price->getVAT()->getClassification()->getCode(),
             $model->price_category ?: null
         );
     }
@@ -578,7 +608,10 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         if ($price->getVAT()->isNotAny()) {
             $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
-            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+            $this->assertSame(
+                $price->getVAT()->getClassification()->getCode(),
+                $model->price->getVAT()->getClassification()->getCode()
+            );
         }
 
         $this->assertEquals($price->getValue(), $model->price->getValue());
@@ -588,7 +621,7 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
         $this->assertSame(
-            $price->getVAT()->getCategory() ?: null,
+            $price->getVAT()->getClassification()->getCode(),
             $model->price_category ?: null
         );
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price_cntry);
@@ -624,7 +657,10 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         if ($price->getVAT()->isNotAny()) {
             $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
-            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+            $this->assertSame(
+                $price->getVAT()->getClassification()->getCode(),
+                $model->price->getVAT()->getClassification()->getCode()
+            );
         }
 
         $this->assertEquals($price->getValue(), $model->price->getValue());
@@ -634,7 +670,7 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
         $this->assertSame(
-            $price->getVAT()->getCategory() ?: null,
+            $price->getVAT()->getClassification()->getCode(),
             $model->price_category ?: null
         );
     }
@@ -661,7 +697,10 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         if ($price->getVAT()->isNotAny()) {
             $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
-            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+            $this->assertSame(
+                $price->getVAT()->getClassification()->getCode(),
+                $model->price->getVAT()->getClassification()->getCode()
+            );
         }
 
         $this->assertEquals($price->getValue(), $model->price->getValue());
@@ -671,7 +710,7 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
         $this->assertSame(
-            $price->getVAT()->getCategory() ?: null,
+            $price->getVAT()->getClassification()->getCode(),
             $model->price_category ?: null
         );
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
@@ -708,7 +747,10 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         if ($price->getVAT()->isNotAny()) {
             $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
-            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+            $this->assertSame(
+                $price->getVAT()->getClassification()->getCode(),
+                $model->price->getVAT()->getClassification()->getCode()
+            );
         }
 
         $this->assertEquals($price->getValue(), $model->price->getValue());
@@ -721,7 +763,7 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
         $this->assertSame(
-            $price->getVAT()->getCategory() ?: null,
+            $price->getVAT()->getClassification()->getCode(),
             $model->price_category ?: null
         );
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
@@ -757,7 +799,10 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         if ($price->getVAT()->isNotAny()) {
             $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
-            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+            $this->assertSame(
+                $price->getVAT()->getClassification()->getCode(),
+                $model->price->getVAT()->getClassification()->getCode()
+            );
         }
 
         $this->assertEquals($price->getValue(), $model->price->getValue());
@@ -767,7 +812,7 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
         $this->assertSame(
-            $price->getVAT()->getCategory() ?: null,
+            $price->getVAT()->getClassification()->getCode(),
             $model->price_category ?: null
         );
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
@@ -801,7 +846,7 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
         $this->assertSame(
-            $price->getVAT()->getCategory() ?: null,
+            $price->getVAT()->getClassification()->getCode(),
             $model->price_category ?: null
         );
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
@@ -829,7 +874,10 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         if ($price->getVAT()->isNotAny()) {
             $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
-            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+            $this->assertSame(
+                $price->getVAT()->getClassification()->getCode(),
+                $model->price->getVAT()->getClassification()->getCode()
+            );
         }
 
         $this->assertEquals($price->getValue(), $model->price->getValue());
@@ -839,7 +887,7 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
         $this->assertSame(
-            $price->getVAT()->getCategory() ?: null,
+            $price->getVAT()->getClassification()->getCode(),
             $model->price_category ?: null
         );
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
@@ -867,7 +915,10 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         if ($price->getVAT()->isNotAny()) {
             $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
-            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+            $this->assertSame(
+                $price->getVAT()->getClassification()->getCode(),
+                $model->price->getVAT()->getClassification()->getCode()
+            );
         }
 
         $this->assertEquals($price->getValueWithVAT(), $model->price->getValueWithVAT());
@@ -877,7 +928,7 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
         $this->assertSame(
-            $price->getVAT()->getCategory() ?: null,
+            $price->getVAT()->getClassification()->getCode(),
             $model->price_category ?: null
         );
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
@@ -905,7 +956,10 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         if ($price->getVAT()->isNotAny()) {
             $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
-            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+            $this->assertSame(
+                $price->getVAT()->getClassification()->getCode(),
+                $model->price->getVAT()->getClassification()->getCode()
+            );
         }
 
         $this->assertEquals($price->getValue(), $model->price->getValue());
@@ -915,7 +969,7 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         $this->assertSame($price->getUnit()->getAlphabeticalCode(), $model->price_currency);
         $this->assertSame(
-            $price->getVAT()->getCategory() ?: null,
+            $price->getVAT()->getClassification()->getCode(),
             $model->price_category ?: null
         );
         $this->assertSame($price->getVAT()->getCountryCode(), $model->price_country);
@@ -946,7 +1000,10 @@ class PriceStoringCastingTest extends LaravelTestCase
 
         if ($price->getVAT()->isNotAny()) {
             $this->assertTrue($price->getVAT()->is($model->price->getVAT()));
-            $this->assertSame($price->getVAT()->getCategory(), $model->price->getVAT()->getCategory());
+            $this->assertSame(
+                $price->getVAT()->getClassification()->getCode(),
+                $model->price->getVAT()->getClassification()->getCode()
+            );
         }
 
         $this->assertEquals($price->getValue(), $model->price->getValue());
@@ -955,7 +1012,7 @@ class PriceStoringCastingTest extends LaravelTestCase
         $this->assertSame('CZE', $model->price->getVAT()->getCountryCode());
 
         $this->assertSame(
-            $price->getVAT()->getCategory() ?: null,
+            $price->getVAT()->getClassification()->getCode(),
             $model->price_category ?: null
         );
     }
