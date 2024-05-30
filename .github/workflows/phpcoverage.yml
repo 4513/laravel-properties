@@ -30,4 +30,4 @@ jobs:
         run: XDEBUG_MODE=coverage ./vendor/bin/phpunit --testsuite Coverage --log-junit junit_report.xml --coverage-clover clover.xml --coverage-text --colors=never
 
       - name: CodeCov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
